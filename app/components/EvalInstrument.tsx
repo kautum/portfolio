@@ -1,189 +1,232 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-const HANDLE = 46;
 const PAD = 3;
 
+const STATES = [
+  {
+    value: "0.9002",
+    label:
+      "Random split. Flows from the same attacker machines land in both training and test data, so the model can recognise the machine instead of the attack.",
+  },
+  {
+    value: "0.6059",
+    label:
+      "Whole attacker machines held out of training. The honest number, and the point where the ranking between the two detectors reverses.",
+  },
+];
+
+/**
+ * iOS-style segmented control. Draggable, not just clickable: the thumb tracks
+ * the pointer 1:1, then settles with a critically-damped spring. No bounce —
+ * a real segmented control doesn't overshoot, so neither does this one.
+ */
 export default function EvalInstrument() {
   const trackRef = useRef<HTMLDivElement>(null);
-  const handleRef = useRef<HTMLDivElement>(null);
-  const fillRef = useRef<HTMLDivElement>(null);
-  const [honest, setHonest] = useState(false);
+  const thumbRef = useRef<HTMLDivElement>(null);
+  const indexRef = useRef(0);
+  const rafRef = useRef<number | null>(null);
+
+  const [index, setIndex] = useState(0);
+  const [swapping, setSwapping] = useState(false);
+
+  const slot = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return 0;
+    return (track.getBoundingClientRect().width - PAD * 2) / 2;
+  }, []);
+
+  const positionFor = useCallback((i: number) => i * slot(), [slot]);
+
+  const setX = (x: number) => {
+    if (thumbRef.current) {
+      thumbRef.current.style.transform = `translateX(${x}px)`;
+    }
+  };
+
+  const currentX = () => {
+    const m = /translateX\(([-\d.]+)px\)/.exec(thumbRef.current?.style.transform ?? "");
+    return m ? parseFloat(m[1]) : 0;
+  };
+
+  const select = useCallback((i: number) => {
+    if (indexRef.current === i) return;
+    indexRef.current = i;
+    setSwapping(true);
+    setIndex(i);
+    window.setTimeout(() => setSwapping(false), 200);
+  }, []);
+
+  const springTo = useCallback((target: number, velocity: number) => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduce) {
+      setX(target);
+      return;
+    }
+
+    const stiffness = 260;
+    const damping = 2 * Math.sqrt(stiffness); // critically damped, no overshoot
+    let x = currentX();
+    let v = velocity;
+    let last = performance.now();
+
+    const step = (now: number) => {
+      const dt = Math.min((now - last) / 1000, 0.032);
+      last = now;
+      v += (-stiffness * (x - target) - damping * v) * dt;
+      x += v * dt;
+      setX(x);
+      if (Math.abs(x - target) > 0.4 || Math.abs(v) > 3) {
+        rafRef.current = requestAnimationFrame(step);
+      } else {
+        setX(target);
+        rafRef.current = null;
+      }
+    };
+    rafRef.current = requestAnimationFrame(step);
+  }, []);
 
   useEffect(() => {
     const track = trackRef.current;
-    const handle = handleRef.current;
-    if (!track || !handle) return;
+    if (!track) return;
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let dragging = false;
+    let activePointer: number | null = null;
     let history: { x: number; t: number }[] = [];
-    let isHonestNow = false;
+    let moved = false;
 
-    const maxX = () => track.getBoundingClientRect().width - HANDLE - PAD * 2;
-    const leftX = () => 0;
-    const rightX = () => maxX();
-
-    const setHandleX = (x: number) => {
-      handle.style.transform = `translateX(${x}px)`;
+    const clampWithFriction = (raw: number) => {
+      const max = slot();
+      if (raw < 0) return raw * 0.28;
+      if (raw > max) return max + (raw - max) * 0.28;
+      return raw;
     };
 
-    const getCurrentX = () => {
-      const m = /translateX\(([-\d.]+)px\)/.exec(handle.style.transform);
-      return m ? parseFloat(m[1]) : leftX();
+    const localX = (clientX: number) => {
+      const rect = track.getBoundingClientRect();
+      return clientX - rect.left - PAD - slot() / 2;
     };
 
-    const springTo = (target: number, initialVelocity: number) => {
-      if (reduceMotion) {
-        setHandleX(target);
-        return;
-      }
-      const stiffness = 220;
-      const dampingRatio = Math.abs(initialVelocity) > 400 ? 0.82 : 1.0;
-      let x = getCurrentX();
-      let v = initialVelocity || 0;
-      let last = performance.now();
-      const frame = (now: number) => {
-        const dt = Math.min((now - last) / 1000, 0.032);
-        last = now;
-        const F = -stiffness * (x - target) - 2 * dampingRatio * Math.sqrt(stiffness) * v;
-        v += F * dt;
-        x += v * dt;
-        setHandleX(x);
-        if (Math.abs(x - target) > 0.5 || Math.abs(v) > 2) {
-          requestAnimationFrame(frame);
-        } else {
-          setHandleX(target);
-        }
-      };
-      requestAnimationFrame(frame);
-    };
-
-    const project = (velocity: number) => {
-      const d = 0.998;
-      return ((velocity / 1000) * d) / (1 - d);
-    };
-
-    const rubberband = (overshoot: number, dimension: number) => {
-      const c = 0.55;
-      return (overshoot * dimension * c) / (dimension + c * Math.abs(overshoot));
-    };
-
-    const commit = (isHonestState: boolean) => {
-      isHonestNow = isHonestState;
-      setHonest(isHonestState);
-    };
-
-    const settle = (currentX: number, velocity: number) => {
-      const projected = currentX + project(velocity);
-      const mid = maxX() / 2;
-      const nextHonest = projected > mid;
-      commit(nextHonest);
-      springTo(nextHonest ? rightX() : leftX(), velocity);
-    };
-
-    const onPointerDown = (e: PointerEvent) => {
+    const onDown = (e: PointerEvent) => {
+      if (dragging) return; // ignore extra touch points
       dragging = true;
+      moved = false;
+      activePointer = e.pointerId;
       track.setPointerCapture(e.pointerId);
-      track.classList.add("grabbed");
-      const rect = track.getBoundingClientRect();
-      const raw = e.clientX - rect.left - HANDLE / 2;
-      history = [{ x: raw, t: performance.now() }];
-      setHandleX(Math.max(leftX(), Math.min(rightX(), raw)));
+      history = [{ x: localX(e.clientX), t: performance.now() }];
     };
 
-    const onPointerMove = (e: PointerEvent) => {
-      if (!dragging) return;
-      const rect = track.getBoundingClientRect();
-      const raw = e.clientX - rect.left - HANDLE / 2;
-      let clamped;
-      if (raw < leftX()) clamped = leftX() - rubberband(leftX() - raw, 40);
-      else if (raw > rightX()) clamped = rightX() + rubberband(raw - rightX(), 40);
-      else clamped = raw;
-      setHandleX(clamped);
+    const onMove = (e: PointerEvent) => {
+      if (!dragging || e.pointerId !== activePointer) return;
+      const raw = localX(e.clientX);
+      if (Math.abs(raw - history[0].x) > 4) moved = true;
+      setX(clampWithFriction(raw));
       history.push({ x: raw, t: performance.now() });
       if (history.length > 6) history.shift();
+
+      // live preview: flip the label as the thumb crosses the midpoint
+      const midpoint = slot() / 2;
+      select(raw > midpoint ? 1 : 0);
     };
 
-    const endDrag = () => {
-      if (!dragging) return;
+    const onUp = (e: PointerEvent) => {
+      if (!dragging || e.pointerId !== activePointer) return;
       dragging = false;
-      track.classList.remove("grabbed");
-      const last = history[history.length - 1] || { x: 0, t: performance.now() };
-      const first = history[0] || last;
+      activePointer = null;
+
+      const last = history[history.length - 1];
+      const first = history[0];
       const dt = (last.t - first.t) / 1000;
       const velocity = dt > 0 ? (last.x - first.x) / dt : 0;
-      settle(last.x, velocity);
-    };
 
-    const onClick = () => {
-      if (history.length > 1) return; // was a drag, handled by pointerup
-      const next = !isHonestNow;
-      commit(next);
-      springTo(next ? rightX() : leftX(), 0);
-    };
-
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (["Enter", " ", "ArrowRight", "ArrowLeft"].includes(e.key)) {
-        e.preventDefault();
-        const next = e.key === "ArrowLeft" ? false : e.key === "ArrowRight" ? true : !isHonestNow;
-        commit(next);
-        springTo(next ? rightX() : leftX(), 0);
+      // a tap toggles; a drag lands where the gesture was heading
+      let next: number;
+      if (!moved) {
+        next = indexRef.current === 0 ? 1 : 0;
+      } else {
+        const projected = last.x + (velocity / 1000) * 0.998 / (1 - 0.998);
+        next = projected > slot() / 2 ? 1 : 0;
       }
+
+      select(next);
+      springTo(positionFor(next), velocity);
     };
 
-    const onResize = () => setHandleX(isHonestNow ? rightX() : leftX());
+    const onKey = (e: KeyboardEvent) => {
+      const keys = ["ArrowLeft", "ArrowRight", "Enter", " "];
+      if (!keys.includes(e.key)) return;
+      e.preventDefault();
+      const next =
+        e.key === "ArrowLeft" ? 0 : e.key === "ArrowRight" ? 1 : indexRef.current === 0 ? 1 : 0;
+      select(next);
+      springTo(positionFor(next), 0);
+    };
 
-    track.addEventListener("pointerdown", onPointerDown);
-    track.addEventListener("pointermove", onPointerMove);
-    track.addEventListener("pointerup", endDrag);
-    track.addEventListener("pointercancel", endDrag);
-    track.addEventListener("click", onClick);
-    track.addEventListener("keydown", onKeyDown);
+    const onResize = () => setX(positionFor(indexRef.current));
+
+    track.addEventListener("pointerdown", onDown);
+    track.addEventListener("pointermove", onMove);
+    track.addEventListener("pointerup", onUp);
+    track.addEventListener("pointercancel", onUp);
+    track.addEventListener("keydown", onKey);
     window.addEventListener("resize", onResize);
 
-    requestAnimationFrame(() => setHandleX(leftX()));
+    // size the thumb and place it without animating on first paint
+    const thumb = thumbRef.current;
+    if (thumb) {
+      thumb.style.width = `${slot()}px`;
+      setX(positionFor(indexRef.current));
+    }
+    const sizeThumb = () => {
+      if (thumbRef.current) thumbRef.current.style.width = `${slot()}px`;
+    };
+    window.addEventListener("resize", sizeThumb);
 
     return () => {
-      track.removeEventListener("pointerdown", onPointerDown);
-      track.removeEventListener("pointermove", onPointerMove);
-      track.removeEventListener("pointerup", endDrag);
-      track.removeEventListener("pointercancel", endDrag);
-      track.removeEventListener("click", onClick);
-      track.removeEventListener("keydown", onKeyDown);
+      track.removeEventListener("pointerdown", onDown);
+      track.removeEventListener("pointermove", onMove);
+      track.removeEventListener("pointerup", onUp);
+      track.removeEventListener("pointercancel", onUp);
+      track.removeEventListener("keydown", onKey);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("resize", sizeThumb);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, []);
+  }, [positionFor, select, slot, springTo]);
+
+  const state = STATES[index];
 
   return (
     <div className="instrument">
-      <p className="instrument-label">Same detector, two honesty levels</p>
-      <div className="instrument-readout">
-        <span className={`readout-number state-${honest ? "honest" : "easy"}`}>
-          {honest ? "0.6059" : "0.9002"}
-        </span>
-        <span className="readout-caption">
-          {honest
-            ? "Attacker-machine holdout — the honest number. Ranking between the two detectors flips here."
-            : "Random split — the model has quietly seen this attacker's traffic before."}
-        </span>
-      </div>
+      <p className="instrument-caption">The same detector, measured two ways</p>
+
+      <p className={`readout ${index === 1 ? "honest" : "easy"}${swapping ? " swapping" : ""}`}>
+        {state.value}
+      </p>
+      <p className={`readout-label${swapping ? " swapping" : ""}`}>{state.label}</p>
+
       <div
         ref={trackRef}
-        className="instrument-track"
+        className="segmented"
         role="switch"
-        aria-checked={honest}
+        aria-checked={index === 1}
+        aria-label="Evaluation protocol: random split or attacker-machine holdout"
         tabIndex={0}
-        aria-label="Toggle evaluation protocol between random split and attacker-machine holdout"
       >
-        <div ref={fillRef} className={`instrument-fill${honest ? " honest" : ""}`} />
-        <div ref={handleRef} className={`instrument-handle${honest ? " honest" : ""}`} />
+        <div ref={thumbRef} className="segmented-thumb" aria-hidden="true" />
+        <span className={`segmented-option${index === 0 ? " active" : ""}`}>Random split</span>
+        <span className={`segmented-option${index === 1 ? " active" : ""}`}>
+          Attacker-machine holdout
+        </span>
       </div>
-      <div className="instrument-labels">
-        <span>Random split</span>
-        <span>Attacker-machine holdout</span>
-      </div>
+
+      <p className="instrument-hint">Drag it. Macro-F1 on the same nine-class problem.</p>
     </div>
   );
 }
