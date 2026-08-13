@@ -354,13 +354,11 @@ h3 {
   margin: 0 0 20px;
 }
 
+/* Each paragraph sits inside its own reveal wrapper, so a :last-child rule
+   would match every one of them and collapse the gaps between paragraphs. */
 .body {
   color: var(--text-secondary);
-  margin: 0 0 16px;
-}
-
-.body:last-child {
-  margin-bottom: 0;
+  margin: 0 0 20px;
 }
 
 /* ---------------- strengths ---------------- */
