@@ -6,6 +6,7 @@ import Filmstrip from "./components/Filmstrip";
 import ScrollStrip from "./components/ScrollStrip";
 import { HonestChart, ImpactChart } from "./components/charts";
 import { GearChart, StocksChart } from "./components/seafood";
+import { LondonChart } from "./components/london";
 import { BigShape, Mark, type MarkShape } from "./components/Sketch";
 
 const STOPS: { year: string; text: string; colour: string; shape: MarkShape }[] = [
@@ -460,6 +461,31 @@ export default function Home() {
                   All six figures, the datasets and the dashboard
                 </a>
               </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={50}>
+            <div className="feature">
+              <p className="meta">Group coursework, same module</p>
+              <h3>Do London&apos;s parks actually make it more livable?</h3>
+              <p className="body">
+                Four datasets merged across all 33 boroughs, then plotted in five dimensions at
+                once: park access on one axis, flood risk on the other, obesity in the size of
+                each marker and air pollution in its colour, with a composite livability index
+                fitted over the top.
+              </p>
+
+              <LondonChart />
+
+              <p className="body">
+                The honest answer is a qualified yes. Livability does improve with park access,
+                but the fit is modest and the headline relationship people expect is not there at
+                all: flood risk tracks the river, not the parks. Central boroughs with the best
+                green access still carry the worst air. Writing that up as "parks help, but they
+                do not buy you out of geography" was more useful than a cleaner claim would have
+                been.
+              </p>
+              <p className="stack">Python, pandas, Matplotlib, ColorBrewer palettes</p>
             </div>
           </Reveal>
 
