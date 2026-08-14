@@ -64,7 +64,7 @@ export default function Home() {
       <span id="top" />
 
       {/* ---------------- hero ---------------- */}
-      <header className="hero" data-tint="#f7f3ea" data-tint-dark="#1a1815">
+      <header className="hero" data-tint="#faf6ef" data-tint-dark="#1b1917">
         <div className="bigshape-wrap" data-parallax="0.05" aria-hidden="true">
           <BigShape shape="circle" colour="--c2" />
         </div>
@@ -140,7 +140,7 @@ export default function Home() {
       </header>
 
       {/* ---------------- 1. story ---------------- */}
-      <section className="section" id="story" data-tint="#e9efe4" data-tint-dark="#171a15">
+      <section className="section" id="story" data-tint="#e9f1e7" data-tint-dark="#181b17">
         <div className="wrap relative">
           <Reveal className="section-head">
             <ChapterMark n="Chapter one" colour="--c4" shape="square" />
@@ -166,7 +166,7 @@ export default function Home() {
       </section>
 
       {/* ---------------- 2. the finding ---------------- */}
-      <section className="section clip" id="finding" data-tint="#e4ebf5" data-tint-dark="#15181e">
+      <section className="section clip" id="finding" data-tint="#e7eef8" data-tint-dark="#171a20">
         <div className="bigshape-wrap" data-parallax="0.07" aria-hidden="true">
           <BigShape shape="triangle" colour="--c3" />
         </div>
@@ -247,7 +247,7 @@ export default function Home() {
       </section>
 
       {/* ---------------- 3. work ---------------- */}
-      <section className="section" id="work" data-tint="#f6e9dc" data-tint-dark="#1e1a14">
+      <section className="section" id="work" data-tint="#fbecdf" data-tint-dark="#201b16">
         <div className="wrap relative">
           <Reveal className="section-head">
             <ChapterMark n="Chapter three" colour="--c2" shape="arc" />
@@ -333,7 +333,7 @@ export default function Home() {
       </section>
 
       {/* ---------------- 4. projects ---------------- */}
-      <section className="section" id="projects" data-tint="#ece6f2" data-tint-dark="#1b171e">
+      <section className="section" id="projects" data-tint="#f0e9f6" data-tint-dark="#1d1922">
         <div className="wrap relative">
           <Reveal className="section-head">
             <ChapterMark n="Chapter four" colour="--c5" shape="cross" />
@@ -520,7 +520,7 @@ export default function Home() {
       </section>
 
       {/* ---------------- 5. skills ---------------- */}
-      <section className="section" id="skills" data-tint="#f4eed9" data-tint-dark="#1e1b14">
+      <section className="section" id="skills" data-tint="#faf3dc" data-tint-dark="#201d16">
         <div className="wrap relative">
           <Reveal className="section-head">
             <ChapterMark n="Chapter five" colour="--c1" shape="circle" />
@@ -584,7 +584,7 @@ export default function Home() {
       </section>
 
       {/* ---------------- 6. education ---------------- */}
-      <section className="section" id="education" data-tint="#e6eeec" data-tint-dark="#161a18">
+      <section className="section" id="education" data-tint="#e6f1ef" data-tint-dark="#171c1a">
         <div className="wrap relative">
           <Reveal className="section-head">
             <ChapterMark n="Chapter six" colour="--c4" shape="triangle" />
@@ -625,7 +625,7 @@ export default function Home() {
       </section>
 
       {/* ---------------- contact ---------------- */}
-      <section className="contact clip" id="contact" data-tint="#f7f3ea" data-tint-dark="#1a1815">
+      <section className="contact clip" id="contact" data-tint="#faf6ef" data-tint-dark="#1b1917">
         <div className="bigshape-wrap" data-parallax="0.06" aria-hidden="true">
           <BigShape shape="arc" colour="--c6" />
         </div>

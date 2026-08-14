@@ -35,12 +35,20 @@ export const metadata: Metadata = {
   },
 };
 
+/* Runs before first paint so a stored dark choice never flashes light.
+   Light is the default: the system preference is deliberately not consulted. */
+const themeScript = `try{document.documentElement.dataset.theme=localStorage.getItem("theme")==="dark"?"dark":"light"}catch(e){document.documentElement.dataset.theme="light"}`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en-GB"
+      data-theme="light"
       className={`${GeistSans.variable} ${GeistMono.variable} ${display.variable} ${hand.variable}`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>{children}</body>
     </html>
   );

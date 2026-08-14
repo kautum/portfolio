@@ -88,15 +88,18 @@ export function RoughSvg({
     });
     ro.observe(host);
 
-    const scheme = window.matchMedia("(prefers-color-scheme: dark)");
-    const onScheme = () => seen && render(false);
-    scheme.addEventListener("change", onScheme);
+    // rough.js needs concrete colours, so a theme change means a full redraw
+    const themeWatcher = new MutationObserver(() => seen && render(false));
+    themeWatcher.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
 
     return () => {
       io.disconnect();
       ro.disconnect();
+      themeWatcher.disconnect();
       cancelAnimationFrame(frame);
-      scheme.removeEventListener("change", onScheme);
     };
   }, [draw, height, animate]);
 

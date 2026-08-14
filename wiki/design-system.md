@@ -2,9 +2,20 @@
 
 The spec `app/globals.css` implements. Change this page and the code together.
 
-## Colour
+## Colour and theme
 
-Light is the default. Dark is a real design, not an inversion.
+**Light is the default, and the system preference is deliberately ignored.** A first-time
+visitor gets light even if their OS is set to dark. The choice lives in `localStorage` under
+`theme` and is applied by an inline script in the document head before first paint, so a
+stored dark choice never flashes light. Dark is a real design, not an inversion.
+
+The toggle sits in the nav and flips `data-theme` on `<html>`. Two things listen for that:
+`Ambience.tsx`, which re-applies the chapter tint, and `RoughSvg` in `Sketch.tsx`, which has to
+redraw completely because rough.js needs concrete colours and cannot read `var()`. Both use a
+`MutationObserver` on the attribute rather than a media query.
+
+The accents are pastels, but mid-tone: a hatched fill is thin lines with paper showing
+through, so anything paler stops reading as a colour at all.
 
 The accents are pigments rather than screen primaries: ochre `#e0a80c`, vermilion `#d9502a`,
 ink blue `#1b5299`, sea green `#2f7d55`, plum `#6a4c93`, rose `#c0405c`. An earlier electric

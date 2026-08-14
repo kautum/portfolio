@@ -17,7 +17,6 @@ import { useEffect } from "react";
 export default function Ambience() {
   useEffect(() => {
     const root = document.documentElement;
-    const dark = window.matchMedia("(prefers-color-scheme: dark)");
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     const sections = Array.from(
       document.querySelectorAll<HTMLElement>("[data-tint]")
@@ -28,7 +27,7 @@ export default function Ambience() {
 
     const applyTint = () => {
       if (!current) return;
-      const key = dark.matches ? "tintDark" : "tint";
+      const key = root.dataset.theme === "dark" ? "tintDark" : "tint";
       const value = current.dataset[key];
       if (value) root.style.setProperty("--ground", value);
     };
@@ -48,7 +47,11 @@ export default function Ambience() {
       { threshold: [0, 0.25, 0.5, 0.75, 1], rootMargin: "-50% 0px -50% 0px" }
     );
     sections.forEach((s) => io.observe(s));
-    dark.addEventListener("change", applyTint);
+
+    // the toggle flips data-theme on <html>, so watch for that rather than
+    // the media query
+    const themeWatcher = new MutationObserver(applyTint);
+    themeWatcher.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
 
     // ---- 2. parallax + 3. crosshair --------------------------------------
     const floats = Array.from(document.querySelectorAll<HTMLElement>("[data-parallax]"));
@@ -97,7 +100,7 @@ export default function Ambience() {
 
     return () => {
       io.disconnect();
-      dark.removeEventListener("change", applyTint);
+      themeWatcher.disconnect();
       window.removeEventListener("pointermove", onPointer);
       cancelAnimationFrame(raf);
       cursor?.remove();

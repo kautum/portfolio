@@ -1,5 +1,7 @@
 "use client";
 
+import ThemeToggle from "./ThemeToggle";
+
 const LINKS = [
   { href: "#story", label: "Story", secondary: true },
   { href: "#finding", label: "Research", secondary: true },
@@ -22,6 +24,7 @@ export default function Nav() {
               {l.label}
             </a>
           ))}
+          <ThemeToggle />
         </div>
       </div>
     </nav>

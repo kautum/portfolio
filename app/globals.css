@@ -20,14 +20,15 @@
   --blend: multiply;
   --blob-alpha: 1;
 
-  /* Pigments rather than screen primaries. They sit on warm paper without
-     buzzing, and they survive being drawn as hatched fills. */
-  --c1: #e0a80c;
-  --c2: #d9502a;
-  --c3: #1b5299;
-  --c4: #2f7d55;
-  --c5: #6a4c93;
-  --c6: #c0405c;
+  /* Pastels, but mid-tone rather than washed out. A hatched fill is thin
+     lines with paper showing through, so anything paler than this stops
+     reading as a colour at all. */
+  --c1: #e6b854;
+  --c2: #e8836b;
+  --c3: #7295d1;
+  --c4: #7fae92;
+  --c5: #a58cc9;
+  --c6: #dd8ba0;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
@@ -36,25 +37,23 @@
   --gutter: 28px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ground: #1a1815;
-    --panel: #232019;
-    --ink: #f4efe4;
-    --ink-mute: #9c9488;
-    --rule: rgba(244, 239, 228, 0.16);
-    --rule-strong: rgba(244, 239, 228, 0.3);
-    --panel-shadow: none;
-    --blend: screen;
-    --blob-alpha: 0.7;
+:root[data-theme="dark"] {
+  --ground: #1b1917;
+  --panel: #242019;
+  --ink: #f4efe4;
+  --ink-mute: #9c9488;
+  --rule: rgba(244, 239, 228, 0.16);
+  --rule-strong: rgba(244, 239, 228, 0.3);
+  --panel-shadow: none;
+  --blend: screen;
+  --blob-alpha: 0.62;
 
-    --c1: #f0c53f;
-    --c2: #f0764c;
-    --c3: #5b93d6;
-    --c4: #5aa87c;
-    --c5: #9b7ec9;
-    --c6: #dc6f86;
-  }
+  --c1: #f2cd76;
+  --c2: #f0a08a;
+  --c3: #93b2e6;
+  --c4: #9ac5aa;
+  --c5: #bda6e0;
+  --c6: #eda8bb;
 }
 
 * {
@@ -332,6 +331,75 @@ p {
 
 @media (max-width: 860px) {
   .scrubber {
+    display: none;
+  }
+}
+
+/* ---------------- theme toggle ---------------- */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--ink-mute);
+  background: none;
+  border: 0;
+  padding: 4px 0 4px 4px;
+  cursor: pointer;
+  transition: color 180ms ease;
+}
+
+.theme-knob {
+  position: relative;
+  width: 34px;
+  height: 19px;
+  border-radius: 999px;
+  border: 1.5px solid var(--rule-strong);
+  background: var(--panel);
+  flex: none;
+  transition: border-color 200ms ease, background 200ms ease;
+}
+
+.theme-knob::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--c1);
+  transition: transform 260ms var(--ease-out), background 200ms ease;
+}
+
+:root[data-theme="dark"] .theme-knob::after {
+  transform: translateX(15px);
+  background: var(--c3);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .theme-toggle:hover {
+    color: var(--ink);
+  }
+  .theme-toggle:hover .theme-knob {
+    border-color: var(--ink);
+  }
+}
+
+.theme-toggle:active .theme-knob {
+  transform: scale(0.95);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-knob,
+  .theme-knob::after {
+    transition: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .theme-label {
     display: none;
   }
 }
