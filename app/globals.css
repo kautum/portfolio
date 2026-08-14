@@ -10,41 +10,50 @@
 
 :root {
   /* --ground is written by Ambience.tsx as you move between chapters */
-  --ground: #efebe3;
-  --panel: #ffffff;
-  --ink: #191817;
-  --ink-mute: #6b6864;
-  --rule: rgba(25, 24, 23, 0.12);
-  --rule-strong: rgba(25, 24, 23, 0.22);
-  --panel-shadow: 0 1px 2px rgba(25, 24, 23, 0.05);
+  --ground: #f7f3ea;
+  --panel: #fffdf8;
+  --ink: #1f1d1a;
+  --ink-mute: #6e695f;
+  --rule: rgba(31, 29, 26, 0.14);
+  --rule-strong: rgba(31, 29, 26, 0.26);
+  --panel-shadow: 0 1px 2px rgba(31, 29, 26, 0.05);
   --blend: multiply;
   --blob-alpha: 1;
 
-  --c1: #ffd400;
-  --c2: #ff5a1f;
-  --c3: #0047ff;
-  --c4: #00a860;
-  --c5: #6e2bff;
-  --c6: #ff2d6f;
+  /* Pigments rather than screen primaries. They sit on warm paper without
+     buzzing, and they survive being drawn as hatched fills. */
+  --c1: #e0a80c;
+  --c2: #d9502a;
+  --c3: #1b5299;
+  --c4: #2f7d55;
+  --c5: #6a4c93;
+  --c6: #c0405c;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 
-  --content: 1080px;
+  --content: 1120px;
   --gutter: 28px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --ground: #17161a;
-    --panel: #201f24;
-    --ink: #f0ede6;
-    --ink-mute: #948f88;
-    --rule: rgba(240, 237, 230, 0.14);
-    --rule-strong: rgba(240, 237, 230, 0.26);
+    --ground: #1a1815;
+    --panel: #232019;
+    --ink: #f4efe4;
+    --ink-mute: #9c9488;
+    --rule: rgba(244, 239, 228, 0.16);
+    --rule-strong: rgba(244, 239, 228, 0.3);
     --panel-shadow: none;
     --blend: screen;
-    --blob-alpha: 0.55;
+    --blob-alpha: 0.7;
+
+    --c1: #f0c53f;
+    --c2: #f0764c;
+    --c3: #5b93d6;
+    --c4: #5aa87c;
+    --c5: #9b7ec9;
+    --c6: #dc6f86;
   }
 }
 
@@ -68,9 +77,9 @@ body {
   background: var(--ground);
   color: var(--ink);
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  font-size: 16.5px;
-  line-height: 1.6;
-  letter-spacing: -0.01em;
+  font-size: 18px;
+  line-height: 1.62;
+  letter-spacing: -0.008em;
   -webkit-font-smoothing: antialiased;
   transition: background-color 900ms var(--ease-out);
 }
@@ -132,10 +141,21 @@ a {
   top: -6.5px;
 }
 
-/* ---------------- big discs ---------------- */
-.blob {
+/* ---------------- drawn shapes ---------------- */
+.rough-svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+/* Big drawn shape behind a section. Hatched rather than solid, and a
+   different primitive each time, so the page does not read as one shape
+   repeated in six colours. */
+.bigshape-wrap {
   position: absolute;
-  border-radius: 50%;
+  width: clamp(240px, 34vw, 460px);
+  right: -4vw;
+  top: 2vh;
   mix-blend-mode: var(--blend);
   opacity: var(--blob-alpha);
   pointer-events: none;
@@ -143,18 +163,18 @@ a {
   will-change: transform;
 }
 
-.blob-hero {
-  width: clamp(300px, 46vw, 620px);
-  height: clamp(300px, 46vw, 620px);
-  right: -8vw;
-  top: -6vh;
+.bigshape {
+  width: 100%;
 }
 
-.blob-side {
-  width: clamp(200px, 26vw, 380px);
-  height: clamp(200px, 26vw, 380px);
-  right: -6vw;
-  top: 10%;
+/* small drawn chapter mark */
+.mark {
+  width: 30px;
+  flex: none;
+}
+
+.mark-lg {
+  width: 42px;
 }
 
 .relative {
@@ -167,30 +187,31 @@ h1,
 h2,
 h3 {
   margin: 0;
+  font-family: var(--font-display), var(--font-geist-sans), sans-serif;
   font-weight: 400;
 }
 
 h1 {
-  font-size: clamp(2.9rem, 8.6vw, 6.4rem);
-  line-height: 0.95;
-  letter-spacing: -0.045em;
+  font-size: clamp(3rem, 9vw, 6.8rem);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
   text-wrap: balance;
 }
 
 h2 {
-  font-size: clamp(2rem, 5.2vw, 3.6rem);
+  font-size: clamp(2.2rem, 5.6vw, 3.9rem);
   line-height: 1.02;
-  letter-spacing: -0.038em;
+  letter-spacing: -0.032em;
   text-wrap: balance;
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
 h3 {
-  font-size: 1.35rem;
+  font-size: 1.5rem;
   font-weight: 500;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
-  margin-bottom: 10px;
+  line-height: 1.24;
+  letter-spacing: -0.018em;
+  margin-bottom: 12px;
 }
 
 p {
@@ -198,11 +219,11 @@ p {
 }
 
 .lead {
-  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
-  line-height: 1.38;
-  letter-spacing: -0.024em;
+  font-size: clamp(1.3rem, 2.6vw, 1.85rem);
+  line-height: 1.34;
+  letter-spacing: -0.026em;
   color: var(--ink-mute);
-  max-width: 34ch;
+  max-width: 32ch;
 }
 
 .body {
@@ -211,7 +232,7 @@ p {
 }
 
 .meta {
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.01em;
   color: var(--ink-mute);
   margin: 0 0 10px;
@@ -220,6 +241,19 @@ p {
 .mono {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
   font-variant-numeric: tabular-nums;
+}
+
+/* a note in the margin, in a hand. Never load-bearing: everything it says
+   is also said in the prose next to it. */
+.hand-note {
+  font-family: var(--font-hand), cursive;
+  font-size: 1.4rem;
+  line-height: 1.1;
+  color: var(--c2);
+  display: block;
+  margin-bottom: 6px;
+  transform: rotate(-1.2deg);
+  transform-origin: left center;
 }
 
 /* a word that gets to shout, used once or twice */
@@ -389,7 +423,30 @@ p {
 }
 
 .hero h1 {
-  margin-bottom: 30px;
+  margin-bottom: 14px;
+}
+
+.hero-title-role {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 26px;
+}
+
+.hero-title-role strong {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.7rem, 4vw, 2.8rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  border-bottom: 4px solid var(--c2);
+  padding-bottom: 3px;
+}
+
+.hero-title-role .hand-note {
+  margin: 0;
+  transform: rotate(-2deg);
 }
 
 .facts {
@@ -423,7 +480,7 @@ p {
 }
 
 .btn {
-  font-size: 14px;
+  font-size: 15.5px;
   padding: 11px 20px;
   border-radius: 999px;
   text-decoration: none;
@@ -528,16 +585,13 @@ p {
 
 .sstrip-panel p {
   color: var(--ink-mute);
-  font-size: 15.5px;
+  font-size: 17px;
   margin: 0;
 }
 
 .sstrip-dot {
-  display: block; /* a span is inline, so width and height would be ignored */
   width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 /* below the pin threshold it becomes an ordinary swipeable row */
@@ -584,7 +638,7 @@ p {
 
 .panel-body {
   color: var(--ink-mute);
-  font-size: 15.5px;
+  font-size: 17px;
   margin: 0;
 }
 
@@ -598,10 +652,14 @@ p {
 }
 
 .chart-note {
-  font-size: 13px;
+  font-size: 14.5px;
   color: var(--ink-mute);
-  margin: 18px 0 0;
+  margin: 14px 0 0;
   max-width: 60ch;
+}
+
+.bar-row {
+  margin-bottom: 26px;
 }
 
 .bar-head {
@@ -609,33 +667,13 @@ p {
   align-items: baseline;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 9px;
+  margin-bottom: 6px;
 }
 
 .bar-value {
-  font-size: clamp(1.7rem, 4.6vw, 2.6rem);
-  letter-spacing: -0.03em;
+  font-size: clamp(2rem, 5vw, 3rem);
+  letter-spacing: -0.035em;
   line-height: 1;
-}
-
-.bar-track {
-  height: 10px;
-  background: var(--rule);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.bar-fill {
-  height: 100%;
-  border-radius: 2px;
-  width: 0;
-  transition: width 900ms var(--ease-out);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bar-fill {
-    transition: none;
-  }
 }
 
 /* ---------------- filmstrip ---------------- */
@@ -685,7 +723,7 @@ p {
 
 .card dd {
   margin: 0 0 14px;
-  font-size: 15px;
+  font-size: 16.5px;
   color: var(--ink-mute);
 }
 
@@ -709,7 +747,7 @@ p {
 }
 
 .link {
-  font-size: 14px;
+  font-size: 15.5px;
   text-decoration: none;
   border-bottom: 1px solid var(--rule-strong);
   padding-bottom: 1px;
@@ -759,8 +797,8 @@ p {
 }
 
 .role li {
-  margin-bottom: 6px;
-  font-size: 15.5px;
+  margin-bottom: 7px;
+  font-size: 17px;
 }
 
 @media (max-width: 700px) {
@@ -790,7 +828,7 @@ p {
   list-style: none;
   margin: 0;
   padding: 0;
-  font-size: 15px;
+  font-size: 16.5px;
 }
 
 .skill li {

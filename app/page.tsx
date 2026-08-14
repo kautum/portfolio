@@ -5,44 +5,51 @@ import Ambience from "./components/Ambience";
 import Filmstrip from "./components/Filmstrip";
 import ScrollStrip from "./components/ScrollStrip";
 import { HonestChart, ImpactChart } from "./components/charts";
+import { BigShape, Mark, type MarkShape } from "./components/Sketch";
 
-const STOPS: { year: string; text: string; colour: string }[] = [
+const STOPS: { year: string; text: string; colour: string; shape: MarkShape }[] = [
   {
     year: "2021",
-    colour: "var(--c1)",
+    shape: "circle",
+    colour: "--c1",
     text: "Started a BTech in computer science at VIT in Chennai, on the AI and robotics track. Finished on 8.21 out of 10.",
   },
   {
     year: "2023",
-    colour: "var(--c2)",
+    shape: "square",
+    colour: "--c2",
     text: "Two traineeships at Celcom, back to back. The first was Java and SQL. The second was the one that stuck: comparing regression, trees and neural networks on real metrics.",
   },
   {
     year: "Jan 2025",
-    colour: "var(--c3)",
+    shape: "triangle",
+    colour: "--c3",
     text: "A month at Finstein, benchmarking deep learning architectures for a fintech product team and cleaning up their structured financial data.",
   },
   {
     year: "Jul 2025",
-    colour: "var(--c4)",
+    shape: "arc",
+    colour: "--c4",
     text: "Back at Celcom for five months. Built the reporting chatbot that ended up saving the team most of a working day each week.",
   },
   {
     year: "Sep 2025",
-    colour: "var(--c5)",
+    shape: "cross",
+    colour: "--c5",
     text: "Moved to London for the MSc in Data Science at King's. First time living outside India.",
   },
   {
     year: "Aug 2026",
-    colour: "var(--c6)",
+    shape: "circle",
+    colour: "--c6",
     text: "Handed in the dissertation on 6 August. Everything after this point is what I did with the year.",
   },
 ];
 
-function ChapterMark({ n, colour }: { n: string; colour: string }) {
+function ChapterMark({ n, colour, shape }: { n: string; colour: string; shape: MarkShape }) {
   return (
     <div className="chapter-mark">
-      <span className="disc disc-sm" style={{ background: colour }} />
+      <Mark shape={shape} colour={colour} />
       <p className="meta">{n}</p>
     </div>
   );
@@ -57,17 +64,14 @@ export default function Home() {
       <span id="top" />
 
       {/* ---------------- hero ---------------- */}
-      <header className="hero" data-tint="#efebe3" data-tint-dark="#17161a">
-        <span
-          className="blob blob-hero"
-          data-parallax="0.05"
-          style={{ background: "var(--c2)" }}
-          aria-hidden="true"
-        />
+      <header className="hero" data-tint="#f7f3ea" data-tint-dark="#1a1815">
+        <div className="bigshape-wrap" data-parallax="0.05" aria-hidden="true">
+          <BigShape shape="circle" colour="--c2" />
+        </div>
         <div className="wrap relative">
           <Reveal>
             <div className="hero-role">
-              <span className="disc disc-sm" style={{ background: "var(--c3)" }} />
+              <Mark shape="circle" colour="--c3" />
               <p className="meta" style={{ margin: 0 }}>
                 Data analyst, London
               </p>
@@ -76,6 +80,13 @@ export default function Home() {
 
           <Reveal delay={70}>
             <h1>Kautum Krishnan Panjalaraja</h1>
+          </Reveal>
+
+          <Reveal delay={110}>
+            <p className="hero-title-role">
+              <strong>Data analyst</strong>
+              <span className="hand-note">SQL, Python, and a habit of checking</span>
+            </p>
           </Reveal>
 
           <Reveal delay={140}>
@@ -129,10 +140,10 @@ export default function Home() {
       </header>
 
       {/* ---------------- 1. story ---------------- */}
-      <section className="section" id="story" data-tint="#e6ede2" data-tint-dark="#161a17">
+      <section className="section" id="story" data-tint="#e9efe4" data-tint-dark="#171a15">
         <div className="wrap relative">
           <Reveal className="section-head">
-            <ChapterMark n="Chapter one" colour="var(--c4)" />
+            <ChapterMark n="Chapter one" colour="--c4" shape="square" />
             <h2>Chennai to London, in six steps.</h2>
             <p className="body">
               Five years of computer science and internships in Chennai, then a year in London
@@ -145,7 +156,7 @@ export default function Home() {
           {STOPS.map((s) => (
             <article className="sstrip-panel" key={s.year}>
               <div>
-                <span className="sstrip-dot" style={{ background: s.colour }} />
+                <Mark shape={s.shape} colour={s.colour} size={46} className="sstrip-dot" />
                 <p className="year">{s.year}</p>
               </div>
               <p>{s.text}</p>
@@ -155,16 +166,13 @@ export default function Home() {
       </section>
 
       {/* ---------------- 2. the finding ---------------- */}
-      <section className="section clip" id="finding" data-tint="#e2e9f4" data-tint-dark="#15181f">
-        <span
-          className="blob blob-side"
-          data-parallax="0.07"
-          style={{ background: "var(--c3)" }}
-          aria-hidden="true"
-        />
+      <section className="section clip" id="finding" data-tint="#e4ebf5" data-tint-dark="#15181e">
+        <div className="bigshape-wrap" data-parallax="0.07" aria-hidden="true">
+          <BigShape shape="triangle" colour="--c3" />
+        </div>
         <div className="wrap relative">
           <Reveal className="section-head">
-            <ChapterMark n="Chapter two" colour="var(--c3)" />
+            <ChapterMark n="Chapter two" colour="--c3" shape="triangle" />
             <h2>
               I spent a year finding out my field was marking its{" "}
               <span className="pop" style={{ ["--pop" as string]: "var(--c1)" }}>
@@ -239,10 +247,10 @@ export default function Home() {
       </section>
 
       {/* ---------------- 3. work ---------------- */}
-      <section className="section" id="work" data-tint="#f2e7dc" data-tint-dark="#1c1815">
+      <section className="section" id="work" data-tint="#f6e9dc" data-tint-dark="#1e1a14">
         <div className="wrap relative">
           <Reveal className="section-head">
-            <ChapterMark n="Chapter three" colour="var(--c2)" />
+            <ChapterMark n="Chapter three" colour="--c2" shape="arc" />
             <h2>Three jobs, and one afternoon I gave back to a team.</h2>
             <p className="body">
               At Celcom the employee monitoring reports were put together by hand, every single
@@ -325,10 +333,10 @@ export default function Home() {
       </section>
 
       {/* ---------------- 4. projects ---------------- */}
-      <section className="section" id="projects" data-tint="#eae4f3" data-tint-dark="#1a171f">
+      <section className="section" id="projects" data-tint="#ece6f2" data-tint-dark="#1b171e">
         <div className="wrap relative">
           <Reveal className="section-head">
-            <ChapterMark n="Chapter four" colour="var(--c5)" />
+            <ChapterMark n="Chapter four" colour="--c5" shape="cross" />
             <h2>Things I made because I wanted to know something.</h2>
             <p className="body">
               In each of these the interesting part was deciding what the actual question was,
@@ -503,19 +511,19 @@ export default function Home() {
           </Reveal>
 
           <Reveal delay={40}>
-            <p className="strip-hint">
-              <span className="disc disc-sm" style={{ background: "var(--c5)" }} />
-              Throw it sideways for the rest
-            </p>
+            <div className="strip-hint">
+              <Mark shape="cross" colour="--c5" size={18} />
+              <span>Throw it sideways for the rest</span>
+            </div>
           </Reveal>
         </div>
       </section>
 
       {/* ---------------- 5. skills ---------------- */}
-      <section className="section" id="skills" data-tint="#f3edd6" data-tint-dark="#1c1a14">
+      <section className="section" id="skills" data-tint="#f4eed9" data-tint-dark="#1e1b14">
         <div className="wrap relative">
           <Reveal className="section-head">
-            <ChapterMark n="Chapter five" colour="var(--c1)" />
+            <ChapterMark n="Chapter five" colour="--c1" shape="circle" />
             <h2>What I reach for.</h2>
             <p className="body">
               Everything here has been used on something that shipped or got marked. If a tool is
@@ -576,10 +584,10 @@ export default function Home() {
       </section>
 
       {/* ---------------- 6. education ---------------- */}
-      <section className="section" id="education" data-tint="#e5edec" data-tint-dark="#151a19">
+      <section className="section" id="education" data-tint="#e6eeec" data-tint-dark="#161a18">
         <div className="wrap relative">
           <Reveal className="section-head">
-            <ChapterMark n="Chapter six" colour="var(--c4)" />
+            <ChapterMark n="Chapter six" colour="--c4" shape="triangle" />
             <h2>Where I was taught.</h2>
           </Reveal>
 
@@ -617,16 +625,13 @@ export default function Home() {
       </section>
 
       {/* ---------------- contact ---------------- */}
-      <section className="contact clip" id="contact" data-tint="#efebe3" data-tint-dark="#17161a">
-        <span
-          className="blob blob-side"
-          data-parallax="0.06"
-          style={{ background: "var(--c6)", top: "-10%" }}
-          aria-hidden="true"
-        />
+      <section className="contact clip" id="contact" data-tint="#f7f3ea" data-tint-dark="#1a1815">
+        <div className="bigshape-wrap" data-parallax="0.06" aria-hidden="true">
+          <BigShape shape="arc" colour="--c6" />
+        </div>
         <div className="wrap relative">
           <Reveal>
-            <ChapterMark n="The end, sort of" colour="var(--c6)" />
+            <ChapterMark n="The end, sort of" colour="--c6" shape="arc" />
             <h2>If any of this sounds useful, say hello.</h2>
           </Reveal>
           <Reveal delay={60}>
