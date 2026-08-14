@@ -6,6 +6,11 @@ The spec `app/globals.css` implements. Change this page and the code together.
 
 Light is the default. Dark is a real design, not an inversion.
 
+The accents are pigments rather than screen primaries: ochre `#e0a80c`, vermilion `#d9502a`,
+ink blue `#1b5299`, sea green `#2f7d55`, plum `#6a4c93`, rose `#c0405c`. An earlier electric
+set buzzed against warm paper and fell apart when drawn as a hatched fill. Dark mode uses
+lighter versions of the same six.
+
 **The ground is not fixed.** `Ambience.tsx` reads `data-tint` and `data-tint-dark` off each
 section and writes `--ground`, so the page changes colour as you move between chapters. `body`
 eases that change over 900ms. Nothing else in the palette moves, which keeps the shift feeling
@@ -33,8 +38,16 @@ same gesture as on light grey, and desaturating it would make the page feel apol
 
 ## Type
 
-Geist and Geist Mono, from the `geist` npm package, self-hosted at build time by `next/font`.
-Geist is Vercel's grotesque, which puts it in the same lineage as the primary reference.
+Three faces, all self-hosted at build time by `next/font`.
+
+**Bricolage Grotesque** for headings. Geist alone was clean but anonymous, and anonymous is
+most of what makes a page look machine-made. **Geist** and **Geist Mono** for body copy and
+figures. **Caveat** for margin notes, used two or three times on the whole page and never for
+anything load-bearing: whatever a note says is also said in the prose beside it.
+
+Body copy is 18px. Recruiters scan rather than read, so the whole scale runs larger than a
+typical site, and the role is stated at heading size directly under the name rather than as a
+small label.
 
 The single most important rule on this page: **display type is weight 400.** Not 600, not 700.
 Size carries the emphasis. This is the difference between expensive and loud.
@@ -69,9 +82,17 @@ Rules the code follows:
 - `prefers-reduced-motion: reduce` removes movement and keeps opacity. Reduced motion still
   shows every chart and every panel, it just does not slide them.
 
-## Discs
+## Shapes
 
-The accents arrive mostly as very large circles, `clamp(300px, 46vw, 620px)` in the hero.
+Every accent used to be a circle, which is a large part of what made the page read as
+generated. Chapter marks and background shapes are now drawn with rough.js and alternate
+between circle, square, triangle, cross and arc, hatched rather than filled solid.
+
+`HAND` in `Sketch.tsx` sets the shared hand at roughness 0.9 and bowing 0.8. An earlier
+version ran 1.7 and 1.4 with 2px strokes, which is the difference between drawn and scribbled.
+Charts use the same hand.
+
+The old CSS discs, for reference, arrived as very large circles, `clamp(300px, 46vw, 620px)` in the hero.
 They sit behind the text at `z-index: 0` with `mix-blend-mode: multiply` in light and `screen`
 in dark, so they tint the ground rather than sitting on top of it. Content that must stay
 above them takes `.relative`.
@@ -79,8 +100,15 @@ above them takes `.relative`.
 Discs marked `data-parallax` drift against the scroll. One rAF loop in `Ambience.tsx` handles
 every one of them.
 
-**A sizing trap worth knowing.** A `<span>` is inline, so `width` and `height` are ignored on
-it. Every disc rule therefore sets `display: block`. This was shipped broken once.
+**Two traps worth knowing.**
+
+A `<span>` is inline, so `width` and `height` are ignored on it. Any CSS-drawn mark therefore
+needs `display: block`. This shipped visibly broken once.
+
+A `<p>` cannot contain a `<div>`. The browser silently closes the paragraph, the server and
+client markup then disagree, and React throws a hydration error at runtime with no visible
+symptom. The drawn marks render as divs, so anything wrapping one has to be a div too. This
+also shipped once, caught by reading the console rather than by looking at the page.
 
 ## The three interactive pieces
 
