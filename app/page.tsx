@@ -5,7 +5,7 @@ import Ambience from "./components/Ambience";
 import Filmstrip from "./components/Filmstrip";
 import ScrollStrip from "./components/ScrollStrip";
 import { HonestChart, ImpactChart } from "./components/charts";
-import { EmissionsChart, ProductionChart } from "./components/seafood";
+import { GearChart, StocksChart } from "./components/seafood";
 import { BigShape, Mark, type MarkShape } from "./components/Sketch";
 
 const STOPS: { year: string; text: string; colour: string; shape: MarkShape }[] = [
@@ -424,25 +424,30 @@ export default function Home() {
               <p className="meta">Thirteen datasets, one story</p>
               <h3>What a fish dinner costs, beyond the price on the label</h3>
               <p className="body">
-                Coursework for the data visualisation and storytelling module at King&apos;s. I
-                pulled thirteen datasets from the FAO, Our World in Data, the Global Slavery Index
-                and the US Department of Labor into one cleaned pipeline, then built six figures
-                following the chain from catch to plate. Two of them are redrawn here, live, from
-                the same data.
+                My individual coursework for the data visualisation and storytelling module at
+                King&apos;s, written up as an IEEE-format paper. Thirteen datasets from the FAO,
+                Our World in Data, the Global Slavery Index and the US Department of Labor, pulled
+                into one cleaned pipeline and built into a six-stage narrative: demand, then how
+                the fish is caught, then what that does to the sea, then who gets hurt, then who
+                pays for it, then what else we could eat. Two figures from the middle of that
+                argument are redrawn here, live, from the same data.
               </p>
 
               <div className="feature-charts">
-                <ProductionChart />
-                <EmissionsChart />
+                <StocksChart />
+                <GearChart />
               </div>
 
               <p className="body">
                 Structured on Munzner&apos;s why, what and how framework, with Segel and
                 Heer&apos;s martini glass model: I lead the reader through the argument first,
-                then hand over and let them explore. Every palette was checked for colour blind
-                safety, and where the data had holes I drew the holes rather than interpolating
-                over them. There is also a Tableau workbook comparing fish import volume against
-                labour intensity across the G20.
+                then hand over and let them explore. Every palette was checked against
+                ColorBrewer for colour blind safety. Each figure records the alternative encoding
+                I tried and rejected, and why: a Sankey for the gear flows looked striking but hid
+                absolute magnitude, and a choropleth for labour abuses would have made countries
+                with no data look clean. The paper also carries a section on what the data cannot
+                show, since FAO statistics exclude most illegal catch and labour figures count
+                only documented cases.
               </p>
               <p className="stack">Python, pandas, NumPy, Matplotlib, Tableau</p>
               <div className="links">
