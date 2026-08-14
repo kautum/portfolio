@@ -6,9 +6,18 @@ The spec `app/globals.css` implements. Change this page and the code together.
 
 Light is the default. Dark is a real design, not an inversion.
 
+**The ground is not fixed.** `Ambience.tsx` reads `data-tint` and `data-tint-dark` off each
+section and writes `--ground`, so the page changes colour as you move between chapters. `body`
+eases that change over 900ms. Nothing else in the palette moves, which keeps the shift feeling
+like light changing rather than a theme swap.
+
+Chapter grounds, light then dark: hero and contact `#efebe3` / `#17161a`, story `#e6ede2` /
+`#161a17`, research `#e2e9f4` / `#15181f`, work `#f2e7dc` / `#1c1815`, projects `#eae4f3` /
+`#1a171f`, skills `#f3edd6` / `#1c1a14`, education `#e5edec` / `#151a19`.
+
 | Token | Light | Dark | Used for |
 |---|---|---|---|
-| `--ground` | `#ededed` | `#0d0d0d` | page background |
+| `--ground` | set per chapter | set per chapter | page background |
 | `--panel` | `#ffffff` | `#171717` | cards, panels |
 | `--ink` | `#171717` | `#ededed` | body and display text |
 | `--ink-mute` | `#6f6f6f` | `#8a8a8a` | labels, captions, secondary |
@@ -60,11 +69,34 @@ Rules the code follows:
 - `prefers-reduced-motion: reduce` removes movement and keeps opacity. Reduced motion still
   shows every chart and every panel, it just does not slide them.
 
-## The two interactive pieces
+## Discs
+
+The accents arrive mostly as very large circles, `clamp(300px, 46vw, 620px)` in the hero.
+They sit behind the text at `z-index: 0` with `mix-blend-mode: multiply` in light and `screen`
+in dark, so they tint the ground rather than sitting on top of it. Content that must stay
+above them takes `.relative`.
+
+Discs marked `data-parallax` drift against the scroll. One rAF loop in `Ambience.tsx` handles
+every one of them.
+
+**A sizing trap worth knowing.** A `<span>` is inline, so `width` and `height` are ignored on
+it. Every disc rule therefore sets `display: block`. This was shipped broken once.
+
+## The three interactive pieces
 
 **The scrubber.** Fixed at the top, a row of tick marks with one filled block showing scroll
 position. Taken directly from rauno.me. It is not a progress bar: it is discrete ticks, which
 reads as an instrument rather than a loading state. Pointer events on it seek the page.
+
+**The scroll-driven strip.** rauno.me's signature move, used for the six career steps. The
+section is made tall, a sticky viewport pins inside it, and progress through the tall section
+maps to sideways travel. Below 861px, and under reduced motion, it falls back to an ordinary
+swipeable snap row, because pinning the viewport on a phone makes a page feel broken.
+
+⚠️ **`position: sticky` does not work inside an ancestor with `overflow: hidden`.** The first
+version of this had `overflow: hidden` on every `.section` to clip the discs, which silently
+stopped the pin from sticking. Only sections that actually contain a disc now take `.clip`.
+`overflow-x: hidden` on `body` causes the same problem and was removed for the same reason.
 
 **The projects filmstrip.** A horizontal strip you can drag. It follows the apple-design rules
 properly rather than approximately:

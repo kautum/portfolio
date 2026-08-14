@@ -1,26 +1,31 @@
 /* ============================================================
    Spec: wiki/design-system.md
-   Visual language from rauno.me. Motion rules from Emil
+   Structure and restraint from rauno.me. Motion from Emil
    Kowalski's design-engineering and apple-design skills.
-   The one rule that matters most: display type is weight 400.
-   Size carries the emphasis, not weight.
+   Two rules do most of the work:
+     1. Display type is weight 400. Size carries emphasis.
+     2. Colour arrives in large quiet areas and small loud ones,
+        never in the middle.
    ============================================================ */
 
 :root {
-  --ground: #ededed;
+  /* --ground is written by Ambience.tsx as you move between chapters */
+  --ground: #efebe3;
   --panel: #ffffff;
-  --ink: #171717;
-  --ink-mute: #6f6f6f;
-  --rule: rgba(0, 0, 0, 0.1);
-  --rule-strong: rgba(0, 0, 0, 0.18);
-  --panel-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --ink: #191817;
+  --ink-mute: #6b6864;
+  --rule: rgba(25, 24, 23, 0.12);
+  --rule-strong: rgba(25, 24, 23, 0.22);
+  --panel-shadow: 0 1px 2px rgba(25, 24, 23, 0.05);
+  --blend: multiply;
+  --blob-alpha: 1;
 
-  --c1: #ffe800;
-  --c2: #ff5a00;
+  --c1: #ffd400;
+  --c2: #ff5a1f;
   --c3: #0047ff;
-  --c4: #00b84d;
-  --c5: #6e00ff;
-  --c6: #ff2d55;
+  --c4: #00a860;
+  --c5: #6e2bff;
+  --c6: #ff2d6f;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
@@ -31,13 +36,15 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --ground: #0d0d0d;
-    --panel: #171717;
-    --ink: #ededed;
-    --ink-mute: #8a8a8a;
-    --rule: rgba(255, 255, 255, 0.12);
-    --rule-strong: rgba(255, 255, 255, 0.2);
+    --ground: #17161a;
+    --panel: #201f24;
+    --ink: #f0ede6;
+    --ink-mute: #948f88;
+    --rule: rgba(240, 237, 230, 0.14);
+    --rule-strong: rgba(240, 237, 230, 0.26);
     --panel-shadow: none;
+    --blend: screen;
+    --blob-alpha: 0.55;
   }
 }
 
@@ -65,6 +72,13 @@ body {
   line-height: 1.6;
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 900ms var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
 }
 
 a {
@@ -87,6 +101,67 @@ a {
   padding: 0 var(--gutter);
 }
 
+/* ---------------- crosshair ---------------- */
+.crosshair {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 200;
+  mix-blend-mode: difference;
+}
+
+.crosshair span {
+  position: absolute;
+  background: #fff;
+}
+
+.crosshair span:first-child {
+  width: 13px;
+  height: 1px;
+  left: -6.5px;
+  top: 0;
+}
+
+.crosshair span:last-child {
+  width: 1px;
+  height: 13px;
+  left: 0;
+  top: -6.5px;
+}
+
+/* ---------------- big discs ---------------- */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  mix-blend-mode: var(--blend);
+  opacity: var(--blob-alpha);
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+.blob-hero {
+  width: clamp(300px, 46vw, 620px);
+  height: clamp(300px, 46vw, 620px);
+  right: -8vw;
+  top: -6vh;
+}
+
+.blob-side {
+  width: clamp(200px, 26vw, 380px);
+  height: clamp(200px, 26vw, 380px);
+  right: -6vw;
+  top: 10%;
+}
+
+.relative {
+  position: relative;
+  z-index: 1;
+}
+
 /* ---------------- type ---------------- */
 h1,
 h2,
@@ -96,16 +171,16 @@ h3 {
 }
 
 h1 {
-  font-size: clamp(2.8rem, 8vw, 6rem);
-  line-height: 0.98;
-  letter-spacing: -0.04em;
+  font-size: clamp(2.9rem, 8.6vw, 6.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
   text-wrap: balance;
 }
 
 h2 {
-  font-size: clamp(2rem, 5vw, 3.4rem);
-  line-height: 1.04;
-  letter-spacing: -0.035em;
+  font-size: clamp(2rem, 5.2vw, 3.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.038em;
   text-wrap: balance;
   margin-bottom: 22px;
 }
@@ -124,8 +199,8 @@ p {
 
 .lead {
   font-size: clamp(1.15rem, 2.2vw, 1.5rem);
-  line-height: 1.4;
-  letter-spacing: -0.022em;
+  line-height: 1.38;
+  letter-spacing: -0.024em;
   color: var(--ink-mute);
   max-width: 34ch;
 }
@@ -145,6 +220,16 @@ p {
 .mono {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
   font-variant-numeric: tabular-nums;
+}
+
+/* a word that gets to shout, used once or twice */
+.pop {
+  background: var(--pop, var(--c1));
+  color: #191817;
+  padding: 0 0.12em;
+  border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 /* ---------------- reveal ---------------- */
@@ -171,7 +256,7 @@ p {
 /* ---------------- scrubber ---------------- */
 .scrubber {
   position: fixed;
-  top: 16px;
+  top: 15px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 90;
@@ -188,12 +273,12 @@ p {
   width: 1.5px;
   height: 11px;
   background: var(--ink);
-  opacity: 0.28;
+  opacity: 0.26;
   transition: opacity 200ms ease, height 200ms var(--ease-out);
 }
 
 .tick.near {
-  opacity: 0.5;
+  opacity: 0.48;
   height: 14px;
 }
 
@@ -203,17 +288,15 @@ p {
   border: 1.5px solid var(--ink);
   border-radius: 2px;
   opacity: 0.85;
-  transition: transform 420ms var(--ease-out);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tick,
-  .tick-block {
+  .tick {
     transition: none;
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 860px) {
   .scrubber {
     display: none;
   }
@@ -224,7 +307,7 @@ p {
   position: sticky;
   top: 0;
   z-index: 80;
-  background: color-mix(in srgb, var(--ground) 84%, transparent);
+  background: color-mix(in srgb, var(--ground) 82%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -282,7 +365,9 @@ p {
 
 /* ---------------- hero ---------------- */
 .hero {
-  padding: 96px 0 72px;
+  padding: 92px 0 74px;
+  position: relative;
+  overflow: hidden;
 }
 
 .hero-role {
@@ -310,7 +395,6 @@ p {
 .facts {
   display: flex;
   flex-wrap: wrap;
-  gap: 0;
   margin: 34px 0 32px;
   border-top: 1px solid var(--rule);
 }
@@ -347,7 +431,7 @@ p {
   background: var(--panel);
   color: var(--ink);
   display: inline-block;
-  transition: transform 160ms var(--ease-out), background 180ms ease, color 180ms ease,
+  transition: transform 200ms var(--ease-out), background 180ms ease, color 180ms ease,
     border-color 180ms ease;
 }
 
@@ -360,20 +444,29 @@ p {
 @media (hover: hover) and (pointer: fine) {
   .btn:hover {
     border-color: var(--ink);
+    transform: translateY(-2px);
   }
   .btn-primary:hover {
-    opacity: 0.88;
+    opacity: 0.9;
   }
 }
 
 .btn:active {
   transform: scale(0.97);
+  transition-duration: 110ms;
 }
 
 /* ---------------- sections ---------------- */
 .section {
-  padding: 84px 0;
-  border-top: 1px solid var(--rule);
+  padding: 88px 0;
+  position: relative;
+}
+
+/* Only sections holding a blob clip their overflow. Clipping every section
+   would stop the scroll-driven strip from sticking, because position: sticky
+   does not work inside an ancestor with overflow: hidden. */
+.clip {
+  overflow: hidden;
 }
 
 .chapter-mark {
@@ -391,10 +484,86 @@ p {
   margin-bottom: 44px;
 }
 
+/* ---------------- scroll-driven strip ---------------- */
+.sstrip {
+  position: relative;
+}
+
+.sstrip-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.sstrip-track {
+  display: flex;
+  gap: 24px;
+  padding: 0 max(var(--gutter), calc((100vw - var(--content)) / 2 + var(--gutter)));
+  will-change: transform;
+}
+
+.sstrip-panel {
+  flex: 0 0 clamp(280px, 34vw, 420px);
+  background: var(--panel);
+  border-radius: 6px;
+  padding: 36px 32px;
+  min-height: 54vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--panel-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.sstrip-panel .year {
+  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin: 0 0 18px;
+}
+
+.sstrip-panel p {
+  color: var(--ink-mute);
+  font-size: 15.5px;
+  margin: 0;
+}
+
+.sstrip-dot {
+  display: block; /* a span is inline, so width and height would be ignored */
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  margin-bottom: 22px;
+}
+
+/* below the pin threshold it becomes an ordinary swipeable row */
+@media (max-width: 860px), (prefers-reduced-motion: reduce) {
+  .sstrip-pin {
+    position: static;
+    height: auto;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sstrip-track {
+    transform: none !important;
+    padding: 0 var(--gutter);
+  }
+  .sstrip-panel {
+    min-height: 0;
+    scroll-snap-align: start;
+    flex-basis: min(320px, 80vw);
+  }
+}
+
 /* ---------------- panels ---------------- */
 .panel {
   background: var(--panel);
-  border-radius: 4px;
+  border-radius: 6px;
   padding: 30px 28px;
   box-shadow: var(--panel-shadow);
 }
@@ -402,7 +571,7 @@ p {
 .panel-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 12px;
+  gap: 14px;
 }
 
 .panel .meta {
@@ -422,16 +591,10 @@ p {
 /* ---------------- charts ---------------- */
 .chart {
   background: var(--panel);
-  border-radius: 4px;
+  border-radius: 6px;
   padding: 34px 30px 28px;
   margin: 12px 0 34px;
   box-shadow: var(--panel-shadow);
-}
-
-.chart-svg {
-  display: block;
-  width: 100%;
-  overflow: visible;
 }
 
 .chart-note {
@@ -475,84 +638,6 @@ p {
   }
 }
 
-/* ---------------- timeline ---------------- */
-.timeline {
-  margin: 8px 0 42px;
-}
-
-.timeline-rail {
-  position: relative;
-  height: 1px;
-  background: var(--rule);
-}
-
-.timeline-fill {
-  position: absolute;
-  inset: 0;
-  background: var(--ink);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 1100ms var(--ease-out);
-}
-
-.timeline-fill.in {
-  transform: scaleX(1);
-}
-
-.timeline-stops {
-  display: flex;
-  justify-content: space-between;
-  margin-top: -6px;
-}
-
-.timeline-stop {
-  text-align: center;
-}
-
-.timeline-stop:first-child {
-  text-align: left;
-}
-
-.timeline-stop:last-child {
-  text-align: right;
-}
-
-.timeline-stop .disc {
-  margin: 0 auto;
-  opacity: 0;
-  transform: scale(0.4);
-  transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out);
-}
-
-.timeline-stop:first-child .disc {
-  margin-left: 0;
-}
-
-.timeline-stop:last-child .disc {
-  margin-right: 0;
-}
-
-.timeline-stop .disc.in {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.timeline-stop .meta {
-  margin: 10px 0 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .timeline-fill,
-  .timeline-stop .disc {
-    transition: none;
-    transform: none;
-    opacity: 1;
-  }
-  .timeline-fill {
-    transform: scaleX(1);
-  }
-}
-
 /* ---------------- filmstrip ---------------- */
 .strip-outer {
   position: relative;
@@ -568,7 +653,7 @@ p {
 
 .strip-track {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   padding: 0 var(--gutter);
   will-change: transform;
 }
@@ -576,7 +661,7 @@ p {
 .card {
   flex: 0 0 min(420px, 78vw);
   background: var(--panel);
-  border-radius: 4px;
+  border-radius: 6px;
   padding: 30px 28px;
   box-shadow: var(--panel-shadow);
   display: flex;
@@ -628,7 +713,7 @@ p {
   text-decoration: none;
   border-bottom: 1px solid var(--rule-strong);
   padding-bottom: 1px;
-  transition: border-color 180ms ease;
+  transition: border-color 180ms ease, background 180ms ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -714,8 +799,9 @@ p {
 
 /* ---------------- contact ---------------- */
 .contact {
-  padding: 100px 0;
-  border-top: 1px solid var(--rule);
+  padding: 104px 0;
+  position: relative;
+  overflow: hidden;
 }
 
 footer {
@@ -731,17 +817,18 @@ footer p {
 
 @media (max-width: 700px) {
   .hero {
-    padding: 60px 0 52px;
+    padding: 58px 0 50px;
   }
   .section {
-    padding: 60px 0;
+    padding: 62px 0;
   }
   .contact {
-    padding: 72px 0;
+    padding: 74px 0;
   }
   .panel,
   .card,
-  .chart {
+  .chart,
+  .sstrip-panel {
     padding: 24px 20px;
   }
 }

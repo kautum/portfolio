@@ -125,36 +125,3 @@ export function ImpactChart() {
     />
   );
 }
-
-const STOPS = ["2021", "2023", "Jan 25", "Jul 25", "Sep 25", "Aug 26"];
-
-export function Timeline() {
-  const { ref, seen } = useInView<HTMLDivElement>();
-
-  return (
-    <div
-      ref={ref}
-      className="timeline"
-      role="img"
-      aria-label="Timeline of six steps from 2021 to August 2026."
-    >
-      <div className="timeline-rail">
-        <div className={`timeline-fill${seen ? " in" : ""}`} />
-      </div>
-      <div className="timeline-stops">
-        {STOPS.map((s, i) => (
-          <div key={s} className="timeline-stop">
-            <span
-              className={`disc disc-sm${seen ? " in" : ""}`}
-              style={{
-                background: i === STOPS.length - 1 ? "var(--c2)" : "var(--ink)",
-                transitionDelay: `${300 + i * 90}ms`,
-              }}
-            />
-            <p className="meta">{s}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
