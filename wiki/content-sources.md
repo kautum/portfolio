@@ -121,6 +121,26 @@ on harder questions.
 frames containing people, M2M100 translation into Tamil, speech output. Written up as an
 IEEE-format paper with his supervisor.
 
+**Janus.** From `~/Documents/Janus KCL Job/janus-baseline/` and the public fork at
+github.com/kautum/janus-baseline, branch `fix/bootable-and-secure-baseline`. A fork of
+digisilk/janus-baseline, the app-analysis tool built by the DIGISILK project in the Department
+of Digital Humanities at King's, funded by the ERC and led by Dr Elisa Oreglia. Kautum forked
+it while applying for the junior developer role on it. Apache 2.0, same as upstream, and
+`main` is left untouched so the two can be diffed.
+
+He wrote the documentation the project lacked (five docs covering the project, architecture,
+setup, data and known issues), plus a `CLAUDE.md` at the root so coding assistants start from
+an accurate picture. He then fixed the app so it boots from a clean clone, and fixed a set of
+defects including an authentication bypass, a path traversal in the upload handler, a race in
+session tracking, leaked worker processes and an unauthenticated admin endpoint.
+
+⚠️ **Deliberate framing decision.** The site says he "fixed the defects I found on the way,
+including several that mattered for security" and links to the fork. It does **not** enumerate
+the vulnerabilities on the portfolio itself. The detail is already public in his own repo,
+where he wrote it respectfully, but leading with "I found security holes in this named research
+group's tool" on a job-hunting page reads differently, and he may still want a reference from
+that group. Keep it at the link.
+
 ## Skills
 
 From the canonical table in `resume-src/master-resume.tex` in the job-search folder. The site

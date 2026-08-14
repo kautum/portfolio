@@ -332,11 +332,85 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------------- 4. projects ---------------- */}
+      {/* ---------------- 4. how I work ---------------- */}
+      <section className="section clip" id="how" data-tint="#faf3dc" data-tint-dark="#201d16">
+        <div className="bigshape-wrap" data-parallax="0.05" aria-hidden="true">
+          <BigShape shape="square" colour="--c1" />
+        </div>
+        <div className="wrap relative">
+          <Reveal className="section-head">
+            <ChapterMark n="Chapter four" colour="--c1" shape="square" />
+            <h2>
+              I am fast, and{" "}
+              <span className="pop" style={{ ["--pop" as string]: "var(--c1)" }}>
+                deliberate
+              </span>{" "}
+              about why.
+            </h2>
+            <p className="body">
+              I build with AI tools properly rather than casually, and most of that work is
+              scaffolding. A model is only as useful as what it knows about your problem, so
+              before it touches anything I give it a structured knowledge base to read: what is
+              true, where each fact came from, and which file to open when it is not sure. I keep
+              one for my dissertation, one for my job search, and one for this site.
+            </p>
+            <p className="body">
+              In practice that means Claude Code with a plugin set I have tuned, MCP servers for
+              the tools I reach for often, and a written brief committed alongside the code so
+              anyone, or anything, joining the project starts from an accurate picture instead of
+              guessing from whichever file they opened first.
+            </p>
+            <p className="body">
+              Writing the code is rarely the slow part. Deciding what to build, checking whether
+              the result is actually true, and being able to show your working are the slow parts.
+              Tools that draft quickly are worth a great deal once you have done that thinking,
+              and a liability before you have.
+            </p>
+          </Reveal>
+
+          <div className="panel-grid">
+            <Reveal delay={40} className="panel">
+              <p className="meta">One week, solo</p>
+              <h3>A deployed product</h3>
+              <p className="panel-body">
+                Read a job posting as a content problem rather than a chatbot one, then built and
+                shipped the campaign generator it was actually describing.
+              </p>
+            </Reveal>
+            <Reveal delay={80} className="panel">
+              <p className="meta">One day, at a hackathon</p>
+              <h3>Two agents talking</h3>
+              <p className="panel-body">
+                A banking customer service pair on Google&apos;s A2A protocol, with retrieval that
+                only pays for the expensive call when the cheap one comes up short.
+              </p>
+            </Reveal>
+            <Reveal delay={120} className="panel">
+              <p className="meta">A codebase I had never seen</p>
+              <h3>Documented, then fixed</h3>
+              <p className="panel-body">
+                Cloned a research tool, got it running, wrote the guide it was missing, and fixed
+                the defects I found on the way, including several that mattered for security.
+              </p>
+            </Reveal>
+          </div>
+
+          <Reveal delay={60}>
+            <p className="body" style={{ marginTop: 30 }}>
+              I am applying for data analyst roles because that is where my skills genuinely line
+              up: SQL, Python, statistics, and communicating a result to someone who did not do
+              the analysis. I could present myself as something more senior. I would rather be
+              right about it.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ---------------- 5. projects ---------------- */}
       <section className="section" id="projects" data-tint="#f0e9f6" data-tint-dark="#1d1922">
         <div className="wrap relative">
           <Reveal className="section-head">
-            <ChapterMark n="Chapter four" colour="--c5" shape="cross" />
+            <ChapterMark n="Chapter five" colour="--c5" shape="cross" />
             <h2>Things I made because I wanted to know something.</h2>
             <p className="body">
               In each of these the interesting part was deciding what the actual question was,
@@ -474,6 +548,46 @@ export default function Home() {
               </article>
 
               <article className="card">
+                <p className="meta">A codebase I had never seen before</p>
+                <h3>Reading someone else&apos;s research tool properly</h3>
+                <dl>
+                  <dt>the question</dt>
+                  <dd>
+                    Janus is an app analysis tool built at King&apos;s by the DIGISILK project,
+                    by a rotating cast of students rather than a standing engineering team. I
+                    applied for the developer role on it. What is the useful thing to do when you
+                    do not know the team&apos;s roadmap?
+                  </dd>
+                  <dt>what I did</dt>
+                  <dd>
+                    Read the code, got it running, and wrote the guide it was missing: what the
+                    project is, how a request moves through it, how to set it up if you do not
+                    consider yourself a programmer, and every defect I found with file
+                    references. I spent more time on the documentation than on the code.
+                  </dd>
+                  <dt>what came out</dt>
+                  <dd>
+                    It boots from a clean clone now, and a set of real defects are fixed,
+                    including several that mattered for security. Upstream&apos;s branch is left
+                    untouched so the two can be diffed. I also committed a brief at the root that
+                    coding assistants read automatically, so the next person starts from an
+                    accurate picture of the system.
+                  </dd>
+                </dl>
+                <p className="stack">Python, Dash, Androguard, Apache 2.0, same as upstream</p>
+                <div className="links">
+                  <a
+                    className="link"
+                    href="https://github.com/kautum/janus-baseline/tree/fix/bootable-and-secure-baseline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    The fork and its docs
+                  </a>
+                </div>
+              </article>
+
+              <article className="card">
                 <p className="meta">Three more, briefly</p>
                 <h3>Agents, retrieval and a camera that talks</h3>
                 <dl>
@@ -519,11 +633,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------------- 5. skills ---------------- */}
+      {/* ---------------- 6. skills ---------------- */}
       <section className="section" id="skills" data-tint="#faf3dc" data-tint-dark="#201d16">
         <div className="wrap relative">
           <Reveal className="section-head">
-            <ChapterMark n="Chapter five" colour="--c1" shape="circle" />
+            <ChapterMark n="Chapter six" colour="--c1" shape="circle" />
             <h2>What I reach for.</h2>
             <p className="body">
               Everything here has been used on something that shipped or got marked. If a tool is
@@ -583,11 +697,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------------- 6. education ---------------- */}
+      {/* ---------------- 7. education ---------------- */}
       <section className="section" id="education" data-tint="#e6f1ef" data-tint-dark="#171c1a">
         <div className="wrap relative">
           <Reveal className="section-head">
-            <ChapterMark n="Chapter six" colour="--c4" shape="triangle" />
+            <ChapterMark n="Chapter seven" colour="--c4" shape="triangle" />
             <h2>Where I was taught.</h2>
           </Reveal>
 
