@@ -5,6 +5,7 @@ import Ambience from "./components/Ambience";
 import Filmstrip from "./components/Filmstrip";
 import ScrollStrip from "./components/ScrollStrip";
 import { HonestChart, ImpactChart } from "./components/charts";
+import { EmissionsChart, ProductionChart } from "./components/seafood";
 import { BigShape, Mark, type MarkShape } from "./components/Sketch";
 
 const STOPS: { year: string; text: string; colour: string; shape: MarkShape }[] = [
@@ -418,6 +419,45 @@ export default function Home() {
             </p>
           </Reveal>
 
+          <Reveal delay={40}>
+            <div className="feature">
+              <p className="meta">Thirteen datasets, one story</p>
+              <h3>What a fish dinner costs, beyond the price on the label</h3>
+              <p className="body">
+                Coursework for the data visualisation and storytelling module at King&apos;s. I
+                pulled thirteen datasets from the FAO, Our World in Data, the Global Slavery Index
+                and the US Department of Labor into one cleaned pipeline, then built six figures
+                following the chain from catch to plate. Two of them are redrawn here, live, from
+                the same data.
+              </p>
+
+              <div className="feature-charts">
+                <ProductionChart />
+                <EmissionsChart />
+              </div>
+
+              <p className="body">
+                Structured on Munzner&apos;s why, what and how framework, with Segel and
+                Heer&apos;s martini glass model: I lead the reader through the argument first,
+                then hand over and let them explore. Every palette was checked for colour blind
+                safety, and where the data had holes I drew the holes rather than interpolating
+                over them. There is also a Tableau workbook comparing fish import volume against
+                labour intensity across the G20.
+              </p>
+              <p className="stack">Python, pandas, NumPy, Matplotlib, Tableau</p>
+              <div className="links">
+                <a
+                  className="link"
+                  href="https://github.com/kautum/telling-stories-with-data"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  All six figures, the datasets and the dashboard
+                </a>
+              </div>
+            </div>
+          </Reveal>
+
           <Reveal delay={60}>
             <Filmstrip>
               <article className="card">
@@ -455,47 +495,6 @@ export default function Home() {
                 <p className="stack">Python, pandas, Jupyter, February 2026</p>
               </article>
 
-              <article className="card">
-                <p className="meta">Thirteen datasets, one story</p>
-                <h3>What a fish dinner costs, beyond the price on the label</h3>
-                <dl>
-                  <dt>the question</dt>
-                  <dd>
-                    What does the global seafood system really cost, environmentally and in human
-                    terms, and can you show that to somebody who has never opened a fisheries
-                    report?
-                  </dd>
-                  <dt>what I did</dt>
-                  <dd>
-                    Pulled thirteen datasets from the FAO, Our World in Data, the Global Slavery
-                    Index and the US Department of Labor into one cleaned pipeline, then built six
-                    figures following the chain from catch to plate.
-                  </dd>
-                  <dt>the design decisions</dt>
-                  <dd>
-                    Structured on Munzner&apos;s why, what and how framework, with Segel and
-                    Heer&apos;s martini glass model: I lead the reader through the argument first,
-                    then hand over. Every palette checked for colour blind safety. Where the data
-                    had holes I drew the holes rather than interpolating over them.
-                  </dd>
-                  <dt>what came out</dt>
-                  <dd>
-                    A visual essay, plus a Tableau workbook comparing fish import volume against
-                    labour intensity across the G20.
-                  </dd>
-                </dl>
-                <p className="stack">Python, pandas, NumPy, Matplotlib, Tableau</p>
-                <div className="links">
-                  <a
-                    className="link"
-                    href="https://github.com/kautum/telling-stories-with-data"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Code and dashboard
-                  </a>
-                </div>
-              </article>
 
               <article className="card">
                 <p className="meta">The job application that built itself</p>
