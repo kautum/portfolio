@@ -1,6 +1,6 @@
 const NS = "http://www.w3.org/2000/svg";
 
-/** Resolve a CSS custom property to a concrete colour — rough.js can't read var(). */
+/** Resolve a CSS custom property to a concrete colour, since rough.js cannot read var(). */
 export function token(el: Element, name: string, fallback: string): string {
   const v = getComputedStyle(el).getPropertyValue(name).trim();
   return v || fallback;

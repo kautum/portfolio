@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Scroll-triggered reveal. Fires once, then stops observing —
+ * Scroll-triggered reveal. Fires once, then stops observing, because
  * content that re-animates every time it scrolls past is distracting.
  */
 export default function Reveal({

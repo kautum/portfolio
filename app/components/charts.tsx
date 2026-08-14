@@ -12,8 +12,8 @@ import { HAND, text, token } from "../lib/sketch";
 const drawHonest = (rc: RoughSVG, svg: SVGSVGElement, w: number, h: number) => {
   const ink = token(svg, "--ink", "#1c1b19");
   const faint = token(svg, "--ink-faint", "#8d877c");
-  const sky = token(svg, "--sky", "#4a9fd0");
-  const coral = token(svg, "--coral", "#e2725b");
+  const sky = token(svg, "--accent", "#4a9fd0");
+  const coral = token(svg, "--accent-warm", "#e2725b");
 
   const padL = 46;
   const padR = 16;
@@ -29,7 +29,7 @@ const drawHonest = (rc: RoughSVG, svg: SVGSVGElement, w: number, h: number) => {
     rc.line(padL, baseY, padL + plotW, baseY, { ...HAND, stroke: ink, seed: 11 })
   );
   [0, 0.5, 1].forEach((v, i) => {
-    // only the midline is drawn across — a line at 1.0 collides with the
+    // only the midline is drawn across. A line at 1.0 would collide with the
     // value label sitting above the 0.9002 bar
     if (v === 0.5) {
       svg.appendChild(
@@ -130,8 +130,8 @@ export function HonestChart() {
 const drawImpact = (rc: RoughSVG, svg: SVGSVGElement, w: number, h: number) => {
   const ink = token(svg, "--ink", "#1c1b19");
   const faint = token(svg, "--ink-faint", "#8d877c");
-  const sky = token(svg, "--sky", "#4a9fd0");
-  const mustard = token(svg, "--mustard", "#d9a520");
+  const sky = token(svg, "--accent", "#4a9fd0");
+  const mustard = token(svg, "--accent-olive", "#d9a520");
 
   const padL = 14;
   const padR = 64;
@@ -206,8 +206,8 @@ const STOPS = [
 const drawJourney = (rc: RoughSVG, svg: SVGSVGElement, w: number, h: number) => {
   const ink = token(svg, "--ink", "#1c1b19");
   const faint = token(svg, "--ink-faint", "#8d877c");
-  const sky = token(svg, "--sky", "#4a9fd0");
-  const coral = token(svg, "--coral", "#e2725b");
+  const sky = token(svg, "--accent", "#4a9fd0");
+  const coral = token(svg, "--accent-warm", "#e2725b");
 
   const padL = 26;
   const padR = 26;
@@ -253,7 +253,7 @@ export function JourneyChart() {
    A drawn underline, for the one word that should carry emphasis.
    ------------------------------------------------------------------ */
 const drawUnderline = (rc: RoughSVG, svg: SVGSVGElement, w: number, h: number) => {
-  const sky = token(svg, "--sky", "#4a9fd0");
+  const sky = token(svg, "--accent", "#4a9fd0");
   svg.appendChild(
     rc.curve(
       [
