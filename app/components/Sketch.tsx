@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import rough from "roughjs";
+import Safe from "./Safe";
 import type { RoughSVG } from "roughjs/bin/svg";
 
 /**
@@ -16,6 +17,7 @@ export function token(el: Element, name: string, fallback: string) {
 
 /** Dash every stroked path out, then draw it back in sequence. */
 export function drawIn(svg: SVGSVGElement, duration = 620, stagger = 55) {
+  if (typeof window === "undefined") return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const paths = Array.from(svg.querySelectorAll("path"));
   paths.forEach((p, i) => {
@@ -36,7 +38,7 @@ export function drawIn(svg: SVGSVGElement, duration = 620, stagger = 55) {
 type DrawFn = (rc: RoughSVG, svg: SVGSVGElement, w: number, h: number) => void;
 
 /** Responsive rough.js canvas. Redraws on resize and on a theme change. */
-export function RoughSvg({
+function RoughSvgInner({
   height,
   draw,
   label = "",
@@ -64,8 +66,15 @@ export function RoughSvg({
       svg.setAttribute("viewBox", `0 0 ${w} ${height}`);
       svg.setAttribute("height", String(height));
       while (svg.firstChild) svg.removeChild(svg.firstChild);
-      draw(rough.svg(svg), svg, w, height);
-      if (withAnimation) drawIn(svg);
+      try {
+        draw(rough.svg(svg), svg, w, height);
+        if (withAnimation) drawIn(svg);
+      } catch (err) {
+        // a drawing is decoration; the prose beside it carries the same facts
+        while (svg.firstChild) svg.removeChild(svg.firstChild);
+        // eslint-disable-next-line no-console
+        console.warn("Skipped a drawing that failed to render:", err);
+      }
     };
 
     const io = new IntersectionObserver(
@@ -105,8 +114,25 @@ export function RoughSvg({
 
   return (
     <div ref={hostRef} className={className}>
-      <svg ref={svgRef} className="rough-svg" role={label ? "img" : "presentation"} aria-label={label || undefined} />
+      <svg
+        ref={svgRef}
+        className="rough-svg"
+        role={label ? "img" : "presentation"}
+        aria-label={label || undefined}
+      />
     </div>
+  );
+}
+
+/**
+ * Public wrapper. Every drawing on the site renders through this, so this one
+ * boundary keeps a failed chart from taking the page down with it.
+ */
+export function RoughSvg(props: Parameters<typeof RoughSvgInner>[0]) {
+  return (
+    <Safe fallback={null}>
+      <RoughSvgInner {...props} />
+    </Safe>
   );
 }
 

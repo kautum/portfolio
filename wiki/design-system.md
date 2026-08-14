@@ -156,3 +156,34 @@ read as childish. See [decisions.md](decisions.md).
 
 Every chart carries a `role="img"` and an `aria-label` stating the actual figures, and the same
 figures appear in the surrounding prose, so nothing depends on seeing the drawing.
+
+
+## Never crashing
+
+This is a CV. It has to survive a browser it has never met, so the page is built so that a
+failure degrades rather than blanks.
+
+**Everything is server-rendered static HTML.** Every fact, every figure and the contact details
+are in the markup before any JavaScript runs. Verified by fetching the page with curl and
+grepping for the numbers: 0.9002, the 48 per cent discard share, the r squared of 0.42, the
+CGPA, the email. A visitor with JavaScript disabled entirely loses the drawings and keeps the
+whole document.
+
+**The drawings are progressive enhancement, not content.** Nothing on the page depends on a
+chart rendering. Every figure a chart shows is also written in the prose beside it, and each
+chart carries an `aria-label` stating its numbers.
+
+**Three layers catch a failure:**
+
+1. `RoughSvg` wraps its own draw call in try/catch. If rough.js or an SVG measurement API
+   throws, the SVG is emptied and a warning is logged. The surrounding text is untouched.
+2. Every drawing renders through `Safe`, an error boundary in `RoughSvg`'s public wrapper. One
+   boundary therefore covers `Mark`, `BigShape` and all five charts. A chart that throws during
+   render disappears; the page does not.
+3. `app/error.tsx` is the route-level boundary. If something escapes the other two, the page is
+   replaced by Kautum's name, role, availability and contact links rather than a white screen,
+   because that is the minimum the site exists to communicate.
+
+**Things that would otherwise throw and are guarded:** `localStorage` in private browsing,
+`getTotalLength()` on a degenerate path, drawing into a container with zero width, and
+`window` access during server rendering.

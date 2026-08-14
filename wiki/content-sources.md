@@ -94,7 +94,30 @@ section covering the fixed tracking percentage and differing rebalance schedules
 ⚠️ This was built on case materials Intropic supplied. If they treat those as confidential,
 this section comes off the site. Flagged to Kautum and not yet resolved.
 
-**Seafood system visualisation.** From `wiki/profile/projects.md` and
+**Seafood system visualisation.** Paper: *Making Hidden Costs Visible: A Narrative
+Visualization of the Global Seafood System*, individual coursework for the data visualisation
+and storytelling module, IEEE format. Local copy at `~/Documents/sem 1/telling stories with
+data/IN CW/`, repo at github.com/kautum/telling-stories-with-data.
+
+⚠️ **Read the paper before picking figures from this project.** It runs as a six-stage
+narrative and the argument lives in the middle: stage two is that bycatch is a property of the
+gear, stage three is what that does to stock health. An earlier version of this site charted
+stage one (the demand curve) and stage six (protein alternatives), which are the bookends, and
+Kautum correctly rejected them as not being what the study was about.
+
+The two figures now on the site, both computed from the repo's datasets:
+- Share of world stocks inside biologically sustainable limits, 90 per cent in 1974 falling to
+  62.33 in 2021, so overexploited rises from 10 to 37.67. `fish-stocks-within-sustainable-levels.csv`.
+- Discards by gear, 2014. Bottom trawl 4.16 Mt of 8.61 Mt total, which is 48 per cent, then
+  seine 18, midwater trawl 11, gillnets 9, other 7, longline 4, boat dredge 2.
+  `fish-discards-gear.csv`.
+
+Other figures available if ever needed: per-capita consumption by region, capture versus
+aquaculture production (farmed overtakes wild in 2013), GPGP plastic composition, employment
+and documented labour abuses by country, the G20 import Tableau dashboard, GHG and nitrogen by
+farmed species, and protein intake by region.
+
+**Older description, kept for reference.** From `wiki/profile/projects.md` and
 github.com/kautum/telling-stories-with-data. Thirteen datasets from the FAO, Our World in
 Data, the Global Slavery Index and the US Department of Labor. Six figures plus a Tableau
 workbook covering the G20. Structured on Munzner's why/what/how framework and Segel and
@@ -140,6 +163,27 @@ the vulnerabilities on the portfolio itself. The detail is already public in his
 where he wrote it respectfully, but leading with "I found security holes in this named research
 group's tool" on a job-hunting page reads differently, and he may still want a reference from
 that group. Keep it at the link.
+
+**London Climate Resilience.** The group coursework for the same module. Explanation document
+at `~/Documents/sem 1/telling stories with data/group cw/TS GCW explanation.pdf`, merged data
+at `final_gcw_parks_simple.csv` in the same folder, which is the file the site's scatter is
+drawn from.
+
+Four datasets across all 33 London boroughs, plotted in five dimensions: park count within
+1000m on x (1.68 to 11.96), flood risk as percentage of properties in the floodplain on y (0 to
+89), obesity rate in marker shape and size (42.6 to 69.3), air pollution as population exposed
+to NO2 above 40 µg/m³ in colour. A composite livability index averages normalised, inverted
+anti-flood, anti-pollution and anti-obesity scores, fitted with a first-order regression at
+**r squared about 0.42**.
+
+The finding, and the reason it is worth showing: livability rises with park access only
+modestly, and flood exposure is set by proximity to the Thames rather than by parks.
+Hammersmith and Fulham has roughly average park access and 89 per cent flood risk. Harrow has
+the fewest parks in London and almost none. Central boroughs with the best green access still
+carry the worst NO2.
+
+The site draws all 33 boroughs and labels only Hammersmith, Southwark, Newham, Islington and
+Harrow, because the rest collide at this size.
 
 ## Skills
 

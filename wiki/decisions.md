@@ -65,6 +65,30 @@ These have held across every version and should keep holding.
 - **Guard AI is not featured.** It is a team project and consent to publicise it is still
   pending.
 
+## Bugs that shipped, and what they teach
+
+Recorded because each was invisible in a screenshot, and screenshots were how the site was
+being checked.
+
+**Links inside the drag strip could never be clicked.** `Filmstrip` called `setPointerCapture`
+on pointerdown. Pointer capture retargets the browser's synthesised click to the capturing
+element, so every click landed on the container and no anchor inside the strip ever fired.
+Capture is now taken only after the pointer has moved six pixels, and a click that follows a
+real drag is suppressed. **Lesson: a draggable container and a link inside it are in conflict
+by default, and the failure is silent.**
+
+**A hydration mismatch from invalid HTML.** `.strip-hint` was a `<p>` containing a `<div>`,
+because the drawn marks render as divs. The browser silently closes the paragraph, server and
+client markup then disagree, and React throws at runtime. The page looked perfect. **Lesson:
+read the console, not just the screenshot.**
+
+**Chapter marks rendered invisible.** A `<span>` is inline, so the width and height set on it
+were ignored. Any CSS-drawn mark needs `display: block`.
+
+**The wrong figures from the seafood coursework.** Charts were picked by reading dataset
+filenames rather than the paper, and landed on the opening and closing figures instead of the
+argument. **Lesson: read the source document before choosing what to visualise from it.**
+
 ## Operational notes
 
 - Vercel enables SSO deployment protection by default, which 302-redirects the public URL to a
