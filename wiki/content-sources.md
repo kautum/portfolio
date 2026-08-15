@@ -91,8 +91,11 @@ deletion would require around fourteen times the stock's average daily volume to
 Splits do not move market cap and so do not trigger flows. Includes his own limitations
 section covering the fixed tracking percentage and differing rebalance schedules.
 
-⚠️ This was built on case materials Intropic supplied. If they treat those as confidential,
-this section comes off the site. Flagged to Kautum and not yet resolved.
+**Resolved 2026-08-15: keep the work, drop the client's name from anything public.** The
+portfolio card and the resume both describe it as a "research analyst case study" and name
+nobody, which was already true when the decision was made, so no edit was needed. The client is
+named here in the wiki because this file is internal and needs to stay accurate. **Do not put
+the client name on the site, the resume or a cover letter.**
 
 **Seafood system visualisation.** Paper: *Making Hidden Costs Visible: A Narrative
 Visualization of the Global Seafood System*, individual coursework for the data visualisation
@@ -157,12 +160,12 @@ an accurate picture. He then fixed the app so it boots from a clean clone, and f
 defects including an authentication bypass, a path traversal in the upload handler, a race in
 session tracking, leaked worker processes and an unauthenticated admin endpoint.
 
-⚠️ **Deliberate framing decision.** The site says he "fixed the defects I found on the way,
-including several that mattered for security" and links to the fork. It does **not** enumerate
-the vulnerabilities on the portfolio itself. The detail is already public in his own repo,
-where he wrote it respectfully, but leading with "I found security holes in this named research
-group's tool" on a job-hunting page reads differently, and he may still want a reference from
-that group. Keep it at the link.
+**Framing decision, settled by Kautum 2026-08-15: state it explicitly.** The site now names the
+authentication bypass and explains the mechanism, plus the path traversal, the session race and
+the leaked worker pool. He was offered the softer version, which credited the security work
+without enumerating it, and chose the explicit one. It is genuinely strong evidence and the
+detail was already public in his own repo. Upstream credit and the Apache-2.0 attribution stay
+in place, and the tone stays factual rather than triumphant.
 
 **London Climate Resilience.** The group coursework for the same module. Explanation document
 at `~/Documents/sem 1/telling stories with data/group cw/TS GCW explanation.pdf`, merged data

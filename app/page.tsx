@@ -391,8 +391,8 @@ export default function Home() {
               <p className="meta">A codebase I had never seen</p>
               <h3>Documented, then fixed</h3>
               <p className="panel-body">
-                Cloned a research tool, got it running, wrote the guide it was missing, and fixed
-                the defects I found on the way, including several that mattered for security.
+                Cloned a research tool, got it running, wrote the guide it was missing, and
+                closed an authentication bypass that let anyone skip the login entirely.
               </p>
             </Reveal>
           </div>
@@ -597,11 +597,17 @@ export default function Home() {
                   </dd>
                   <dt>what came out</dt>
                   <dd>
-                    It boots from a clean clone now, and a set of real defects are fixed,
-                    including several that mattered for security. Upstream&apos;s branch is left
-                    untouched so the two can be diffed. I also committed a brief at the root that
-                    coding assistants read automatically, so the next person starts from an
-                    accurate picture of the system.
+                    It boots from a clean clone now, and the defects I found are fixed. The
+                    serious one was authentication. Checking login when the page renders looks
+                    like access control but is not: the framework registers every callback
+                    globally, so anyone who knew the component IDs, which the framework itself
+                    lists, could run the analysis pipeline and the file upload without ever
+                    logging in. I put the guard on the single endpoint every callback passes
+                    through, so one added next year is covered too. Also a path traversal in the
+                    upload handler, a race in session tracking that broke the site for everyone,
+                    and a worker pool that leaked on a malformed file. Upstream&apos;s branch is
+                    untouched so the two can be diffed, and I committed a brief at the root that
+                    coding assistants read automatically.
                   </dd>
                 </dl>
                 <p className="stack">Python, Dash, Androguard, Apache 2.0, same as upstream</p>
