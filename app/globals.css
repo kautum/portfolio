@@ -1322,3 +1322,28 @@ h2 {
     align-items: flex-start;
   }
 }
+
+/* A real screenshot of a shipped product. Stock imagery on an analyst's
+   portfolio reads as filler; a running artifact with his name in its header
+   does the opposite. */
+.shot {
+  margin: 26px 0 18px;
+}
+
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  box-shadow: var(--panel-shadow);
+}
+
+.shot figcaption {
+  margin-top: 10px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}

@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Caveat } from "next/font/google";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
+import "./tech-logos.css";
 import SmoothScroll from "./components/SmoothScroll";
 import PlotSurface from "./components/PlotSurface";
 

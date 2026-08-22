@@ -75,7 +75,6 @@ export default function Cover() {
             <li>SQL</li>
             <li>Python</li>
             <li>Tableau</li>
-            <li>Power BI</li>
             <li>Excel</li>
           </ul>
         </div>

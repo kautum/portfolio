@@ -1,5 +1,6 @@
 import Nav from "./components/Nav";
 import Cover from "./components/Cover";
+import TechLogos from "./components/TechLogos";
 import { RankFlip, HostEscalation, ForecastRecord } from "./components/dissertation";
 import Scrubber from "./components/Scrubber";
 import Reveal from "./components/Reveal";
@@ -566,6 +567,18 @@ export default function Home() {
                     side by side.
                   </dd>
                 </dl>
+                <figure className="shot">
+                  {/* A real screenshot of the running product, not a mockup. */}
+                  <img
+                    src="/md-creative-shot.png"
+                    alt="The md creative generator running: a Social Content Generator heading, a
+                         product picker, and the mdlondon range laid out as cards."
+                    width={1600}
+                    height={801}
+                    loading="lazy"
+                  />
+                  <figcaption>md-creative.vercel.app, running now</figcaption>
+                </figure>
                 <p className="stack">Next.js, TypeScript, Groq, Vercel, all on free tiers</p>
                 <div className="links">
                   <a
@@ -692,6 +705,8 @@ export default function Home() {
             </p>
           </Reveal>
 
+          <TechLogos />
+
           <div className="skills">
             {[
               ["Querying and languages", ["SQL", "Python", "R", "Java", "C and C++", "TypeScript"]],
@@ -709,7 +724,7 @@ export default function Home() {
               ],
               [
                 "Showing people the answer",
-                ["Tableau", "Power BI", "Matplotlib", "Seaborn", "Plotly", "Narrative visualisation"],
+                ["Tableau", "Matplotlib", "Seaborn", "Plotly", "Narrative visualisation"],
               ],
               [
                 "Machine learning",
