@@ -1,5 +1,6 @@
 import Nav from "./components/Nav";
 import Cover from "./components/Cover";
+import { RankFlip, HostEscalation, ForecastRecord } from "./components/dissertation";
 import Scrubber from "./components/Scrubber";
 import Reveal from "./components/Reveal";
 import Ambience from "./components/Ambience";
@@ -215,6 +216,8 @@ export default function Home() {
               If you had picked your model the usual way, you would have picked the wrong one and
               never known.
             </p>
+
+            <RankFlip />
             <p className="body">
               I also went looking for a fix. Large language models were the obvious candidate, so
               I tried them in three separate jobs: classifying the traffic directly, generating
@@ -224,6 +227,8 @@ export default function Home() {
               The core experiment, predicting future packets and then classifying them, lost to
               simply classifying what you can already see in 18 of 21 configurations.
             </p>
+
+            <ForecastRecord />
             <p className="body">
               None of that is the result I wanted. All of it is in the report. There is a
               verification notebook that reloads the saved models, retrains the baseline live and
@@ -237,6 +242,8 @@ export default function Home() {
               captures, then failed on a different malware family, which is a limit worth
               reporting rather than a result worth hiding.
             </p>
+
+            <HostEscalation />
             <p>
               <a
                 className="link"
