@@ -166,6 +166,18 @@ a {
   width: 100%;
 }
 
+/* Below this width the blob hits its clamp floor while the hero text keeps
+   narrowing, so the two collide and the handwritten line becomes unreadable.
+   Pull it back and fade it rather than dropping it. */
+@media (max-width: 900px) {
+  .bigshape-wrap {
+    width: clamp(150px, 26vw, 210px);
+    right: -10vw;
+    top: -1vh;
+    opacity: calc(var(--blob-alpha) * 0.45);
+  }
+}
+
 /* small drawn chapter mark */
 .mark {
   width: 30px;
