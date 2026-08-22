@@ -1024,3 +1024,169 @@ footer p {
     padding: 24px 20px;
   }
 }
+
+/* ==================================================================
+   The plotting surface. The page is drawn as a measurement canvas:
+   a faint grid, and a numbered axis down the left edge that tracks
+   scroll. Reasoning in wiki/design-research-2026-08.md.
+   ================================================================== */
+
+.plot-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* dots at the intersections, then the lines themselves */
+  background-image:
+    radial-gradient(var(--rule-strong) 1px, transparent 1px),
+    linear-gradient(to right, var(--rule) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--rule) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 120px 120px;
+  background-position: -1px -1px, 0 0, 0 0;
+  opacity: 0.5;
+  /* strongest at the edges, almost gone behind the column of prose */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.06) 32%,
+    rgba(0, 0, 0, 0.06) 68%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.06) 32%,
+    rgba(0, 0, 0, 0.06) 68%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+}
+
+.plot-axis {
+  position: fixed;
+  left: 22px;
+  top: 14vh;
+  bottom: 14vh;
+  width: 46px;
+  z-index: 2;
+  pointer-events: none;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/* Full-bleed sections (the filmstrip) run under the axis, so it needs its
+   own ground to stay legible rather than sitting on a card edge. */
+.plot-axis::before {
+  content: "";
+  position: absolute;
+  inset: -3vh -10px;
+  background: var(--ground);
+  -webkit-mask-image: linear-gradient(to right, #000 62%, transparent 100%);
+  mask-image: linear-gradient(to right, #000 62%, transparent 100%);
+  transition: background-color 900ms var(--ease-out);
+}
+
+.plot-axis-line {
+  position: absolute;
+  left: 34px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--rule);
+}
+
+.plot-tick {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+}
+
+.plot-tick::after {
+  content: "";
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  width: 6px;
+  height: 1px;
+  background: var(--rule-strong);
+}
+
+.plot-tick-label {
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  opacity: 0.55;
+  font-variant-numeric: tabular-nums;
+}
+
+.plot-cursor {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+  transition: top 120ms linear;
+}
+
+.plot-cursor::after {
+  content: "";
+  position: absolute;
+  left: 31px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin-top: -3.5px;
+  border-radius: 50%;
+  background: var(--c2);
+}
+
+.plot-cursor-label {
+  position: relative;
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: var(--ground);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 1280px) {
+  .plot-axis {
+    display: none;
+  }
+  .plot-grid {
+    opacity: 0.28;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plot-cursor {
+    transition: none;
+  }
+}
+
+/* ---- statement typography -------------------------------------------
+   Confidence on a pastel field cannot come from contrast, so it comes
+   from scale and space instead. */
+
+h2 {
+  font-size: clamp(2.6rem, 7.2vw, 5.4rem);
+  letter-spacing: -0.038em;
+  line-height: 0.98;
+}
+
+/* Chapter eyebrows read as instrument labels: mono, tracked, with a
+   terminal cursor. */
+.chapter-mark .meta {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.19em;
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.chapter-mark .meta::after {
+  content: "_";
+  opacity: 0.5;
+}

@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
+import PlotSurface from "./components/PlotSurface";
 
 /* Display face with actual character. Geist alone is clean but anonymous,
    and anonymous is most of what makes a page look machine-made. */
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <SmoothScroll />
+        <PlotSurface />
         {children}
       </body>
     </html>
