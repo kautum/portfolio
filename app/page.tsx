@@ -1,6 +1,7 @@
 import Nav from "./components/Nav";
+import HowIWork from "./components/HowIWork";
 import TechLogos from "./components/TechLogos";
-import { RankFlip, HostEscalation, ForecastRecord } from "./components/dissertation";
+import { RankFlip } from "./components/dissertation";
 import Scrubber from "./components/Scrubber";
 import Reveal from "./components/Reveal";
 import Ambience from "./components/Ambience";
@@ -143,6 +144,13 @@ export default function Home() {
         </div>
       </header>
 
+      {/* ---------------- who I am, and how I work ---------------- */}
+      <section className="section" id="how" data-tint="#faf3dc" data-tint-dark="#201d16">
+        <div className="wrap relative">
+          <HowIWork />
+        </div>
+      </section>
+
       {/* ---------------- 1. story ---------------- */}
       <section className="section" id="story" data-tint="#e9f1e7" data-tint-dark="#181b17">
         <div className="wrap relative">
@@ -225,8 +233,6 @@ export default function Home() {
               The core experiment, predicting future packets and then classifying them, lost to
               simply classifying what you can already see in 18 of 21 configurations.
             </p>
-
-            <ForecastRecord />
             <p className="body">
               None of that is the result I wanted. All of it is in the report. There is a
               verification notebook that reloads the saved models, retrains the baseline live and
@@ -240,8 +246,6 @@ export default function Home() {
               captures, then failed on a different malware family, which is a limit worth
               reporting rather than a result worth hiding.
             </p>
-
-            <HostEscalation />
             <p>
               <a
                 className="link"
@@ -342,79 +346,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------------- 4. how I work ---------------- */}
-      <section className="section clip" id="how" data-tint="#faf3dc" data-tint-dark="#201d16">
-        <div className="bigshape-wrap" data-parallax="0.05" aria-hidden="true">
-          <BigShape shape="square" colour="--c1" />
-        </div>
-        <div className="wrap relative">
-          <Reveal className="section-head">
-            <ChapterMark n="Chapter four" colour="--c1" shape="square" />
-            <h2>
-              I am fast, and{" "}
-              <span className="pop" style={{ ["--pop" as string]: "var(--c1)" }}>
-                deliberate
-              </span>{" "}
-              about why.
-            </h2>
-            <p className="body">
-              I build with AI tools properly rather than casually, and most of that work is
-              scaffolding. A model is only as useful as what it knows about your problem, so
-              before it touches anything I give it a structured knowledge base to read: what is
-              true, where each fact came from, and which file to open when it is not sure. I keep
-              one for my dissertation, one for my job search, and one for this site.
-            </p>
-            <p className="body">
-              In practice that means Claude Code with a plugin set I have tuned, MCP servers for
-              the tools I reach for often, and a written brief committed alongside the code so
-              anyone, or anything, joining the project starts from an accurate picture instead of
-              guessing from whichever file they opened first.
-            </p>
-            <p className="body">
-              Writing the code is rarely the slow part. Deciding what to build, checking whether
-              the result is actually true, and being able to show your working are the slow parts.
-              Tools that draft quickly are worth a great deal once you have done that thinking,
-              and a liability before you have.
-            </p>
-          </Reveal>
-
-          <div className="panel-grid">
-            <Reveal delay={40} className="panel">
-              <p className="meta">One week, solo</p>
-              <h3>A deployed product</h3>
-              <p className="panel-body">
-                Read a job posting as a content problem rather than a chatbot one, then built and
-                shipped the campaign generator it was actually describing.
-              </p>
-            </Reveal>
-            <Reveal delay={80} className="panel">
-              <p className="meta">One day, at a hackathon</p>
-              <h3>Two agents talking</h3>
-              <p className="panel-body">
-                A banking customer service pair on Google&apos;s A2A protocol, with retrieval that
-                only pays for the expensive call when the cheap one comes up short.
-              </p>
-            </Reveal>
-            <Reveal delay={120} className="panel">
-              <p className="meta">A codebase I had never seen</p>
-              <h3>Documented, then fixed</h3>
-              <p className="panel-body">
-                Cloned a research tool, got it running, wrote the guide it was missing, and
-                closed an authentication bypass that let anyone skip the login entirely.
-              </p>
-            </Reveal>
-          </div>
-
-          <Reveal delay={60}>
-            <p className="body" style={{ marginTop: 30 }}>
-              I am applying for data analyst roles because that is where my skills genuinely line
-              up: SQL, Python, statistics, and communicating a result to someone who did not do
-              the analysis. I could present myself as something more senior. I would rather be
-              right about it.
-            </p>
-          </Reveal>
-        </div>
-      </section>
 
       {/* ---------------- 5. projects ---------------- */}
       <section className="section" id="projects" data-tint="#f0e9f6" data-tint-dark="#1d1922">

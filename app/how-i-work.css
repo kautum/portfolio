@@ -1,0 +1,121 @@
+/* ============================================================
+   HowIWork.tsx. Content only: no outer .section/.wrap here, this
+   is meant to sit inside an existing section/wrap pair the same
+   way TechLogos and Filmstrip do. Every colour below comes from
+   the shared custom properties so both themes stay correct.
+   ============================================================ */
+
+.hiw-eyebrow {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin: 0 0 14px;
+}
+
+.hiw-position {
+  color: var(--ink-mute);
+  max-width: 64ch;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ---------------- two-second scan ---------------- */
+.hiw-scan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 28px;
+  margin: 44px 0 56px;
+  padding-top: 28px;
+  border-top: 1px solid var(--rule);
+}
+
+.hiw-scan-rule {
+  width: 34px;
+  height: 4px;
+  border-radius: 2px;
+  margin-bottom: 16px;
+}
+
+.hiw-scan-number {
+  font-size: clamp(1.9rem, 4vw, 2.5rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  color: var(--ink);
+  margin: 0 0 10px;
+}
+
+.hiw-scan-label {
+  font-size: 14.5px;
+  line-height: 1.42;
+  color: var(--ink-mute);
+  max-width: 32ch;
+  margin: 0;
+}
+
+/* ---------------- method ---------------- */
+.hiw-method {
+  margin-bottom: 56px;
+}
+
+.hiw-method-body {
+  color: var(--ink-mute);
+  max-width: 66ch;
+  margin: 0 0 20px;
+}
+
+.hiw-method-line {
+  color: var(--ink);
+  max-width: 60ch;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  margin: 28px 0 0;
+  padding-left: 20px;
+  border-left: 3px solid var(--c1);
+}
+
+/* ---------------- evidence ---------------- */
+.hiw-evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.hiw-evidence-card {
+  background: var(--panel);
+  box-shadow: var(--panel-shadow);
+  border-radius: 6px;
+  border-left: 3px solid var(--rule-strong);
+  padding: 26px 24px;
+}
+
+.hiw-evidence-meta {
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  color: var(--ink-mute);
+  margin: 0 0 8px;
+}
+
+.hiw-evidence-title {
+  font-size: 1.15rem;
+  margin: 0 0 10px;
+}
+
+.hiw-evidence-body {
+  color: var(--ink-mute);
+  font-size: 15.5px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ---------------- close ---------------- */
+.hiw-close {
+  color: var(--ink-mute);
+  max-width: 62ch;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  margin: 56px 0 0;
+}

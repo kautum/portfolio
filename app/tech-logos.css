@@ -6,6 +6,12 @@
    it reads as one confident band, costs a fraction of the height, and
    gives the eye a reason to stop. It pauses when you hover or tab into
    it, so it never fights someone actually trying to read it.
+
+   The card itself stays quiet (panel background, hairline border) —
+   colour lives only in the glyph, via each logo's own `--tl-brand`
+   custom property (set inline per item in TechLogos.tsx from Simple
+   Icons' official brand hex). Hover picks up a tint of that same colour
+   in the border and shadow, so the punch is per-brand, not a fixed accent.
    ------------------------------------------------------------------ */
 
 .tl-root {
@@ -20,7 +26,7 @@
   width: 100vw;
   margin-left: 50%;
   transform: translateX(-50%);
-  padding: 4px 0;
+  padding: 8px 0;
   /* fade both ends so items enter and leave rather than being cut off */
   -webkit-mask-image: linear-gradient(
     to right,
@@ -40,7 +46,7 @@
 
 .tl-track {
   display: flex;
-  gap: 14px;
+  gap: 22px;
   width: max-content;
   margin: 0;
   padding: 0;
@@ -70,43 +76,96 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  width: 112px;
-  height: 104px;
+  gap: 14px;
+  width: 164px;
+  height: 156px;
   border: 1px solid var(--rule);
-  border-radius: 12px;
+  border-radius: 16px;
   background: var(--panel);
   box-shadow: var(--panel-shadow);
-  color: var(--ink-mute);
-  transition: color 260ms var(--ease-out), border-color 260ms var(--ease-out),
-    transform 260ms var(--ease-out);
+  transition: transform 220ms var(--ease-out),
+    border-color 220ms var(--ease-out), box-shadow 220ms var(--ease-out);
 }
 
 .tl-item:hover {
-  color: var(--ink);
-  border-color: var(--rule-strong);
-  transform: translateY(-3px);
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--tl-brand) 55%, var(--rule-strong));
+  box-shadow: 0 18px 32px -14px
+      color-mix(in srgb, var(--tl-brand) 45%, transparent),
+    var(--panel-shadow);
 }
 
 .tl-glyph {
-  width: 26px;
-  height: 26px;
-  fill: currentColor;
+  width: 60px;
+  height: 60px;
+}
+
+.tl-glyph path {
+  fill: var(--tl-brand);
+}
+
+/* Brand hex fails contrast against the light card for these (Jupyter,
+   scikit-learn, Hugging Face, Linux, React) — use ink there, and restore
+   the brand colour once the dark panel gives it enough contrast again. */
+.tl-item[data-override="light"] .tl-glyph path {
+  fill: var(--ink);
+}
+:root[data-theme="dark"] .tl-item[data-override="light"] .tl-glyph path {
+  fill: var(--tl-brand);
+}
+
+/* Brand hex fails contrast against the dark card for these (pandas, NumPy,
+   LangChain, GitHub, Next.js, Vercel) — the light panel is fine, so only
+   swap to ink once dark mode is active. */
+:root[data-theme="dark"] .tl-item[data-override="dark"] .tl-glyph path {
+  fill: var(--ink);
 }
 
 .tl-label {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: 0.06em;
   text-align: center;
   line-height: 1.2;
+  color: var(--ink-mute);
+}
+
+@media (max-width: 640px) {
+  .tl-track {
+    gap: 16px;
+  }
+  .tl-item {
+    width: 132px;
+    height: 126px;
+    gap: 11px;
+    border-radius: 14px;
+  }
+  .tl-glyph {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 420px) {
+  .tl-item {
+    width: 112px;
+    height: 108px;
+    gap: 9px;
+  }
+  .tl-glyph {
+    width: 40px;
+    height: 40px;
+  }
+  .tl-label {
+    font-size: 10px;
+  }
 }
 
 /* Reduced motion: no movement at all, just a wrapped static grid. */
 .tl-static .tl-strip {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 18px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -122,5 +181,8 @@
   }
   .tl-item {
     transition: none;
+  }
+  .tl-item:hover {
+    transform: none;
   }
 }
