@@ -651,21 +651,25 @@ p {
 }
 
 .sstrip-panel .year {
-  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
-  letter-spacing: -0.04em;
-  line-height: 1;
-  margin: 0 0 18px;
+  font-size: clamp(2.6rem, 5.2vw, 4.2rem);
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+  margin: 0;
 }
 
+/* The drawing carries the card and the sentence supports it. It used to be
+   the other way round, which is why these read as boxes of text. */
 .sstrip-panel p {
   color: var(--ink-mute);
-  font-size: 17px;
+  font-size: 15.5px;
+  line-height: 1.5;
+  max-width: 34ch;
   margin: 0;
 }
 
 .sstrip-dot {
-  width: 46px;
-  margin-bottom: 20px;
+  width: 128px;
+  margin-bottom: 26px;
 }
 
 /* below the pin threshold it becomes an ordinary swipeable row */

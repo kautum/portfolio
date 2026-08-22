@@ -168,7 +168,7 @@ export default function Home() {
           {STOPS.map((s) => (
             <article className="sstrip-panel" key={s.year}>
               <div>
-                <Mark shape={s.shape} colour={s.colour} size={46} className="sstrip-dot" />
+                <Mark shape={s.shape} colour={s.colour} size={128} className="sstrip-dot" />
                 <p className="year">{s.year}</p>
               </div>
               <p>{s.text}</p>
@@ -570,6 +570,50 @@ export default function Home() {
                     rel="noopener noreferrer"
                   >
                     The fork and its docs
+                  </a>
+                </div>
+              </article>
+
+              <article className="card">
+                <p className="meta">1.86 million sales, all of it in SQL</p>
+                <h3>What UK house prices actually did, asked in SQL</h3>
+                <dl>
+                  <dt>the question</dt>
+                  <dd>
+                    Every other project here is Python. SQL is the thing an analyst is tested on
+                    first, so it needed a piece of work of its own rather than a line on a list.
+                  </dd>
+                  <dt>what I did</dt>
+                  <dd>
+                    Loaded every Land Registry Price Paid sale for 2024 and 2025, 1.86 million of
+                    them, plus the official House Price Index, into a DuckDB star schema. Six
+                    questions, and every analytical step is a query: joins, chained CTEs, window
+                    functions, moving averages, medians. Python only downloads the files and runs
+                    the SQL.
+                  </dd>
+                  <dt>what came out</dt>
+                  <dd>
+                    New builds carry a 25.3% premium. March 2025 saw 123,129 sales before the
+                    stamp duty change, then April collapsed to 33,803, and splitting England from
+                    Wales proves the tax caused it rather than the season. The tidy assumption
+                    that cash buyers cluster at the top does not survive contact with the data:
+                    the correlation is -0.092, which is nothing.
+                  </dd>
+                  <dt>the less fun part</dt>
+                  <dd>
+                    A limitations section, and a script that re-checks all 76 numbers in the
+                    README against the query output. It caught two of my own errors.
+                  </dd>
+                </dl>
+                <p className="stack">DuckDB, SQL, Python, open government data</p>
+                <div className="links">
+                  <a
+                    className="link"
+                    href="https://github.com/kautum/uk-housing-sql"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    The queries and the findings
                   </a>
                 </div>
               </article>
