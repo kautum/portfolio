@@ -33,7 +33,7 @@ const STOPS: { year: string; text: string; colour: string; shape: MarkShape }[] 
     text: "A month at Finstein, benchmarking deep learning architectures for a fintech product team and cleaning up their structured financial data.",
   },
   {
-    year: "Jul 2025",
+    year: "Mar to Jul 2025",
     shape: "arc",
     colour: "--c4",
     text: "Back at Celcom for five months. Built the reporting chatbot that ended up saving the team most of a working day each week.",
@@ -270,10 +270,11 @@ export default function Home() {
             <p className="body">
               At Celcom the employee monitoring reports were put together by hand, every single
               time. Someone would open the RFID logs, pull out what mattered and write it up. I
-              built a retrieval chatbot in n8n that assembled them instead. Before anyone was
-              allowed to rely on it, I checked its answers against several different document
-              formats, because a reporting tool that is right most of the time is worse than no
-              tool at all.
+              built a retrieval chatbot in n8n that assembled them instead. The team reading those
+              reports had no way to check my working, so before anyone was allowed to rely on it, I
+              checked its answers myself against several different document formats, because a
+              reporting tool that is right most of the time is worse than no tool at all. The team
+              took it on afterwards and it cut their reporting time by 60%.
             </p>
           </Reveal>
 
@@ -380,15 +381,18 @@ export default function Home() {
               </div>
 
               <p className="body">
-                Structured on Munzner&apos;s why, what and how framework, with Segel and
-                Heer&apos;s martini glass model: I lead the reader through the argument first,
-                then hand over and let them explore. Every palette was checked against
-                ColorBrewer for colour blind safety. Each figure records the alternative encoding
-                I tried and rejected, and why: a Sankey for the gear flows looked striking but hid
-                absolute magnitude, and a choropleth for labour abuses would have made countries
-                with no data look clean. The paper also carries a section on what the data cannot
-                show, since FAO statistics exclude most illegal catch and labour figures count
-                only documented cases.
+                The whole thing is built for a reader seeing the data for the first time, not for
+                someone marking a methods section. I used Munzner&apos;s why, what and how
+                framework and Segel and Heer&apos;s martini glass model on purpose: lead the
+                reader through the argument on a fixed path first, then hand over control so they
+                can explore the same data themselves. That discipline showed up most in what I
+                turned down. A Sankey diagram for the gear flows looked the most striking option by
+                far, but it hid the absolute scale of the numbers, so it went. A choropleth map for
+                labour abuses would have painted every country with no data the same reassuring
+                colour as a country with none of the problem, so that went too. Every palette that
+                did make the cut was checked against ColorBrewer for colour blind safety. The paper
+                also carries a section on what the data cannot show, since FAO statistics exclude
+                most illegal catch and labour figures count only documented cases.
               </p>
               <p className="stack">Python, pandas, NumPy, Matplotlib, Tableau</p>
               <div className="links">
@@ -421,9 +425,10 @@ export default function Home() {
                 The honest answer is a qualified yes. Livability does improve with park access,
                 but the fit is modest and the headline relationship people expect is not there at
                 all: flood risk tracks the river, not the parks. Central boroughs with the best
-                green access still carry the worst air. Writing that up as "parks help, but they
-                do not buy you out of geography" was more useful than a cleaner claim would have
-                been.
+                green access still carry the worst air. It would have been a tidier group
+                write-up to just say parks help. Saying instead that the effect is real but small,
+                and that flood risk has nothing to do with green space, was the less comfortable
+                finding and the one we actually handed in.
               </p>
               <p className="stack">Python, pandas, Matplotlib, ColorBrewer palettes</p>
             </div>
@@ -431,6 +436,50 @@ export default function Home() {
 
           <Reveal delay={60}>
             <Filmstrip>
+              <article className="card">
+                <p className="meta">1.86 million sales, all of it in SQL</p>
+                <h3>What UK house prices actually did, asked in SQL</h3>
+                <dl>
+                  <dt>the question</dt>
+                  <dd>
+                    Every other project here is Python. SQL is the first thing an analyst gets tested on, so it needed a piece of work of its
+                    own.
+                  </dd>
+                  <dt>what I did</dt>
+                  <dd>
+                    Loaded every Land Registry Price Paid sale for 2024 and 2025, 1.86 million of
+                    them, plus the official House Price Index, into a DuckDB star schema. Six
+                    questions, and every analytical step is a query: joins, chained CTEs, window
+                    functions, moving averages, medians. Python only downloads the files and runs
+                    the SQL.
+                  </dd>
+                  <dt>what came out</dt>
+                  <dd>
+                    New builds carry a 25.3% premium. March 2025 saw 123,129 sales before the
+                    stamp duty change, then April collapsed to 33,803, and splitting England from
+                    Wales shows the tax caused it, since Wales sets its own thresholds. The tidy assumption
+                    that cash buyers cluster at the top does not survive contact with the data:
+                    the correlation is -0.092, which is nothing.
+                  </dd>
+                  <dt>the less fun part</dt>
+                  <dd>
+                    A limitations section, and a script that re-checks all 76 numbers in the
+                    README against the query output. It caught two of my own errors.
+                  </dd>
+                </dl>
+                <p className="stack">DuckDB, SQL, Python, open government data</p>
+                <div className="links">
+                  <a
+                    className="link"
+                    href="https://github.com/kautum/uk-housing-sql"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    The queries and the findings
+                  </a>
+                </div>
+              </article>
+
               <article className="card">
                 <p className="meta">A case study for a research analyst role</p>
                 <h3>What happens to a stock when an index quietly drops it</h3>
@@ -557,7 +606,9 @@ export default function Home() {
                     logging in. I put the guard on the single endpoint every callback passes
                     through, so one added next year is covered too. Also a path traversal in the
                     upload handler, a race in session tracking that broke the site for everyone,
-                    and a worker pool that leaked on a malformed file. Upstream&apos;s branch is
+                    and a worker pool that leaked on a malformed file. It had no production users
+                    at the time, so nothing was actually exposed by it, but the flaw itself was
+                    the kind that matters badly once real users show up. Upstream&apos;s branch is
                     untouched so the two can be diffed, and I committed a brief at the root that
                     coding assistants read automatically.
                   </dd>
@@ -571,50 +622,6 @@ export default function Home() {
                     rel="noopener noreferrer"
                   >
                     The fork and its docs
-                  </a>
-                </div>
-              </article>
-
-              <article className="card">
-                <p className="meta">1.86 million sales, all of it in SQL</p>
-                <h3>What UK house prices actually did, asked in SQL</h3>
-                <dl>
-                  <dt>the question</dt>
-                  <dd>
-                    Every other project here is Python. SQL is the first thing an analyst gets tested on, so it needed a piece of work of its
-                    own.
-                  </dd>
-                  <dt>what I did</dt>
-                  <dd>
-                    Loaded every Land Registry Price Paid sale for 2024 and 2025, 1.86 million of
-                    them, plus the official House Price Index, into a DuckDB star schema. Six
-                    questions, and every analytical step is a query: joins, chained CTEs, window
-                    functions, moving averages, medians. Python only downloads the files and runs
-                    the SQL.
-                  </dd>
-                  <dt>what came out</dt>
-                  <dd>
-                    New builds carry a 25.3% premium. March 2025 saw 123,129 sales before the
-                    stamp duty change, then April collapsed to 33,803, and splitting England from
-                    Wales shows the tax caused it, since Wales sets its own thresholds. The tidy assumption
-                    that cash buyers cluster at the top does not survive contact with the data:
-                    the correlation is -0.092, which is nothing.
-                  </dd>
-                  <dt>the less fun part</dt>
-                  <dd>
-                    A limitations section, and a script that re-checks all 76 numbers in the
-                    README against the query output. It caught two of my own errors.
-                  </dd>
-                </dl>
-                <p className="stack">DuckDB, SQL, Python, open government data</p>
-                <div className="links">
-                  <a
-                    className="link"
-                    href="https://github.com/kautum/uk-housing-sql"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    The queries and the findings
                   </a>
                 </div>
               </article>
@@ -682,7 +689,7 @@ export default function Home() {
 
           <div className="skills">
             {[
-              ["Querying and languages", ["SQL", "Python", "R", "Java", "C and C++", "TypeScript"]],
+              ["Querying and languages", ["SQL", "Python", "Java", "TypeScript"]],
               [
                 "Analysis and statistics",
                 [
@@ -746,8 +753,9 @@ export default function Home() {
               <h3>MSc Data Science</h3>
               <p className="panel-body">
                 King&apos;s College London. Machine learning, deep learning and neural networks,
-                big data technologies, data mining, database management, statistics for finance,
-                and the data visualisation and storytelling module that produced the seafood
+                big data technologies, data mining, database management, and statistics for
+                finance, where the coursework ran on data extracted from Bloomberg Terminal,
+                plus the data visualisation and storytelling module that produced the seafood
                 project. Dissertation handed in August 2026.
               </p>
             </Reveal>

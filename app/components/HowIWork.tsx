@@ -60,8 +60,8 @@ const SCAN: { stat: string; label: string; colour: string }[] = [
     colour: "--c3",
   },
   {
-    stat: "1 bypass, closed",
-    label: "Found and fixed an authentication bypass in a codebase I had never opened before that week.",
+    stat: "1.86M rows",
+    label: "Every Land Registry sale for 2024 and 2025, analysed in SQL. Joins, chained CTEs, window functions, and a script that re-checks every number in the write-up.",
     colour: "--c4",
   },
 ];
@@ -87,7 +87,7 @@ const EVIDENCE: { meta: string; title: string; body: string; colour: string }[] 
   },
   {
     meta: "A codebase I had never opened",
-    title: "Documented it, then closed an authentication bypass",
+    title: "Read an unfamiliar codebase, then fixed what was broken",
     body: "Forked a research tool built at King's, got it running from a clean clone, and wrote the documentation it was missing. The most serious defect I found and fixed was an authentication bypass: the framework registered every callback globally, so anyone who knew the component IDs could run the whole pipeline without logging in.",
     colour: "--c4",
   },
