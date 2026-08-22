@@ -1,4 +1,5 @@
 import Nav from "./components/Nav";
+import Cover from "./components/Cover";
 import Scrubber from "./components/Scrubber";
 import Reveal from "./components/Reveal";
 import Ambience from "./components/Ambience";
@@ -66,6 +67,8 @@ export default function Home() {
       <span id="top" />
 
       {/* ---------------- hero ---------------- */}
+      <Cover />
+
       <header className="hero" data-tint="#fcf8f6" data-tint-dark="#1c1a22">
         <div className="bigshape-wrap" data-parallax="0.05" aria-hidden="true">
           <BigShape shape="circle" colour="--c2" />

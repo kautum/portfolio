@@ -1190,3 +1190,135 @@ h2 {
   content: "_";
   opacity: 0.5;
 }
+
+/* ==================================================================
+   Cover. One enormous word with the dissertation's result drawn
+   through it. Impact on a pastel field comes from scale and space,
+   not contrast, so this screen holds one idea and nothing else.
+   ================================================================== */
+
+.cover {
+  position: relative;
+  z-index: 1;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 12vh var(--gutter) 8vh;
+}
+
+/* clear the fixed measurement axis so the cover never runs under it */
+@media (min-width: 1281px) {
+  .cover {
+    padding-left: 96px;
+  }
+}
+
+.cover-inner {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.cover-eyebrow {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.26em;
+  font-size: clamp(10px, 1.1vw, 13px);
+  color: var(--ink-mute);
+  margin: 0 0 clamp(10px, 1.6vw, 22px) 0.35em;
+}
+
+.cover-word-wrap {
+  position: relative;
+}
+
+.cover-word {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: clamp(2.4rem, 15.2vw, 15rem);
+  line-height: 0.84;
+  font-weight: 700;
+  letter-spacing: -0.055em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.cover-year {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: clamp(11px, 1.5vw, 22px);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  vertical-align: super;
+  margin-left: 0.35em;
+  color: var(--ink-mute);
+}
+
+/* The curve rides over the word. Multiply keeps the ink of the letters
+   visible through it rather than punching a hole in them. */
+.cover-curve {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: -6%;
+  height: 62%;
+  pointer-events: none;
+  mix-blend-mode: var(--blend);
+  opacity: 0.92;
+}
+
+.cover-curve .rough-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.cover-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 22px;
+  margin-top: clamp(26px, 5vw, 62px);
+}
+
+.cover-caption {
+  max-width: 46ch;
+  margin: 0;
+  font-size: clamp(14px, 1.35vw, 17px);
+  line-height: 1.55;
+  color: var(--ink-mute);
+}
+
+.cover-reading {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.cover-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cover-chips li {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
+@media (max-width: 700px) {
+  .cover-foot {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
