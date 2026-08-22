@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import "./tech-logos.css";
+import "./crests.css";
 import SmoothScroll from "./components/SmoothScroll";
 
 /* Display face with actual character. Geist alone is clean but anonymous,

@@ -1,5 +1,6 @@
 import Nav from "./components/Nav";
 import HowIWork from "./components/HowIWork";
+import { Crest, CredentialMark } from "./components/Crests";
 import TechLogos from "./components/TechLogos";
 import { RankFlip } from "./components/dissertation";
 import Scrubber from "./components/Scrubber";
@@ -580,8 +581,8 @@ export default function Home() {
                 <dl>
                   <dt>the question</dt>
                   <dd>
-                    Every other project here is Python. SQL is the thing an analyst is tested on
-                    first, so it needed a piece of work of its own rather than a line on a list.
+                    Every other project here is Python. SQL is the first thing an analyst gets tested on, so it needed a piece of work of its
+                    own.
                   </dd>
                   <dt>what I did</dt>
                   <dd>
@@ -595,7 +596,7 @@ export default function Home() {
                   <dd>
                     New builds carry a 25.3% premium. March 2025 saw 123,129 sales before the
                     stamp duty change, then April collapsed to 33,803, and splitting England from
-                    Wales proves the tax caused it rather than the season. The tidy assumption
+                    Wales shows the tax caused it, since Wales sets its own thresholds. The tidy assumption
                     that cash buyers cluster at the top does not survive contact with the data:
                     the correlation is -0.092, which is nothing.
                   </dd>
@@ -740,6 +741,7 @@ export default function Home() {
 
           <div className="panel-grid">
             <Reveal delay={40} className="panel">
+              <Crest institution="kcl" />
               <p className="meta">2025 to 2026, London</p>
               <h3>MSc Data Science</h3>
               <p className="panel-body">
@@ -750,6 +752,7 @@ export default function Home() {
               </p>
             </Reveal>
             <Reveal delay={80} className="panel">
+              <Crest institution="vit" />
               <p className="meta">2021 to 2025, Chennai</p>
               <h3>BTech, Computer Science</h3>
               <p className="panel-body">
@@ -759,6 +762,7 @@ export default function Home() {
               </p>
             </Reveal>
             <Reveal delay={120} className="panel">
+              <CredentialMark name="coursera" size={40} />
               <p className="meta">On my own time</p>
               <h3>Courses and languages</h3>
               <p className="panel-body">

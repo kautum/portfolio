@@ -105,10 +105,11 @@ export default function HowIWork() {
         <p className="hiw-eyebrow">Who I am, and how I work</p>
         <h2>Analyst on the application. Scientist and engineer in practice.</h2>
         <p className="hiw-position">
-          Data analyst is the role on my CV and the role I am applying for, because that is what
-          the London market will give someone with no job experience yet. The way I actually
-          think about a problem, and the way I build, is a data scientist&apos;s and an AI
-          engineer&apos;s, and both of those are true at once.
+          Data analyst is the role I am applying for, and I want it: the job is working out what
+          a number really says and being able to defend the answer to someone who did not do the
+          analysis. What I bring on top of it is how I got here. I came into this through machine
+          learning and building AI systems, so I tend to ask what would have to be true for a
+          result to hold, and then go and check.
         </p>
       </RiseIn>
 

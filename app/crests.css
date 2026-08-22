@@ -1,0 +1,41 @@
+/* ------------------------------------------------------------------
+   Crests.tsx: hand-drawn institution marks and CC0 credential glyphs.
+
+   Contrast check for each credential's official brand hex against the
+   two panel backgrounds (WCAG relative-luminance ratio, min 3:1 for a
+   non-text mark):
+
+     Claude    #D97757  vs light #fffdf8  3.07:1  OK
+               #D97757  vs dark  #242019  5.19:1  OK
+     Coursera  #0056D2  vs light #fffdf8  6.33:1  OK
+               #0056D2  vs dark  #242019  2.52:1  FAILS -> ink in dark
+     IEEE      #00629B  vs light #fffdf8  6.41:1  OK
+               #00629B  vs dark  #242019  2.49:1  FAILS -> ink in dark
+     Google    #4285F4  vs light #fffdf8  3.51:1  OK
+               #4285F4  vs dark  #242019  4.55:1  OK
+
+   Coursera and IEEE swap to var(--ink) once dark mode is active;
+   Claude and Google keep their brand colour in both themes.
+   ------------------------------------------------------------------ */
+
+.cr-crest {
+  aspect-ratio: 1;
+  flex: none;
+}
+
+.cr-crest-canvas {
+  width: 100%;
+}
+
+.cr-credential {
+  flex: none;
+  vertical-align: middle;
+}
+
+.cr-credential path {
+  fill: var(--cr-brand);
+}
+
+:root[data-theme="dark"] .cr-credential[data-override="dark"] path {
+  fill: var(--ink);
+}
