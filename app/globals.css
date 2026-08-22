@@ -10,25 +10,25 @@
 
 :root {
   /* --ground is written by Ambience.tsx as you move between chapters */
-  --ground: #f9f7fc;
-  --panel: #ffffff;
-  --ink: #2a2733;
-  --ink-mute: #615b70;
-  --rule: rgba(42, 39, 51, 0.13);
-  --rule-strong: rgba(42, 39, 51, 0.24);
-  --panel-shadow: 0 1px 3px rgba(42, 39, 51, 0.05);
+  --ground: #f7f3ea;
+  --panel: #fffdf8;
+  --ink: #1f1d1a;
+  --ink-mute: #6e695f;
+  --rule: rgba(31, 29, 26, 0.14);
+  --rule-strong: rgba(31, 29, 26, 0.26);
+  --panel-shadow: 0 1px 2px rgba(31, 29, 26, 0.05);
   --blend: multiply;
   --blob-alpha: 1;
 
   /* Pastels, but mid-tone rather than washed out. A hatched fill is thin
      lines with paper showing through, so anything paler than this stops
      reading as a colour at all. */
-  --c1: #eec87e;
-  --c2: #f09a8b;
-  --c3: #92aee0;
-  --c4: #9cc7ac;
-  --c5: #b9a3dc;
-  --c6: #eaa3ba;
+  --c1: #e6b854;
+  --c2: #e8836b;
+  --c3: #7295d1;
+  --c4: #7fae92;
+  --c5: #a58cc9;
+  --c6: #dd8ba0;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
@@ -38,22 +38,22 @@
 }
 
 :root[data-theme="dark"] {
-  --ground: #1c1a22;
-  --panel: #24212c;
-  --ink: #f2eef7;
-  --ink-mute: #a8a1b4;
-  --rule: rgba(242, 238, 247, 0.16);
-  --rule-strong: rgba(242, 238, 247, 0.3);
+  --ground: #1b1917;
+  --panel: #242019;
+  --ink: #f4efe4;
+  --ink-mute: #9c9488;
+  --rule: rgba(244, 239, 228, 0.16);
+  --rule-strong: rgba(244, 239, 228, 0.3);
   --panel-shadow: none;
   --blend: screen;
   --blob-alpha: 0.62;
 
-  --c1: #f7dda8;
-  --c2: #f6b6ab;
-  --c3: #adc5ee;
-  --c4: #b2dbc1;
-  --c5: #cfbee8;
-  --c6: #f2bfd0;
+  --c1: #f2cd76;
+  --c2: #f0a08a;
+  --c3: #93b2e6;
+  --c4: #9ac5aa;
+  --c5: #bda6e0;
+  --c6: #eda8bb;
 }
 
 * {
@@ -62,14 +62,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-}
-
-/* Lenis drives scrolling. Native smooth-scroll fights it, so it is enabled
-   only as the fallback for anyone who has Lenis disabled by reduced motion. */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: smooth;
-  }
+  scroll-behavior: smooth;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -171,18 +164,6 @@ a {
 
 .bigshape {
   width: 100%;
-}
-
-/* Below this width the blob stops shrinking (the clamp floor) while the hero
-   text keeps getting narrower, so the two collide and the handwritten line
-   becomes unreadable. Pull it back and fade it rather than dropping it. */
-@media (max-width: 900px) {
-  .bigshape-wrap {
-    width: clamp(150px, 26vw, 210px);
-    right: -10vw;
-    top: -1vh;
-    opacity: calc(var(--blob-alpha) * 0.45);
-  }
 }
 
 /* small drawn chapter mark */
@@ -1025,307 +1006,8 @@ footer p {
   }
 }
 
-/* ==================================================================
-   The plotting surface. The page is drawn as a measurement canvas:
-   a faint grid, and a numbered axis down the left edge that tracks
-   scroll. Reasoning in wiki/design-research-2026-08.md.
-   ================================================================== */
-
-.plot-grid {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  /* dots at the intersections, then the lines themselves */
-  background-image:
-    radial-gradient(var(--rule-strong) 1px, transparent 1px),
-    linear-gradient(to right, var(--rule) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--rule) 1px, transparent 1px);
-  background-size: 120px 120px, 120px 120px, 120px 120px;
-  background-position: -1px -1px, 0 0, 0 0;
-  opacity: 0.5;
-  /* strongest at the edges, almost gone behind the column of prose */
-  -webkit-mask-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0.9) 0%,
-    rgba(0, 0, 0, 0.06) 32%,
-    rgba(0, 0, 0, 0.06) 68%,
-    rgba(0, 0, 0, 0.9) 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0.9) 0%,
-    rgba(0, 0, 0, 0.06) 32%,
-    rgba(0, 0, 0, 0.06) 68%,
-    rgba(0, 0, 0, 0.9) 100%
-  );
-}
-
-.plot-axis {
-  position: fixed;
-  left: 22px;
-  top: 14vh;
-  bottom: 14vh;
-  width: 46px;
-  z-index: 2;
-  pointer-events: none;
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-}
-
-/* Full-bleed sections (the filmstrip) run under the axis, so it needs its
-   own ground to stay legible rather than sitting on a card edge. */
-.plot-axis::before {
-  content: "";
-  position: absolute;
-  inset: -3vh -10px;
-  background: var(--ground);
-  -webkit-mask-image: linear-gradient(to right, #000 62%, transparent 100%);
-  mask-image: linear-gradient(to right, #000 62%, transparent 100%);
-  transition: background-color 900ms var(--ease-out);
-}
-
-.plot-axis-line {
-  position: absolute;
-  left: 34px;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--rule);
-}
-
-.plot-tick {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  transform: translateY(-50%);
-}
-
-.plot-tick::after {
-  content: "";
-  position: absolute;
-  right: 6px;
-  top: 50%;
-  width: 6px;
-  height: 1px;
-  background: var(--rule-strong);
-}
-
-.plot-tick-label {
-  font-size: 9.5px;
-  letter-spacing: 0.08em;
-  color: var(--ink-mute);
-  opacity: 0.55;
-  font-variant-numeric: tabular-nums;
-}
-
-.plot-cursor {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  transform: translateY(-50%);
-  transition: top 120ms linear;
-}
-
-.plot-cursor::after {
-  content: "";
-  position: absolute;
-  left: 31px;
-  top: 50%;
-  width: 7px;
-  height: 7px;
-  margin-top: -3.5px;
-  border-radius: 50%;
-  background: var(--c2);
-}
-
-.plot-cursor-label {
-  position: relative;
-  display: inline-block;
-  padding: 2px 4px;
-  border-radius: 4px;
-  background: var(--ground);
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
-}
-
-@media (max-width: 1280px) {
-  .plot-axis {
-    display: none;
-  }
-  .plot-grid {
-    opacity: 0.28;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .plot-cursor {
-    transition: none;
-  }
-}
-
-/* ---- statement typography -------------------------------------------
-   Confidence on a pastel field cannot come from contrast, so it comes
-   from scale and space instead. */
-
-h2 {
-  font-size: clamp(2.6rem, 7.2vw, 5.4rem);
-  letter-spacing: -0.038em;
-  line-height: 0.98;
-}
-
-/* Chapter eyebrows read as instrument labels: mono, tracked, with a
-   terminal cursor. */
-.chapter-mark .meta {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.19em;
-  font-size: 11px;
-  opacity: 0.8;
-}
-
-.chapter-mark .meta::after {
-  content: "_";
-  opacity: 0.5;
-}
-
-/* ==================================================================
-   Cover. One enormous word with the dissertation's result drawn
-   through it. Impact on a pastel field comes from scale and space,
-   not contrast, so this screen holds one idea and nothing else.
-   ================================================================== */
-
-.cover {
-  position: relative;
-  z-index: 1;
-  min-height: 100svh;
-  display: flex;
-  align-items: center;
-  padding: 12vh var(--gutter) 8vh;
-}
-
-/* clear the fixed measurement axis so the cover never runs under it */
-@media (min-width: 1281px) {
-  .cover {
-    padding-left: 96px;
-  }
-}
-
-.cover-inner {
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-}
-
-.cover-eyebrow {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.26em;
-  font-size: clamp(10px, 1.1vw, 13px);
-  color: var(--ink-mute);
-  margin: 0 0 clamp(10px, 1.6vw, 22px) 0.35em;
-}
-
-.cover-word-wrap {
-  position: relative;
-}
-
-.cover-word {
-  position: relative;
-  z-index: 1;
-  margin: 0;
-  font-size: clamp(2.4rem, 15.2vw, 15rem);
-  line-height: 0.84;
-  font-weight: 700;
-  letter-spacing: -0.055em;
-  color: var(--ink);
-  white-space: nowrap;
-}
-
-.cover-year {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: clamp(11px, 1.5vw, 22px);
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  vertical-align: super;
-  margin-left: 0.35em;
-  color: var(--ink-mute);
-}
-
-/* The curve rides over the word. Multiply keeps the ink of the letters
-   visible through it rather than punching a hole in them. */
-.cover-curve {
-  position: absolute;
-  z-index: 2;
-  left: 0;
-  right: 0;
-  bottom: -6%;
-  height: 62%;
-  pointer-events: none;
-  mix-blend-mode: var(--blend);
-  opacity: 0.92;
-}
-
-.cover-curve .rough-svg {
-  width: 100%;
-  height: 100%;
-}
-
-.cover-foot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 22px;
-  margin-top: clamp(26px, 5vw, 62px);
-}
-
-.cover-caption {
-  max-width: 46ch;
-  margin: 0;
-  font-size: clamp(14px, 1.35vw, 17px);
-  line-height: 1.55;
-  color: var(--ink-mute);
-}
-
-.cover-reading {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.cover-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.cover-chips li {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-mute);
-  border: 1px solid var(--rule-strong);
-  border-radius: 999px;
-  padding: 6px 12px;
-}
-
-@media (max-width: 700px) {
-  .cover-foot {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
 /* A real screenshot of a shipped product. Stock imagery on an analyst's
-   portfolio reads as filler; a running artifact with his name in its header
-   does the opposite. */
+   portfolio reads as filler; a running artifact does the opposite. */
 .shot {
   margin: 26px 0 18px;
 }

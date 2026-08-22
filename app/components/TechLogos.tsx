@@ -1,8 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView, useReducedMotion } from "motion/react";
-import type { Variants } from "motion/react";
+import { useReducedMotion } from "motion/react";
 
 /**
  * Path data is copied verbatim from the Simple Icons project (CC0,
@@ -151,21 +149,7 @@ const GROUPS: TechGroup[] = [
   },
 ];
 
-const containerVariants: Variants = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.035, delayChildren: 0.05 },
-  },
-};
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 14 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { type: "spring", stiffness: 120, damping: 18, mass: 0.7 },
-  },
-};
 
 function LogoGlyph({ d, name }: { d: string; name: string }) {
   return (
@@ -183,43 +167,50 @@ function LogoGlyph({ d, name }: { d: string; name: string }) {
 }
 
 export default function TechLogos() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, {
-    once: true,
-    amount: 0.12,
-    margin: "0px 0px -60px 0px",
-  });
   const reduceMotion = useReducedMotion();
 
+  // one flat list; the grouping only ever served the old stacked layout
+  const all = GROUPS.flatMap((g) => g.items);
+
+  // the track is rendered twice so the loop has somewhere to go before it
+  // snaps back, which is what makes the seam invisible
+  const track = [...all, ...all];
+
+  if (reduceMotion) {
+    return (
+      <div className="tl-root tl-static">
+        <ul className="tl-strip" aria-label="Tools and libraries I work in">
+          {all.map((logo) => (
+            <li className="tl-item" key={logo.name}>
+              <LogoGlyph d={logo.d} name={logo.name} />
+              <span className="tl-label">{logo.label}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+
   return (
-    <div ref={ref} className="tl-root">
-      {GROUPS.map((group) => (
-        <div className="tl-group" key={group.label}>
-          <p className="tl-eyebrow">{group.label}</p>
-          <motion.div
-            className="tl-grid"
-            variants={reduceMotion ? undefined : containerVariants}
-            initial={reduceMotion ? undefined : "hidden"}
-            animate={reduceMotion ? undefined : inView ? "show" : "hidden"}
-          >
-            {group.items.map((logo) => (
-              <motion.div
-                className="tl-item"
-                key={logo.name}
-                variants={reduceMotion ? undefined : itemVariants}
-                whileHover={
-                  reduceMotion
-                    ? undefined
-                    : { y: -4, transition: { type: "spring", stiffness: 320, damping: 24 } }
-                }
-              >
-                <LogoGlyph d={logo.d} name={logo.name} />
-                <span className="tl-label">{logo.label}</span>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      ))}
+    <div className="tl-root">
+      <div className="tl-marquee">
+        <ul
+          className="tl-track"
+          aria-label="Tools and libraries I work in"
+          style={{ ["--tl-count" as string]: String(track.length) }}
+        >
+          {track.map((logo, i) => (
+            <li
+              className="tl-item"
+              key={`${logo.name}-${i}`}
+              aria-hidden={i >= all.length ? true : undefined}
+            >
+              <LogoGlyph d={logo.d} name={logo.name} />
+              <span className="tl-label">{logo.label}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

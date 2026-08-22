@@ -1,14 +1,10 @@
 "use client";
 
-import { useMemo, useRef } from "react";
-import { motion, useInView, useReducedMotion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 
 /**
- * Scroll-triggered reveal. Fires once, then stops watching, because
+ * Scroll-triggered reveal. Fires once, then stops observing, because
  * content that re-animates every time it scrolls past is distracting.
- *
- * The motion is a critically damped spring: it glides in and settles without
- * overshooting. Bounce reads as decoration on a page that is mostly prose.
  */
 export default function Reveal({
   children,
@@ -24,44 +20,39 @@ export default function Reveal({
   [key: string]: unknown;
 }) {
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, {
-    once: true,
-    amount: 0.12,
-    margin: "0px 0px -60px 0px",
-  });
-  const reduceMotion = useReducedMotion();
+  const [shown, setShown] = useState(false);
 
-  // motion.create returns a new component type each call, so memoise it or
-  // every render remounts the subtree.
-  const Motion = useMemo(
-    () => motion.create(Tag as React.ElementType),
-    [Tag]
-  );
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
 
-  if (reduceMotion) {
-    return (
-      <Tag ref={ref} className={className || undefined} {...rest}>
-        {children}
-      </Tag>
+    if (typeof IntersectionObserver === "undefined") {
+      setShown(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShown(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -60px 0px" }
     );
-  }
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <Motion
+    <Tag
       ref={ref}
-      className={className || undefined}
-      initial={{ opacity: 0, y: 18 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
-      transition={{
-        type: "spring",
-        stiffness: 88,
-        damping: 20,
-        mass: 0.9,
-        delay: delay / 1000,
-      }}
+      className={`reveal${shown ? " in" : ""}${className ? ` ${className}` : ""}`}
+      style={{ ["--reveal-delay" as string]: `${delay}ms` }}
       {...rest}
     >
       {children}
-    </Motion>
+    </Tag>
   );
 }
