@@ -102,11 +102,11 @@ export default function Home() {
             <div className="facts">
               <div className="fact">
                 <p className="fact-label">Available</p>
-                <p className="fact-value">From August 2026</p>
+                <p className="fact-value">On course completion</p>
               </div>
               <div className="fact">
                 <p className="fact-label">Right to work</p>
-                <p className="fact-value">UK, no sponsorship until about 2029</p>
+                <p className="fact-value">Graduate Route, no sponsorship needed</p>
               </div>
               <div className="fact">
                 <p className="fact-label">Studying</p>
@@ -691,6 +691,7 @@ export default function Home() {
                   "Exploratory analysis",
                   "Feature engineering",
                   "Statistical modelling",
+                  "Excel",
                   "pandas",
                   "NumPy",
                   "Data wrangling",
@@ -786,8 +787,8 @@ export default function Home() {
           </Reveal>
           <Reveal delay={60}>
             <p className="lead" style={{ marginBottom: 32 }}>
-              I am looking for data analyst roles in London. Free from August 2026, and able to
-              work in the UK without sponsorship until around 2029.
+              I am looking for data analyst roles in London, available on course completion. I
+              have Graduate Route right to work in the UK, so no sponsorship is needed.
             </p>
           </Reveal>
           <Reveal delay={110}>
@@ -810,6 +811,9 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 GitHub
+              </a>
+              <a className="btn" href="/kautum-krishnan-panjalaraja-cv.pdf" download>
+                Download CV
               </a>
             </div>
           </Reveal>

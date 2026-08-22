@@ -14,8 +14,8 @@ export default function Error({ reset }: { error: Error; reset: () => void }) {
         Kautum Krishnan Panjalaraja
       </h1>
       <p className="lead" style={{ marginBottom: 28 }}>
-        Data analyst in London. Available from August 2026, with the right to work in the UK
-        without sponsorship until around 2029.
+        Data analyst in London, available on course completion. I have Graduate Route right to
+        work in the UK, so no sponsorship is needed.
       </p>
       <div className="btn-row">
         <a className="btn btn-primary" href="mailto:kpkautum2643@gmail.com">
