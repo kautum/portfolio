@@ -1132,3 +1132,86 @@ footer p {
     display: none;
   }
 }
+
+/* ------------------------------------------------------------------
+   The drifting light field. Sits behind everything, costs one canvas,
+   and reads its colours from the same tokens the charts use, so it
+   follows both the theme and the per-chapter tint.
+   ------------------------------------------------------------------ */
+.ambient {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* everything the reader actually looks at sits above the field */
+.nav,
+.hero,
+.section,
+.sstrip,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- 3D tilt and moving light on the cards ---------------------- */
+html.tilt-on .card,
+html.tilt-on .panel,
+html.tilt-on .sstrip-panel,
+html.tilt-on .chart,
+html.tilt-on .feature {
+  transform: perspective(900px) rotateX(var(--tilt-rx, 0deg)) rotateY(var(--tilt-ry, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 380ms var(--ease-out);
+  will-change: transform;
+}
+
+html.tilt-on .card,
+html.tilt-on .panel,
+html.tilt-on .chart,
+html.tilt-on .feature {
+  position: relative;
+}
+
+/* the light itself: a soft highlight that follows the pointer across
+   the surface. Sits above the card's own background, below its text. */
+html.tilt-on .card::before,
+html.tilt-on .panel::before,
+html.tilt-on .chart::before,
+html.tilt-on .feature::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: calc(var(--tilt-lit, 0) * 1);
+  transition: opacity 380ms var(--ease-out);
+  background: radial-gradient(
+    420px circle at var(--tilt-mx, 50%) var(--tilt-my, 50%),
+    color-mix(in srgb, var(--c1) 26%, transparent),
+    transparent 68%
+  );
+}
+
+:root[data-theme="dark"] html.tilt-on .card::before,
+html.tilt-on :root[data-theme="dark"] .card::before {
+  background: radial-gradient(
+    420px circle at var(--tilt-mx, 50%) var(--tilt-my, 50%),
+    color-mix(in srgb, var(--c1) 34%, transparent),
+    transparent 68%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.tilt-on .card,
+  html.tilt-on .panel,
+  html.tilt-on .sstrip-panel,
+  html.tilt-on .chart,
+  html.tilt-on .feature {
+    transform: none;
+    transition: none;
+  }
+}

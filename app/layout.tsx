@@ -1,17 +1,15 @@
-import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Caveat, Archivo_Black, JetBrains_Mono } from "next/font/google";
+import type { Metadata } from "next";
+import { Bricolage_Grotesque, Caveat } from "next/font/google";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import "./globals.css";
 import "./tech-logos.css";
-import "./dark.css";
-import "./dataviz.css";
-import "./dataviz2.css";
-import "./iridescent.css";
-import "./cursor.css";
-import "./cursor.css";
+import "./crests.css";
+import "./chart-interact.css";
 import SmoothScroll from "./components/SmoothScroll";
-import Iridescent from "./components/Iridescent";
-import Cursor from "./components/Cursor";
+import Ambient from "./components/Ambient";
+import Tilt from "./components/Tilt";
+import Spotlight from "./components/Spotlight";
 
 /* Display face with actual character. Geist alone is clean but anonymous,
    and anonymous is most of what makes a page look machine-made. */
@@ -26,26 +24,6 @@ const hand = Caveat({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-hand",
-});
-
-/* dark.css design system: a heavy neo-grotesque for macro-typography
-   (single black weight, no variable axis needed, smallest payload for
-   the biggest text on the page) and JetBrains Mono for everything else
-   — nav, labels, metrics, body. One display face plus one mono, per
-   the tactical-telemetry brief: the mono reads as terminal/telemetry,
-   which suits a data analyst's site more than a conventional UI sans. */
-const archivoBlack = Archivo_Black({
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-  variable: "--font-archivo-black",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  display: "swap",
-  variable: "--font-jetbrains-mono",
 });
 
 const title = "Kautum Krishnan Panjalaraja | Data Analyst";
@@ -64,12 +42,6 @@ export const metadata: Metadata = {
   },
 };
 
-/* dark.css canvas is #0A0A0A — the browser chrome (address bar on mobile,
-   PWA splash) matches it exactly. */
-export const viewport: Viewport = {
-  themeColor: "#0A0A0A",
-};
-
 /* Runs before first paint so a stored dark choice never flashes light.
    Light is the default: the system preference is deliberately not consulted. */
 const themeScript = `try{document.documentElement.dataset.theme=localStorage.getItem("theme")==="dark"?"dark":"light"}catch(e){document.documentElement.dataset.theme="light"}`;
@@ -78,16 +50,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en-GB"
-      style={{ colorScheme: "dark" }}
-      className={`${GeistSans.variable} ${GeistMono.variable} ${display.variable} ${hand.variable} ${archivoBlack.variable} ${jetbrainsMono.variable}`}
+      data-theme="light"
+      className={`${GeistSans.variable} ${GeistMono.variable} ${display.variable} ${hand.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
         <SmoothScroll />
-        <Iridescent />
-        <Cursor />
+        <Ambient />
+        <Tilt />
+        <Spotlight />
         {children}
       </body>
     </html>
