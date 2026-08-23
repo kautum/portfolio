@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Caveat } from "next/font/google";
+import { Newsreader, Caveat } from "next/font/google";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
@@ -9,12 +9,13 @@ import "./chart-interact.css";
 import SmoothScroll from "./components/SmoothScroll";
 import Spotlight from "./components/Spotlight";
 
-/* Display face with actual character. Geist alone is clean but anonymous,
-   and anonymous is most of what makes a page look machine-made. */
-const display = Bricolage_Grotesque({
+/* Editorial serif for hero and section headings, set against Geist Sans for
+   body and UI. The contrast between the two is what makes the page read as
+   a designed document rather than a template. */
+const display = Newsreader({
   subsets: ["latin"],
+  style: ["normal", "italic"],
   display: "swap",
-  axes: ["opsz"],
   variable: "--font-display",
 });
 

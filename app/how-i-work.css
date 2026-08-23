@@ -45,6 +45,7 @@
   line-height: 1.08;
   color: var(--ink);
   margin: 0 0 10px;
+  font-variant-numeric: tabular-nums;
 }
 
 .hiw-scan-label {
@@ -87,7 +88,8 @@
 .hiw-evidence-card {
   background: var(--panel);
   box-shadow: var(--panel-shadow);
-  border-radius: 6px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
   border-left: 3px solid var(--rule-strong);
   padding: 26px 24px;
 }

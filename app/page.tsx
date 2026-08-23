@@ -1,6 +1,6 @@
 import Nav from "./components/Nav";
 import HowIWork from "./components/HowIWork";
-import { Crest, CredentialMark } from "./components/Crests";
+import { CredentialMark } from "./components/Crests";
 import TechLogos from "./components/TechLogos";
 import { RankFlip } from "./components/dissertation";
 import Scrubber from "./components/Scrubber";
@@ -479,26 +479,33 @@ ORDER BY sale_month;`}</code></pre>
               <article className="card">
                 <p className="meta">Three more, briefly</p>
                 <h3>Agents, retrieval and a camera that talks</h3>
-                <dl>
-                  <dt>a2a banking agents</dt>
-                  <dd>
-                    Two agents handling banking customer service over Google&apos;s A2A protocol,
-                    built in a day at their hackathon. Search runs keyword first across 698
-                    documents and only pays for the embedding call when keywords come up short.
-                  </dd>
-                  <dt>rag model comparison</dt>
-                  <dd>
-                    The same pipeline three times, everything constant except the language model.
-                    LLaMA stayed closest to the retrieved text. SmolLM2 did well for its size but
-                    drifted on harder questions.
-                  </dd>
-                  <dt>vision to voice</dt>
-                  <dd>
-                    My undergraduate capstone. A camera describes what it sees out loud, in
-                    English and Tamil, for people who cannot see it. Written up as an IEEE format
-                    paper with my supervisor.
-                  </dd>
-                </dl>
+                <div className="mini-bento">
+                  <div className="mini-bento-cell mini-bento-cell--tall">
+                    <p className="mini-bento-label">a2a banking agents</p>
+                    <p>
+                      Two agents handling banking customer service over Google&apos;s A2A
+                      protocol, built in a day at their hackathon. Search runs keyword first
+                      across 698 documents and only pays for the embedding call when keywords
+                      come up short.
+                    </p>
+                  </div>
+                  <div className="mini-bento-cell">
+                    <p className="mini-bento-label">rag model comparison</p>
+                    <p>
+                      The same pipeline three times, everything constant except the language
+                      model. LLaMA stayed closest to the retrieved text. SmolLM2 did well for its
+                      size but drifted on harder questions.
+                    </p>
+                  </div>
+                  <div className="mini-bento-cell">
+                    <p className="mini-bento-label">vision to voice</p>
+                    <p>
+                      My undergraduate capstone. A camera describes what it sees out loud, in
+                      English and Tamil, for people who cannot see it. Written up as an IEEE
+                      format paper with my supervisor.
+                    </p>
+                  </div>
+                </div>
                 <div className="links">
                   <a
                     className="link"
@@ -768,7 +775,14 @@ ORDER BY sale_month;`}</code></pre>
 
           <div className="panel-grid">
             <Reveal delay={40} className="panel">
-              <Crest institution="kcl" />
+              <img
+                className="inst-logo"
+                src="/logo-kcl.svg"
+                alt="King's College London"
+                width={923}
+                height={703}
+                loading="lazy"
+              />
               <p className="meta">2025 to 2026, London</p>
               <h3>MSc Data Science</h3>
               <p className="panel-body">
@@ -780,7 +794,14 @@ ORDER BY sale_month;`}</code></pre>
               </p>
             </Reveal>
             <Reveal delay={80} className="panel">
-              <Crest institution="vit" />
+              <img
+                className="inst-logo inst-logo-wide"
+                src="/logo-vit.png"
+                alt="Vellore Institute of Technology"
+                width={600}
+                height={177}
+                loading="lazy"
+              />
               <p className="meta">2021 to 2025, Chennai</p>
               <h3>BTech, Computer Science</h3>
               <p className="panel-body">
