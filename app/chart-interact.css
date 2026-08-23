@@ -1,0 +1,62 @@
+/* Crosshair/readout interaction layer for charts drawn through RoughSvg's
+   optional `interactive` prop (see app/components/Sketch.tsx). Only the
+   seafood stocks chart wires this up for now. */
+
+.ci-host {
+  position: relative;
+  touch-action: manipulation;
+  cursor: crosshair;
+}
+
+.ci-host:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.ci-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.ci-crosshair {
+  stroke: var(--rule-strong);
+  stroke-width: 1;
+  transition: transform 120ms var(--ease-out);
+}
+
+.ci-dot {
+  fill: var(--ink);
+  stroke: var(--panel);
+  stroke-width: 1.5;
+  transition: transform 120ms var(--ease-out);
+}
+
+.ci-readout {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: max-content;
+  max-width: calc(100% - 16px);
+  min-height: 1.4em;
+  padding: 3px 8px;
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  background: var(--ink);
+  color: var(--ground);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ci-crosshair,
+  .ci-dot {
+    transition: none;
+  }
+}

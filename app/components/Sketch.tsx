@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import rough from "roughjs";
 import Safe from "./Safe";
 import type { RoughSVG } from "roughjs/bin/svg";
+import type { KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent } from "react";
 
 /**
  * Shared hand. Roughness sits at 0.9 rather than the 1.7 an earlier version
@@ -37,6 +38,25 @@ export function drawIn(svg: SVGSVGElement, duration = 620, stagger = 55) {
 
 type DrawFn = (rc: RoughSVG, svg: SVGSVGElement, w: number, h: number) => void;
 
+/**
+ * One data point projected into the chart's own pixel space (px, py) plus
+ * the underlying data value it represents (x, y). A chart's `interactive`
+ * config should compute these with the exact same math its `draw` callback
+ * uses, so the crosshair always lands on the pixels the line is actually
+ * drawn through.
+ */
+export type ChartPoint = { px: number; py: number; x: number; y: number };
+
+/** Optional crosshair/readout capability a chart can opt into. */
+export type ChartInteraction = {
+  /** Projects the data into pixel space at the current render size. */
+  points: (w: number, h: number) => ChartPoint[];
+  /** Turns the active point into the text the readout shows. */
+  format: (point: ChartPoint) => string;
+};
+
+type ChartLayout = { w: number; h: number; points: ChartPoint[] };
+
 /** Responsive rough.js canvas. Redraws on resize and on a theme change. */
 function RoughSvgInner({
   height,
@@ -44,15 +64,19 @@ function RoughSvgInner({
   label = "",
   className = "",
   animate = true,
+  interactive,
 }: {
   height: number;
   draw: DrawFn;
   label?: string;
   className?: string;
   animate?: boolean;
+  interactive?: ChartInteraction;
 }) {
   const hostRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
+  const [layout, setLayout] = useState<ChartLayout | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -74,6 +98,15 @@ function RoughSvgInner({
         while (svg.firstChild) svg.removeChild(svg.firstChild);
         // eslint-disable-next-line no-console
         console.warn("Skipped a drawing that failed to render:", err);
+      }
+      if (interactive) {
+        try {
+          setLayout({ w, h: height, points: interactive.points(w, height) });
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.warn("Skipped chart interaction points:", err);
+          setLayout({ w, h: height, points: [] });
+        }
       }
     };
 
@@ -110,16 +143,109 @@ function RoughSvgInner({
       themeWatcher.disconnect();
       cancelAnimationFrame(frame);
     };
-  }, [draw, height, animate]);
+  }, [draw, height, animate, interactive]);
+
+  const active =
+    interactive && layout && activeIndex !== null ? layout.points[activeIndex] ?? null : null;
+
+  const nearestIndex = (clientX: number): number | null => {
+    const host = hostRef.current;
+    if (!host || !layout || layout.points.length === 0) return null;
+    const rect = host.getBoundingClientRect();
+    if (!rect.width) return null;
+    const scale = layout.w / rect.width;
+    const localX = (clientX - rect.left) * scale;
+    let best = 0;
+    let bestDist = Infinity;
+    layout.points.forEach((p, i) => {
+      const dist = Math.abs(p.px - localX);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = i;
+      }
+    });
+    return best;
+  };
+
+  const handlePointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
+    const i = nearestIndex(e.clientX);
+    if (i !== null) setActiveIndex(i);
+  };
+
+  const clearActive = () => setActiveIndex(null);
+
+  const handleKeyDown = (e: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (!layout || layout.points.length === 0) return;
+    const last = layout.points.length - 1;
+    switch (e.key) {
+      case "ArrowRight":
+        e.preventDefault();
+        setActiveIndex((i) => (i === null ? 0 : Math.min(last, i + 1)));
+        break;
+      case "ArrowLeft":
+        e.preventDefault();
+        setActiveIndex((i) => (i === null ? last : Math.max(0, i - 1)));
+        break;
+      case "Home":
+        e.preventDefault();
+        setActiveIndex(0);
+        break;
+      case "End":
+        e.preventDefault();
+        setActiveIndex(last);
+        break;
+      case "Escape":
+        setActiveIndex(null);
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
-    <div ref={hostRef} className={className}>
+    <div
+      ref={hostRef}
+      className={interactive ? `${className} ci-host`.trim() : className}
+      tabIndex={interactive ? 0 : undefined}
+      onPointerMove={interactive ? handlePointerMove : undefined}
+      onPointerDown={interactive ? handlePointerMove : undefined}
+      onPointerLeave={interactive ? clearActive : undefined}
+      onKeyDown={interactive ? handleKeyDown : undefined}
+    >
       <svg
         ref={svgRef}
         className="rough-svg"
         role={label ? "img" : "presentation"}
         aria-label={label || undefined}
       />
+      {interactive && layout && (
+        <svg className="ci-overlay" viewBox={`0 0 ${layout.w} ${layout.h}`} aria-hidden="true">
+          {active && (
+            <>
+              <line
+                x1={0}
+                y1={0}
+                x2={0}
+                y2={layout.h}
+                className="ci-crosshair"
+                style={{ transform: `translateX(${active.px}px)` }}
+              />
+              <circle
+                cx={0}
+                cy={0}
+                r={4.5}
+                className="ci-dot"
+                style={{ transform: `translate(${active.px}px, ${active.py}px)` }}
+              />
+            </>
+          )}
+        </svg>
+      )}
+      {interactive && (
+        <div className="ci-readout" aria-live="polite">
+          {active ? interactive.format(active) : ""}
+        </div>
+      )}
     </div>
   );
 }

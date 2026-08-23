@@ -2,6 +2,7 @@
 
 import type { RoughSVG } from "roughjs/bin/svg";
 import { HAND, RoughSvg, token } from "./Sketch";
+import type { ChartInteraction, ChartPoint } from "./Sketch";
 
 /* ==================================================================
    Two figures from "Making Hidden Costs Visible", drawn from the real
@@ -57,21 +58,41 @@ const STOCKS: [number, number][] = [
   [2021, 62.3],
 ];
 
-const drawStocks = (rc: RoughSVG, svg: SVGSVGElement, w: number, h: number) => {
-  const ink = token(svg, "--ink", "#1f1d1a");
-  const mute = token(svg, "--ink-mute", "#6e695f");
-  const ok = token(svg, "--c4", "#7fae92");
-  const bad = token(svg, "--c2", "#e8836b");
-
+/**
+ * Shared geometry for the stocks chart: the pixel space `drawStocks` paints
+ * into and `projectStocks` below both derive from this one function, so the
+ * crosshair can never drift from the drawn line.
+ */
+function stocksLayout(w: number, h: number) {
   const padL = 38;
   const padR = 14;
   const padT = 16;
   const padB = 28;
   const plotW = w - padL - padR;
   const plotH = h - padT - padB;
-
   const x = (yr: number) => padL + ((yr - 1974) / (2021 - 1974)) * plotW;
   const y = (v: number) => padT + plotH - (v / 100) * plotH;
+  return { padL, padR, padT, padB, plotW, plotH, x, y };
+}
+
+/** The real series, projected into pixel space at the current render size. */
+function projectStocks(w: number, h: number): ChartPoint[] {
+  const { x, y } = stocksLayout(w, h);
+  return STOCKS.map(([yr, v]) => ({ px: x(yr), py: y(v), x: yr, y: v }));
+}
+
+const stocksInteraction: ChartInteraction = {
+  points: projectStocks,
+  format: (p) => `${p.x} · ${p.y.toFixed(1)}%`,
+};
+
+const drawStocks = (rc: RoughSVG, svg: SVGSVGElement, w: number, h: number) => {
+  const ink = token(svg, "--ink", "#1f1d1a");
+  const mute = token(svg, "--ink-mute", "#6e695f");
+  const ok = token(svg, "--c4", "#7fae92");
+  const bad = token(svg, "--c2", "#e8836b");
+
+  const { padL, plotW, plotH, padT, x, y } = stocksLayout(w, h);
 
   // everything above the line is overexploited, so the gap is the story
   svg.appendChild(
@@ -133,6 +154,7 @@ export function StocksChart() {
         height={220}
         label="Area chart. The share of world fish stocks within biologically sustainable limits falls from 90 percent in 1974 to 62 percent in 2021, so the overexploited share rises from 10 percent to 38 percent."
         draw={drawStocks}
+        interactive={stocksInteraction}
       />
       <p className="chart-note">
         <span className="hand-note">90% down to 62%, in one working life</span>
