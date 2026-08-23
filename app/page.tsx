@@ -3,9 +3,9 @@ import TechLogos from "./components/TechLogos";
 import {
   SlopeReversal,
   StocksArea,
-  HostGrid,
   BigMetric,
 } from "./components/DataViz";
+import { DiscardsBar, BoroughScatter } from "./components/DataViz2";
 
 /* Minimal text by design. Every section is a label, a figure and a way out
    to the real work. The detail lives in the repos, not on this page. */
@@ -58,7 +58,7 @@ export default function Page() {
       {/* ---------------- hero ---------------- */}
       <Hero3D>
         <div className="container hero-copy">
-          <p className="eyebrow">Data analyst / London</p>
+          <p className="eyebrow">Data scientist, AI engineer / London</p>
           <h1 className="display-hero">
             KAUTUM
             <br />
@@ -86,10 +86,15 @@ export default function Page() {
       <section className="section" id="metrics" aria-label="Key figures">
         <div className="container">
           <div className="metric-row">
-            <BigMetric value={1.86} decimals={2} suffix="M" label="Rows analysed in SQL" glow />
-            <BigMetric value={0.61} decimals={2} label="Honest macro-F1, from 0.90" />
-            <BigMetric value={8} label="Of 9 attackers caught, 0 false alarms" />
-            <BigMetric value={25.3} decimals={1} suffix="%" label="New build price premium" />
+            <BigMetric
+              value={0.6059}
+              decimals={4}
+              label="Honest macro-F1. The field reports 0.9002 on the same problem."
+              glow
+            />
+            <BigMetric value={10} label="Model families benchmarked. LLMs tried in 3 roles, beaten in all 3." />
+            <BigMetric value={698} label="Doc hybrid retrieval. BM25 first, vectors only when it fails." />
+            <BigMetric value={1.86} decimals={2} suffix="M" label="Land Registry rows, analysed in SQL" />
           </div>
         </div>
       </section>
@@ -97,7 +102,7 @@ export default function Page() {
       {/* ---------------- work ---------------- */}
       <section className="section" id="work">
         <div className="container">
-          <p className="eyebrow">[ Selected work ]</p>
+          <p className="eyebrow">Selected work</p>
           <div className="work-grid">
             {WORK.map((w) => (
               <article className="panel work-card" key={w.id}>
@@ -134,21 +139,23 @@ export default function Page() {
       {/* ---------------- the charts ---------------- */}
       <section className="section" id="data">
         <div className="container">
-          <p className="eyebrow">[ The finding ]</p>
+          <p className="eyebrow">The finding</p>
           <h2 className="display-md">The winner changes when the test gets honest.</h2>
           <SlopeReversal />
           <div className="divider" />
           <SlopeCaptionless />
           <StocksArea />
           <div className="divider" />
-          <HostGrid />
+          <DiscardsBar />
+          <div className="divider" />
+          <BoroughScatter />
         </div>
       </section>
 
       {/* ---------------- stack ---------------- */}
       <section className="section" id="stack">
         <div className="container">
-          <p className="eyebrow">[ Stack ]</p>
+          <p className="eyebrow">Stack</p>
         </div>
         <TechLogos />
       </section>
@@ -156,7 +163,7 @@ export default function Page() {
       {/* ---------------- education ---------------- */}
       <section className="section" id="education">
         <div className="container">
-          <p className="eyebrow">[ Trained ]</p>
+          <p className="eyebrow">Trained</p>
           <dl className="edu-grid">
             <div className="panel edu-item">
               <dt className="display-sm">King&apos;s College London</dt>
@@ -177,7 +184,7 @@ export default function Page() {
       {/* ---------------- contact ---------------- */}
       <section className="section" id="contact">
         <div className="container">
-          <p className="eyebrow">[ Contact ]</p>
+          <p className="eyebrow">Contact</p>
           <h2 className="display-lg glow-text">Say hello.</h2>
           <p className="text-body ink-muted contact-line">
             Data analyst roles in London, available on course completion.

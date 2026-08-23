@@ -5,8 +5,13 @@ import { GeistMono } from "geist/font/mono";
 import "./tech-logos.css";
 import "./dark.css";
 import "./dataviz.css";
+import "./dataviz2.css";
+import "./iridescent.css";
+import "./cursor.css";
+import "./cursor.css";
 import SmoothScroll from "./components/SmoothScroll";
-import Spotlight from "./components/Spotlight";
+import Iridescent from "./components/Iridescent";
+import Cursor from "./components/Cursor";
 
 /* Display face with actual character. Geist alone is clean but anonymous,
    and anonymous is most of what makes a page look machine-made. */
@@ -73,7 +78,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en-GB"
-      data-theme="light"
       style={{ colorScheme: "dark" }}
       className={`${GeistSans.variable} ${GeistMono.variable} ${display.variable} ${hand.variable} ${archivoBlack.variable} ${jetbrainsMono.variable}`}
     >
@@ -82,7 +86,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <SmoothScroll />
-        <Spotlight />
+        <Iridescent />
+        <Cursor />
         {children}
       </body>
     </html>

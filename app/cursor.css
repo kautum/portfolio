@@ -1,0 +1,136 @@
+/* ============================================================
+   cursor.css — custom cursor, magnetic buttons, card tilt + specular.
+   Owned entirely by app/components/Cursor.tsx. All classes prefixed
+   cu-. Every rule below that touches shared page classes (.btn,
+   .panel, .work-card, .edu-item) is scoped under html.cu-active, a
+   class Cursor.tsx only ever adds when JS has confirmed a fine
+   pointer AND no prefers-reduced-motion — so on touch devices or
+   under reduced motion none of this exists in the cascade at all.
+
+   Deliberately never touches `.btn`'s own `transition` shorthand
+   (dark.css already owns that list for background/border/box-shadow/
+   color) — the magnetic pull is driven by a plain inline `transform`
+   set from JS each frame instead, so dark.css's hover transitions
+   stay intact regardless of stylesheet load order.
+   ============================================================ */
+
+html.cu-active,
+html.cu-active * {
+  cursor: none !important;
+}
+
+/* ----------------------------------------------------------
+   The follower
+   ---------------------------------------------------------- */
+
+.cu-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+}
+
+html.cu-active .cu-root[data-ready="true"] {
+  opacity: 1;
+}
+
+.cu-shape {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.85;
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 220ms var(--ease-out), opacity 200ms var(--ease-out),
+    border-radius 220ms var(--ease-out), background-color 200ms var(--ease-out),
+    border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+  box-shadow: 0 0 12px var(--accent-glow-soft);
+}
+
+/* Over a link: dot grows into a hollow ring. */
+.cu-shape[data-state="link"] {
+  transform: translate(-50%, -50%) scale(2.8);
+  background: transparent;
+  border: 1.5px solid var(--accent);
+  opacity: 0.9;
+  box-shadow: none;
+}
+
+/* Over a card: the dot recedes, the cu-label takes over. */
+.cu-shape[data-state="card"] {
+  transform: translate(-50%, -50%) scale(0.35);
+  opacity: 0;
+}
+
+/* Over a button: the ring flattens into a rounded rect and stretches to
+   the button's own footprint via --cu-sx/--cu-sy, set every frame from
+   the cached button rect (see Cursor.tsx — never read here). */
+.cu-shape[data-state="button"] {
+  transform: translate(-50%, -50%) scale(var(--cu-sx, 3), var(--cu-sy, 1.6));
+  background: transparent;
+  border: 1.5px solid var(--accent);
+  border-radius: 8px;
+  opacity: 0.9;
+  box-shadow: none;
+}
+
+.cu-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--bg-panel-2);
+  border: 1px solid var(--hairline-strong);
+  padding: 4px 10px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 200ms var(--ease-out);
+}
+
+.cu-label[data-state="card"] {
+  opacity: 1;
+}
+
+/* ----------------------------------------------------------
+   Card tilt + specular highlight
+   ---------------------------------------------------------- */
+
+html.cu-active .panel,
+html.cu-active .work-card,
+html.cu-active .edu-item {
+  position: relative;
+  overflow: hidden;
+  transform: perspective(1000px) rotateX(var(--cu-rx, 0deg)) rotateY(var(--cu-ry, 0deg));
+  transition: transform var(--duration-base) var(--ease-out);
+  will-change: transform;
+}
+
+html.cu-active .panel::before,
+html.cu-active .work-card::before,
+html.cu-active .edu-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--cu-glow, 0);
+  background: radial-gradient(
+    circle at var(--cu-mx, 50%) var(--cu-my, 50%),
+    rgba(255, 255, 255, 0.16),
+    var(--accent-glow-soft) 45%,
+    transparent 70%
+  );
+  transition: opacity var(--duration-base) var(--ease-out);
+}
