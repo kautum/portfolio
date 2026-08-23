@@ -296,6 +296,27 @@ export default function Home() {
                     README against the query output. It caught two of my own errors.
                   </dd>
                 </dl>
+                <figure className="sqlshow">
+                  <figcaption>The query behind the stamp duty finding</figcaption>
+                  <pre><code>{`WITH monthly AS (
+  SELECT
+    date_trunc('month', t.date_of_transfer)       AS sale_month,
+    count(*)                                      AS sales,
+    count(*) FILTER (WHERE a.area_code LIKE 'E%') AS england_sales,
+    count(*) FILTER (WHERE a.area_code LIKE 'W%') AS wales_sales
+  FROM transactions     t
+  JOIN dim_ppd_category c ON c.code = t.ppd_category
+  JOIN dim_area         a ON a.ppd_district = t.district
+  WHERE c.is_full_market_value
+  GROUP BY 1
+)
+SELECT
+  sale_month,
+  round(100.0 * sales / avg(sales) OVER (), 1)    AS volume_index,
+  lag(sales, 12) OVER (ORDER BY sale_month)       AS same_month_last_year
+FROM monthly
+ORDER BY sale_month;`}</code></pre>
+                </figure>
                 <p className="stack">DuckDB, SQL, Python, open government data</p>
                 <div className="links">
                   <a

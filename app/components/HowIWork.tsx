@@ -74,9 +74,9 @@ const EVIDENCE: { meta: string; title: string; body: string; colour: string }[] 
     colour: "--c1",
   },
   {
-    meta: "Google A2A Net Hackathon, one day",
-    title: "Two agents, one banking conversation",
-    body: "A two-agent customer service system built on Google's A2A protocol. Retrieval runs keyword search first across a 698-document knowledge base, and only pays for the more expensive embedding call when keyword search comes up short.",
+    meta: "1.86 million rows, written in SQL",
+    title: "Asking the UK housing market six questions",
+    body: "Every Land Registry sale for 2024 and 2025, plus the official House Price Index, in a DuckDB star schema. Six questions, and every analytical step is a query rather than a dataframe. The one I would show first splits England from Wales, because the stamp duty thresholds that changed in April 2025 apply in England and Wales charges a different tax. If the March spike were the tax deadline and not the season, it should appear in one column and not the other. It did: England rose 92.1% then fell 74.2%, Wales moved 19.4% then 18.4%.",
     colour: "--c2",
   },
   {
@@ -126,8 +126,10 @@ export default function HowIWork() {
       <RiseIn className="hiw-method">
         <h3>The method, not just the tool</h3>
         <p className="hiw-method-body">
-          Before a model touches anything, I build it a structured knowledge base: what is true,
-          where each fact came from, and which file to open when it is not sure. I keep one for my
+          The habit underneath all of this is the same one an analyst needs: know where every
+          number came from before anyone acts on it. Before a model touches anything, I build it
+          a structured knowledge base: what is true, where each fact came from, and which file to
+          open when it is not sure. I keep one for my
           dissertation, one for my job search, and one for this site, and each one gets read
           before the model writes a line.
         </p>

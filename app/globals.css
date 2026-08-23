@@ -1045,3 +1045,37 @@ footer p {
   text-transform: uppercase;
   color: var(--ink-mute);
 }
+
+/* A real query, shown rather than described. A page that claims SQL and never
+   shows any is asking to be taken on trust. */
+.sqlshow {
+  margin: 22px 0 18px;
+}
+
+.sqlshow figcaption {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 10px;
+}
+
+.sqlshow pre {
+  margin: 0;
+  padding: 18px 20px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--panel);
+  overflow-x: auto;
+  box-shadow: var(--panel-shadow);
+}
+
+.sqlshow code {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--ink);
+  white-space: pre;
+  tab-size: 2;
+}
