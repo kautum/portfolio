@@ -2,12 +2,14 @@
 
 import ThemeToggle from "./ThemeToggle";
 
+/* Order matches the page. Projects sits ahead of the dissertation because the
+   analyst-shaped work should be what a recruiter reaches first. */
 const LINKS = [
+  { href: "#how", label: "How I work", secondary: true },
   { href: "#story", label: "Story", secondary: true },
+  { href: "#projects", label: "Projects", secondary: false },
   { href: "#finding", label: "Research", secondary: true },
   { href: "#work", label: "Work", secondary: false },
-  { href: "#how", label: "How I work", secondary: true },
-  { href: "#projects", label: "Projects", secondary: false },
   { href: "#skills", label: "Skills", secondary: true },
   { href: "#contact", label: "Contact", secondary: false },
 ];

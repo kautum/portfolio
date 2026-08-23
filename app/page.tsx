@@ -178,182 +178,11 @@ export default function Home() {
         </ScrollStrip>
       </section>
 
-      {/* ---------------- 2. the finding ---------------- */}
-      <section className="section clip" id="finding" data-tint="#e7eef8" data-tint-dark="#171a20">
-        <div className="bigshape-wrap" data-parallax="0.07" aria-hidden="true">
-          <BigShape shape="triangle" colour="--c3" />
-        </div>
-        <div className="wrap relative">
-          <Reveal className="section-head">
-            <ChapterMark n="Chapter two" colour="--c3" shape="triangle" />
-            <h2>
-              I spent a year finding out my field was marking its{" "}
-              <span className="pop" style={{ ["--pop" as string]: "var(--c1)" }}>
-                own homework
-              </span>
-              .
-            </h2>
-            <p className="body">
-              My dissertation started with a question that sounds dull and turned out not to be.
-              Papers on detecting attacks in network traffic report accuracy somewhere around
-              0.90. Should anyone believe that?
-            </p>
-            <p className="body">
-              Here is the problem. These datasets are recorded in a lab, where a handful of
-              machines play the attacker. If you shuffle all the traffic and split it at random,
-              flows from the same attacking machine land on both sides of the split. The model
-              never has to learn what an attack looks like. It only has to learn what that
-              particular machine looks like, and it will happily do the easier thing.
-            </p>
-            <p className="body">
-              So I rebuilt the test. I took the ToN_IoT captures, extracted 109,203 flows across
-              nine classes and 68 hosts, and held out every flow from an entire attacking machine
-              rather than shuffling.
-            </p>
-          </Reveal>
-
-          <Reveal delay={60}>
-            <HonestChart />
-          </Reveal>
-
-          <Reveal delay={60}>
-            <p className="body">
-              The score dropped by a third. Worse for anyone choosing a model, the ranking
-              flipped: the detector that won under the easy split came last under the fair one.
-              If you had picked your model the usual way, you would have picked the wrong one and
-              never known.
-            </p>
-
-            <RankFlip />
-            <p className="body">
-              I also went looking for a fix. Large language models were the obvious candidate, so
-              I tried them in three separate jobs: classifying the traffic directly, generating
-              extra training data, and predicting what packet comes next. Ten model families went
-              into the comparison. DistilBERT finished last of the ten. The generation
-              experiments, run with Qwen2.5, SmolLM2 and GLM-Edge, came back negative every time.
-              The core experiment, predicting future packets and then classifying them, lost to
-              simply classifying what you can already see in 18 of 21 configurations.
-            </p>
-            <p className="body">
-              None of that is the result I wanted. All of it is in the report. There is a
-              verification notebook that reloads the saved models, retrains the baseline live and
-              reproduces the headline figure to four decimal places, because a claim like this one
-              should be checkable by someone who does not trust me.
-            </p>
-            <p className="body">
-              Two things did work. Aggregating the flow level verdicts up to whole devices caught
-              eight of the nine attacking machines with no false alarms across 59 clean hosts. And
-              a small Markov and LSTM forecaster predicted the next event well on real botnet
-              captures, then failed on a different malware family, which is a limit worth
-              reporting rather than a result worth hiding.
-            </p>
-            <p>
-              <a
-                className="link"
-                href="https://github.com/kautum/msc-cyberattack-detection-llm"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                The report, the notebooks and all seventeen result files
-              </a>
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ---------------- 3. work ---------------- */}
-      <section className="section" id="work" data-tint="#fbecdf" data-tint-dark="#201b16">
-        <div className="wrap relative">
-          <Reveal className="section-head">
-            <ChapterMark n="Chapter three" colour="--c2" shape="arc" />
-            <h2>Three jobs, and one afternoon I gave back to a team.</h2>
-            <p className="body">
-              At Celcom the employee monitoring reports were put together by hand, every single
-              time. Someone would open the RFID logs, pull out what mattered and write it up. I
-              built a retrieval chatbot in n8n that assembled them instead. The team reading those
-              reports had no way to check my working, so before anyone was allowed to rely on it, I
-              checked its answers myself against several different document formats, because a
-              reporting tool that is right most of the time is worse than no tool at all. The team
-              took it on afterwards and it cut their reporting time by 60%.
-            </p>
-          </Reveal>
-
-          <Reveal delay={60}>
-            <ImpactChart />
-          </Reveal>
-
-          <div>
-            <Reveal delay={40} className="role">
-              <div className="role-when">Mar to Jul 2025</div>
-              <div>
-                <h3>AI Intern</h3>
-                <p className="role-where">Celcom Solutions, Chennai</p>
-                <ul>
-                  <li>
-                    Built a retrieval augmented chatbot in n8n that automated the RFID based
-                    employee monitoring reports.
-                  </li>
-                  <li>Cut the manual reporting time by 60% once the team took it on.</li>
-                  <li>
-                    Tested the output against several document types before it went anywhere near
-                    production.
-                  </li>
-                  <li>
-                    Worked in a small intern team under a project manager, handling the prompt
-                    design and the retrieval setup.
-                  </li>
-                </ul>
-              </div>
-            </Reveal>
-
-            <Reveal delay={80} className="role">
-              <div className="role-when">Jan 2025</div>
-              <div>
-                <h3>AI Intern</h3>
-                <p className="role-where">Finstein Advizory Service, Chennai</p>
-                <ul>
-                  <li>
-                    Benchmarked deep learning architectures with FastAI for a fintech product team.
-                  </li>
-                  <li>
-                    Did the exploratory analysis and feature engineering on their structured
-                    financial datasets, start to finish.
-                  </li>
-                </ul>
-              </div>
-            </Reveal>
-
-            <Reveal delay={120} className="role">
-              <div className="role-when">Nov to Dec 2023</div>
-              <div>
-                <h3>Trainee, AI and ML programme</h3>
-                <p className="role-where">Celcom Solutions, Chennai</p>
-                <ul>
-                  <li>
-                    Researched and wrote up a machine learning proof of concept for software
-                    development decisions.
-                  </li>
-                  <li>
-                    Compared regression, decision trees and neural networks on RMSE, R squared,
-                    precision, recall and F1.
-                  </li>
-                  <li>
-                    Preceded by a separate two month traineeship on the software engineering
-                    track, covering Java, collections, JDBC and SQL.
-                  </li>
-                </ul>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-
       {/* ---------------- 5. projects ---------------- */}
       <section className="section" id="projects" data-tint="#f0e9f6" data-tint-dark="#1d1922">
         <div className="wrap relative">
           <Reveal className="section-head">
-            <ChapterMark n="Chapter five" colour="--c5" shape="cross" />
+            <ChapterMark n="Chapter two" colour="--c5" shape="cross" />
             <h2>Things I made because I wanted to know something.</h2>
             <p className="body">
               In each of these the interesting part was deciding what the actual question was,
@@ -672,11 +501,181 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ---------------- 2. the finding ---------------- */}
+      <section className="section clip" id="finding" data-tint="#e7eef8" data-tint-dark="#171a20">
+        <div className="bigshape-wrap" data-parallax="0.07" aria-hidden="true">
+          <BigShape shape="triangle" colour="--c3" />
+        </div>
+        <div className="wrap relative">
+          <Reveal className="section-head">
+            <ChapterMark n="Chapter three" colour="--c3" shape="triangle" />
+            <h2>
+              I spent a year finding out my field was marking its{" "}
+              <span className="pop" style={{ ["--pop" as string]: "var(--c1)" }}>
+                own homework
+              </span>
+              .
+            </h2>
+            <p className="body">
+              My dissertation started with a question that sounds dull and turned out not to be.
+              Papers on detecting attacks in network traffic report accuracy somewhere around
+              0.90. Should anyone believe that?
+            </p>
+            <p className="body">
+              Here is the problem. These datasets are recorded in a lab, where a handful of
+              machines play the attacker. If you shuffle all the traffic and split it at random,
+              flows from the same attacking machine land on both sides of the split. The model
+              never has to learn what an attack looks like. It only has to learn what that
+              particular machine looks like, and it will happily do the easier thing.
+            </p>
+            <p className="body">
+              So I rebuilt the test. I took the ToN_IoT captures, extracted 109,203 flows across
+              nine classes and 68 hosts, and held out every flow from an entire attacking machine
+              rather than shuffling.
+            </p>
+          </Reveal>
+
+          <Reveal delay={60}>
+            <HonestChart />
+          </Reveal>
+
+          <Reveal delay={60}>
+            <p className="body">
+              The score dropped by a third. Worse for anyone choosing a model, the ranking
+              flipped: the detector that won under the easy split came last under the fair one.
+              If you had picked your model the usual way, you would have picked the wrong one and
+              never known.
+            </p>
+
+            <RankFlip />
+            <p className="body">
+              I also went looking for a fix. Large language models were the obvious candidate, so
+              I tried them in three separate jobs: classifying the traffic directly, generating
+              extra training data, and predicting what packet comes next. Ten model families went
+              into the comparison. DistilBERT finished last of the ten. The generation
+              experiments, run with Qwen2.5, SmolLM2 and GLM-Edge, came back negative every time.
+              The core experiment, predicting future packets and then classifying them, lost to
+              simply classifying what you can already see in 18 of 21 configurations.
+            </p>
+            <p className="body">
+              None of that is the result I wanted. All of it is in the report. There is a
+              verification notebook that reloads the saved models, retrains the baseline live and
+              reproduces the headline figure to four decimal places, because a claim like this one
+              should be checkable by someone who does not trust me.
+            </p>
+            <p className="body">
+              Two things did work. Aggregating the flow level verdicts up to whole devices caught
+              eight of the nine attacking machines with no false alarms across 59 clean hosts. And
+              a small Markov and LSTM forecaster predicted the next event well on real botnet
+              captures, then failed on a different malware family, which is a limit worth
+              reporting rather than a result worth hiding.
+            </p>
+            <p>
+              <a
+                className="link"
+                href="https://github.com/kautum/msc-cyberattack-detection-llm"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                The report, the notebooks and all seventeen result files
+              </a>
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ---------------- 3. work ---------------- */}
+      <section className="section" id="work" data-tint="#fbecdf" data-tint-dark="#201b16">
+        <div className="wrap relative">
+          <Reveal className="section-head">
+            <ChapterMark n="Chapter four" colour="--c2" shape="arc" />
+            <h2>Three jobs, and one afternoon I gave back to a team.</h2>
+            <p className="body">
+              At Celcom the employee monitoring reports were put together by hand, every single
+              time. Someone would open the RFID logs, pull out what mattered and write it up. I
+              built a retrieval chatbot in n8n that assembled them instead. The team reading those
+              reports had no way to check my working, so before anyone was allowed to rely on it, I
+              checked its answers myself against several different document formats, because a
+              reporting tool that is right most of the time is worse than no tool at all. The team
+              took it on afterwards and it cut their reporting time by 60%.
+            </p>
+          </Reveal>
+
+          <Reveal delay={60}>
+            <ImpactChart />
+          </Reveal>
+
+          <div>
+            <Reveal delay={40} className="role">
+              <div className="role-when">Mar to Jul 2025</div>
+              <div>
+                <h3>AI Intern</h3>
+                <p className="role-where">Celcom Solutions, Chennai</p>
+                <ul>
+                  <li>
+                    Built a retrieval augmented chatbot in n8n that automated the RFID based
+                    employee monitoring reports.
+                  </li>
+                  <li>Cut the manual reporting time by 60% once the team took it on.</li>
+                  <li>
+                    Tested the output against several document types before it went anywhere near
+                    production.
+                  </li>
+                  <li>
+                    Worked in a small intern team under a project manager, handling the prompt
+                    design and the retrieval setup.
+                  </li>
+                </ul>
+              </div>
+            </Reveal>
+
+            <Reveal delay={80} className="role">
+              <div className="role-when">Jan 2025</div>
+              <div>
+                <h3>AI Intern</h3>
+                <p className="role-where">Finstein Advizory Service, Chennai</p>
+                <ul>
+                  <li>
+                    Benchmarked deep learning architectures with FastAI for a fintech product team.
+                  </li>
+                  <li>
+                    Did the exploratory analysis and feature engineering on their structured
+                    financial datasets, start to finish.
+                  </li>
+                </ul>
+              </div>
+            </Reveal>
+
+            <Reveal delay={120} className="role">
+              <div className="role-when">Nov to Dec 2023</div>
+              <div>
+                <h3>Trainee, AI and ML programme</h3>
+                <p className="role-where">Celcom Solutions, Chennai</p>
+                <ul>
+                  <li>
+                    Researched and wrote up a machine learning proof of concept for software
+                    development decisions.
+                  </li>
+                  <li>
+                    Compared regression, decision trees and neural networks on RMSE, R squared,
+                    precision, recall and F1.
+                  </li>
+                  <li>
+                    Preceded by a separate two month traineeship on the software engineering
+                    track, covering Java, collections, JDBC and SQL.
+                  </li>
+                </ul>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* ---------------- 6. skills ---------------- */}
       <section className="section" id="skills" data-tint="#faf3dc" data-tint-dark="#201d16">
         <div className="wrap relative">
           <Reveal className="section-head">
-            <ChapterMark n="Chapter six" colour="--c1" shape="circle" />
+            <ChapterMark n="Chapter five" colour="--c1" shape="circle" />
             <h2>What I reach for.</h2>
             <p className="body">
               Everything here has been used on something that shipped or got marked. If a tool is
@@ -742,7 +741,7 @@ export default function Home() {
       <section className="section" id="education" data-tint="#e6f1ef" data-tint-dark="#171c1a">
         <div className="wrap relative">
           <Reveal className="section-head">
-            <ChapterMark n="Chapter seven" colour="--c4" shape="triangle" />
+            <ChapterMark n="Chapter six" colour="--c4" shape="triangle" />
             <h2>Where I was taught.</h2>
           </Reveal>
 
@@ -782,6 +781,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
 
       {/* ---------------- contact ---------------- */}
       <section className="contact clip" id="contact" data-tint="#faf6ef" data-tint-dark="#1b1917">

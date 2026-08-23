@@ -25,7 +25,7 @@ const hand = Caveat({
 const title = "Kautum Krishnan Panjalaraja | Data Analyst";
 
 const description =
-  "Data analyst in London. MSc Data Science at King's College London, available from August 2026. My dissertation found that a whole field had been testing its models the easy way, and the honest score was a third lower.";
+  "Data analyst in London, available on course completion. MSc Data Science at King's College London. 1.86 million UK housing sales analysed in SQL, a 13-dataset story built for readers seeing the data for the first time, and a dissertation that caught a whole field testing its models the easy way.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://kautum-portfolio.vercel.app"),

@@ -45,6 +45,11 @@ function RiseIn({
 
 const SCAN: { stat: string; label: string; colour: string }[] = [
   {
+    stat: "1.86M rows",
+    label: "Every Land Registry sale for 2024 and 2025, analysed in SQL. Joins, chained CTEs, window functions, and a script that re-checks every number in the write-up.",
+    colour: "--c4",
+  },
+  {
     stat: "0.90 → 0.61",
     label: "The macro-F1 once attacker machines the model had never seen replace random splits, and the ranking of models reverses with it.",
     colour: "--c1",
@@ -58,11 +63,6 @@ const SCAN: { stat: string; label: string; colour: string }[] = [
     stat: "1 week, solo",
     label: "Read a job posting as a content problem instead of a chatbot one, then built and shipped the product it actually described.",
     colour: "--c3",
-  },
-  {
-    stat: "1.86M rows",
-    label: "Every Land Registry sale for 2024 and 2025, analysed in SQL. Joins, chained CTEs, window functions, and a script that re-checks every number in the write-up.",
-    colour: "--c4",
   },
 ];
 
