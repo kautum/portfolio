@@ -7,6 +7,7 @@ import "./tech-logos.css";
 import "./crests.css";
 import "./chart-interact.css";
 import SmoothScroll from "./components/SmoothScroll";
+import Spotlight from "./components/Spotlight";
 
 /* Display face with actual character. Geist alone is clean but anonymous,
    and anonymous is most of what makes a page look machine-made. */
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <SmoothScroll />
+        <Spotlight />
         {children}
       </body>
     </html>
