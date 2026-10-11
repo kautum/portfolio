@@ -148,6 +148,32 @@ properly rather than approximately:
 - Rubber-bands past the ends instead of stopping dead.
 - Hands the release velocity to a spring so drag and animation do not visibly seam.
 
+## Motion added in October 2026
+
+Layered onto the rauno.me direction, not a fifth redesign. The dark three.js build was
+reverted in August, so everything here stays light-first and server-rendered.
+
+- **The hero field** (`Field.tsx`). A canvas of dots on a 26px grid, read as a scatterplot seen
+  from above. Two crossed sine waves roll through it, and dots near a mouse pointer are pushed
+  aside on a spring (pull 0.09, damping 0.78) and tinted with `--c3`, `--c2` and `--c5`. It
+  gets denser to the right, where there is no text. The loop stops when the hero is off
+  screen or the tab is hidden, the device pixel ratio is capped at 2, and reduced motion gets
+  one still frame. Measured at 8.3ms median per frame with the pointer moving.
+- **The name entrance.** Each word of the h1 rises out of its own mask, staggered 110ms, in
+  CSS only. The end state is the normal state, so no-JS visitors see the name as before.
+- **Count-ups** (`CountUp.tsx`) on the four scan numbers. The server renders the true value;
+  the start value is swapped in only while the number is still below the fold. 0.90 to 0.61
+  counts *down*, which is the point of that finding.
+- **Footer wordmark.** An outlined "Kautum." that fills with ink on a scroll-driven
+  `view()` timeline. The range is `entry 0% entry 100%` because it is the last thing on the
+  page and can never scroll further up. Browsers without scroll timelines see it solid.
+
+Fixed at the same time: the pinned story strip left a quarter screen of nothing under its
+heading (pulled up with a negative margin; the pin box passes pointer events through); the
+four evidence cards are 2x2 instead of 3+1; the nav ran 8px off a 390px phone (the name
+shortens to KPK below 440px); and the seafood chart grid's 330px minimum overflowed a 375px
+phone (now `min(330px, 100%)`).
+
 ## Charts
 
 Crisp, not hand-drawn. Thin hairlines, tabular numerals, generous space, one accent per chart.

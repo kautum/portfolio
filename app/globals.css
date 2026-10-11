@@ -483,6 +483,21 @@ p {
   }
 }
 
+/* On the narrowest phones the full name plus three links and the toggle ran
+   8px off the screen. The hero carries the full name just below. */
+.nav-name-short {
+  display: none;
+}
+
+@media (max-width: 440px) {
+  .nav-name-full {
+    display: none;
+  }
+  .nav-name-short {
+    display: inline;
+  }
+}
+
 /* ---------------- hero ---------------- */
 .hero {
   padding: 92px 0 74px;
@@ -807,7 +822,7 @@ p {
 
 .feature-charts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(330px, 100%), 1fr));
   gap: 34px;
   margin: 28px 0 26px;
 }
@@ -1213,5 +1228,105 @@ html.tilt-on :root[data-theme="dark"] .card::before {
   html.tilt-on .feature {
     transform: none;
     transition: none;
+  }
+}
+
+/* ---------------- hero field ---------------- */
+.field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+}
+
+/* ---------------- name entrance ----------------
+   Each word slides up out of a clipping mask, staggered. CSS only, and the
+   end state is the normal state, so no-JS and reduced motion get the name
+   exactly as before. */
+.rise {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.24em;
+}
+
+.rise-mask {
+  display: inline-block;
+  overflow: hidden;
+  /* room for descenders (the j in Panjalaraja) inside the mask */
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.rise-mask > span {
+  display: inline-block;
+  animation: rise 1100ms var(--ease-out) both;
+  animation-delay: calc(120ms + var(--i) * 110ms);
+}
+
+@keyframes rise {
+  from {
+    transform: translate3d(0, 105%, 0) rotate(4deg);
+    transform-origin: 0 100%;
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* ---------------- footer wordmark ----------------
+   An outlined name that fills with ink as it scrolls into view. Filled by
+   default, so browsers without scroll-driven animations see a solid name. */
+.wordmark {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(4.5rem, 19vw, 15.5rem);
+  line-height: 0.86;
+  letter-spacing: -0.055em;
+  margin: 0 0 28px;
+  padding-bottom: 0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--ink);
+  background: linear-gradient(var(--ink), var(--ink)) no-repeat 0 100% / 100% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  user-select: none;
+}
+
+@supports (animation-timeline: view()) {
+  .wordmark {
+    animation: wordmark-fill linear both;
+    animation-timeline: view();
+    /* it is the last thing on the page, so the fill must finish while it is
+       still entering: the page cannot scroll it any further up */
+    animation-range: entry 0% entry 100%;
+  }
+  @keyframes wordmark-fill {
+    from {
+      background-size: 100% 0%;
+    }
+    to {
+      background-size: 100% 100%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise-mask > span,
+  .wordmark {
+    animation: none;
+  }
+}
+
+/* The pinned strip centres its cards in a full-height box, which left a
+   quarter screen of nothing under the chapter heading before the pin
+   engaged. Pull the box up into that space; it is transparent, so only the
+   cards take pointer events. */
+@media (min-width: 861px) and (prefers-reduced-motion: no-preference) {
+  .sstrip {
+    margin-top: calc(-1 * (100vh - 54vh) / 2 + 8px);
+    pointer-events: none;
+  }
+  .sstrip-panel {
+    pointer-events: auto;
   }
 }

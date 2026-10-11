@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion, type Variants } from "motion/react";
 import "../how-i-work.css";
+import CountUp from "./CountUp";
 
 /** Matches --ease-out in globals.css: a settle, never a bounce or overshoot. */
 const EASE_OUT: [number, number, number, number] = [0.23, 1, 0.32, 1];
@@ -43,19 +44,19 @@ function RiseIn({
   );
 }
 
-const SCAN: { stat: string; label: string; colour: string }[] = [
+const SCAN: { stat: React.ReactNode; label: string; colour: string }[] = [
   {
-    stat: "1.86M rows",
+    stat: <><CountUp to={1.86} decimals={2} />M rows</>,
     label: "Every Land Registry sale for 2024 and 2025, analysed in SQL. Joins, chained CTEs, window functions, and a script that re-checks every number in the write-up.",
     colour: "--c4",
   },
   {
-    stat: "0.90 → 0.61",
+    stat: <>0.90 → <CountUp from={0.9} to={0.61} decimals={2} duration={1800} /></>,
     label: "The macro-F1 once attacker machines the model had never seen replace random splits, and the ranking of models reverses with it.",
     colour: "--c1",
   },
   {
-    stat: "3 for 3",
+    stat: <><CountUp to={3} duration={900} /> for 3</>,
     label: "LLMs tested as classifier, synthetic data generator and next-packet predictor. Lost all three roles, reported all three.",
     colour: "--c2",
   },
@@ -115,7 +116,7 @@ export default function HowIWork() {
 
       <div className="hiw-scan-grid">
         {SCAN.map((item, i) => (
-          <RiseIn key={item.stat} delay={40 + i * 40} className="hiw-scan-item">
+          <RiseIn key={item.label} delay={40 + i * 40} className="hiw-scan-item">
             <div className="hiw-scan-rule" style={{ background: `var(${item.colour})` }} />
             <p className="hiw-scan-number">{item.stat}</p>
             <p className="hiw-scan-label">{item.label}</p>

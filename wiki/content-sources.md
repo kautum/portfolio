@@ -17,6 +17,10 @@ to work in the UK without sponsorship until roughly 2029 under the Graduate Rout
 LinkedIn as listed on the site. The phone number exists in his records and is deliberately
 kept off the page.
 
+**Open to roles anywhere in the UK, not just London.** Kautum said so on 2026-10-09 ("not just
+london"). The hero line and the contact paragraph say "across the UK"; "based in London" stays
+because it is where he lives.
+
 ## The dissertation
 
 From the archive at `/Volumes/kpk ssd/MSc Dissertation Archive - K25020148 (2026-08-11)/`,
@@ -127,7 +131,11 @@ workbook covering the G20. Structured on Munzner's why/what/how framework and Se
 Heer's martini glass model, with colour-blind-safe encodings.
 
 **md creative.** From `wiki/profile/md-creative-story.md` and `~/Documents/mdlondon/`. Live at
-md-creative.vercel.app. Twelve real products. Copy generated before the image prompt so both
+md-creative.vercel.app. Twelve real products in the first build; version 3.6 (October 2026,
+kautum/md-creative PR #8 and its README) covers all eighteen, reads prices live from
+mdlondon.com/products.json, morphs a particle cloud between product cutouts on scroll, uses
+Apple's drag and momentum projection in the product carousel, and scores every campaign with
+a brand check. The card screenshot is the live 3.6 opening screen, captured 2026-10-11. Copy generated before the image prompt so both
 come from one concept. Scene generation collapsed to bathrooms and spas until nine curated
 style categories, a banned-word check and a targeted retry were added. Browser-side
 compositing with flood-fill background removal, chosen because image-to-image APIs were too

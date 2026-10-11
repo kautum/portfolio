@@ -18,8 +18,9 @@ export default function Nav() {
   return (
     <nav className="nav">
       <div className="nav-inner">
-        <a className="nav-name" href="#top">
-          Kautum Krishnan Panjalaraja
+        <a className="nav-name" href="#top" aria-label="Kautum Krishnan Panjalaraja, back to top">
+          <span className="nav-name-full">Kautum Krishnan Panjalaraja</span>
+          <span className="nav-name-short">KPK</span>
         </a>
         <div className="nav-links">
           {LINKS.map((l) => (

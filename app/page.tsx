@@ -1,4 +1,5 @@
 import Nav from "./components/Nav";
+import Field from "./components/Field";
 import HowIWork from "./components/HowIWork";
 import { Crest, CredentialMark } from "./components/Crests";
 import TechLogos from "./components/TechLogos";
@@ -71,6 +72,7 @@ export default function Home() {
 
       {/* ---------------- hero ---------------- */}
       <header className="hero" data-tint="#faf6ef" data-tint-dark="#1b1917">
+        <Field />
         <div className="bigshape-wrap" data-parallax="0.05" aria-hidden="true">
           <BigShape shape="circle" colour="--c2" />
         </div>
@@ -79,14 +81,20 @@ export default function Home() {
             <div className="hero-role">
               <Mark shape="circle" colour="--c3" />
               <p className="meta" style={{ margin: 0 }}>
-                Data analyst, London
+                Data analyst in London, open to roles across the UK
               </p>
             </div>
           </Reveal>
 
-          <Reveal delay={70}>
-            <h1>Kautum Krishnan Panjalaraja</h1>
-          </Reveal>
+          {/* Each word rises out of its own mask on load. Pure CSS, so the name
+              is in the HTML and fully visible with JavaScript off. */}
+          <h1 className="rise" aria-label="Kautum Krishnan Panjalaraja">
+            {["Kautum", "Krishnan", "Panjalaraja"].map((word, i) => (
+              <span className="rise-mask" key={word} aria-hidden="true">
+                <span style={{ ["--i" as string]: i }}>{word}</span>
+              </span>
+            ))}
+          </h1>
 
           <Reveal delay={110}>
             <p className="hero-title-role">
@@ -380,7 +388,7 @@ ORDER BY sale_month;`}</code></pre>
                   <dt>what I did</dt>
                   <dd>
                     Read it as a content problem and built a campaign generator, solo, in under a
-                    week. Point it at one of their twelve real products and it writes the copy in
+                    week. Point it at one of their real products and it writes the copy in
                     their voice, generates a lifestyle scene from the same campaign idea, and
                     composites the product in at true relative scale, so a fifteen pound spray
                     does not come out the size of a hairdryer.
@@ -394,13 +402,21 @@ ORDER BY sale_month;`}</code></pre>
                     browser. I picked gpt-oss-120b over Llama 3.3 70B after comparing their copy
                     side by side.
                   </dd>
+                  <dt>where it is now</dt>
+                  <dd>
+                    Version 3.6. All eighteen products, with prices read live from the shop.
+                    Scrolling the opening morphs a cloud of particles from one product cutout
+                    into the next, the product picker follows Apple&apos;s drag and momentum
+                    rules, and every campaign is scored against the brand&apos;s own rules
+                    before anyone sees it.
+                  </dd>
                 </dl>
                 <figure className="shot">
                   {/* A real screenshot of the running product, not a mockup. */}
                   <img
                     src="/md-creative-shot.png"
-                    alt="The md creative generator running: a Social Content Generator heading, a
-                         product picker, and the mdlondon range laid out as cards."
+                    alt="MD Creative 3.6 running: the MD CREATIVE wordmark in blue on ivory,
+                         with the mdlondon BLOW hairdryer cutout floating over it."
                     width={1600}
                     height={801}
                     loading="lazy"
@@ -816,7 +832,8 @@ ORDER BY sale_month;`}</code></pre>
           </Reveal>
           <Reveal delay={60}>
             <p className="lead" style={{ marginBottom: 32 }}>
-              I am looking for data analyst roles in London, available on course completion. I
+              I am looking for data analyst roles anywhere in the UK, available on course
+              completion. I
               have Graduate Route right to work in the UK, so no sponsorship is needed.
             </p>
           </Reveal>
@@ -851,6 +868,9 @@ ORDER BY sale_month;`}</code></pre>
 
       <footer>
         <div className="wrap">
+          <p className="wordmark" aria-hidden="true">
+            Kautum.
+          </p>
           <p>
             Every number on this page is one I can show you the working for. Built with Next.js.
           </p>
