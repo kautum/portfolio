@@ -84,6 +84,14 @@
   margin-top: 28px;
 }
 
+/* Four cards: two by two on wide screens, so the fourth is never left alone
+   on a row of three. */
+@media (min-width: 760px) {
+  .hiw-evidence-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .hiw-evidence-card {
   background: var(--panel);
   box-shadow: var(--panel-shadow);
